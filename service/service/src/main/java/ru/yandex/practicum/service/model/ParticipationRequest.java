@@ -1,5 +1,6 @@
 package ru.yandex.practicum.service.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
@@ -9,6 +10,7 @@ import java.time.LocalDateTime;
 @Entity
 @Builder
 @Data
+@AllArgsConstructor
 public class ParticipationRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

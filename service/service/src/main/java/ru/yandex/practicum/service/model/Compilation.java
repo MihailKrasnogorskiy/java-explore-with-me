@@ -1,5 +1,6 @@
 package ru.yandex.practicum.service.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
@@ -10,6 +11,7 @@ import java.util.Set;
 @Entity
 @Data
 @Builder
+@AllArgsConstructor
 @Table(name = "compilations")
 public class Compilation {
     @Id
@@ -17,8 +19,8 @@ public class Compilation {
     private long id;
     private boolean pinned;
     private String title;
-    @OneToMany(mappedBy = "compilations", fetch = FetchType.LAZY)
-    private Set<Event> events = new HashSet<>();
+//    @OneToMany(mappedBy = "event", fetch = FetchType.LAZY)
+//    private Set<Event> events = new HashSet<>();
 
     public Compilation() {
 

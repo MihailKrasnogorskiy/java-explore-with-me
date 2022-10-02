@@ -14,9 +14,10 @@ import java.time.LocalDateTime;
 public interface StatRepository extends CrudRepository<EndpointHit, Long> {
     /**
      * выгрузка статистики с учтом уникальности ip
+     *
      * @param startTime - дата и время начала диапазона за который нужно выгрузить статистик
-     * @param endTime - дата и время конца диапазона за который нужно выгрузить статистику
-     * @param uri - uri посещения
+     * @param endTime   - дата и время конца диапазона за который нужно выгрузить статистику
+     * @param uri       - uri посещения
      * @return - число посещений
      */
     @Query(value = "SELECT COUNT(uri) " +
@@ -26,11 +27,13 @@ public interface StatRepository extends CrudRepository<EndpointHit, Long> {
             "GROUP BY ip",
             nativeQuery = true)
     Long getViewUnique(LocalDateTime startTime, LocalDateTime endTime, String uri);
+
     /**
      * выгрузка статистики без учёта уникальности ip
+     *
      * @param startTime - дата и время начала диапазона за который нужно выгрузить статистик
-     * @param endTime - дата и время конца диапазона за который нужно выгрузить статистику
-     * @param uri - uri посещения
+     * @param endTime   - дата и время конца диапазона за который нужно выгрузить статистику
+     * @param uri       - uri посещения
      * @return - число посещений
      */
     @Query(value = "SELECT COUNT(uri) " +

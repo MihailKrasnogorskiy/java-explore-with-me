@@ -18,7 +18,6 @@ import ru.yandex.practicum.statistic.model.EndpointHitDto;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.Matchers.is;
@@ -36,9 +35,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @TestInstance(Lifecycle.PER_CLASS)
 class StatControllerTest {
     @Autowired
-    private StatRepository repository;
-    @Autowired
     ObjectMapper mapper;
+    @Autowired
+    private StatRepository repository;
     @Autowired
     private MockMvc mockMvc;
     @Autowired

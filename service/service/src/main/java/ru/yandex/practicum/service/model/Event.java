@@ -1,5 +1,6 @@
 package ru.yandex.practicum.service.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
@@ -9,6 +10,7 @@ import java.time.LocalDateTime;
 @Entity
 @Data
 @Builder
+@AllArgsConstructor
 public class Event {
     private String annotation;
     @ManyToOne

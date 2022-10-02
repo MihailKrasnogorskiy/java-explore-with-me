@@ -12,6 +12,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * класс сервиса статистики
+ */
 @Service
 @Slf4j
 public class StatServiceImpl implements StatService {
@@ -41,7 +44,7 @@ public class StatServiceImpl implements StatService {
                             .hits(repository.getViewUnique(startTime, endTime, uri))
                             .build())
                     .forEach(list::add);
-            log.info("Статистика просмотров  uris {} учётом уникальности ip выгружена", uris.toString() );
+            log.info("Статистика просмотров  uris {} учётом уникальности ip выгружена", uris.toString());
         } else {
             uris.stream()
                     .map(uri -> ViewStats.builder()
@@ -50,7 +53,7 @@ public class StatServiceImpl implements StatService {
                             .hits(repository.getView(startTime, endTime, uri))
                             .build())
                     .forEach(list::add);
-            log.info("Статистика просмотров  uris {} без учёта уникальности ip выгружена", uris.toString() );
+            log.info("Статистика просмотров  uris {} без учёта уникальности ip выгружена", uris.toString());
         }
         return list;
     }

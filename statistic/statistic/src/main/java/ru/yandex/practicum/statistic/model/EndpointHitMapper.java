@@ -9,6 +9,7 @@ import java.time.format.DateTimeFormatter;
 public class EndpointHitMapper {
     /**
      * маппинг просмотра эндпоинта из объекта dto  объект просмотра
+     *
      * @param dto - dto объект просмотра
      * @return - объект просмотра
      */
