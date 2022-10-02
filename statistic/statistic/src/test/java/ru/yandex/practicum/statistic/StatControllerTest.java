@@ -179,6 +179,24 @@ class StatControllerTest {
                 .andExpect(jsonPath("$[1].uri", is(uri2), String.class))
                 .andExpect(jsonPath("$[1].hits", is(4L), Long.class));
 
+        path = "/stats?start=" + start + "&end=" + end + "&uris=" + uri1 + "&uris=" + uri2 + "&unique=true";
+
+        this.mockMvc.perform(get(path))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].uri", is(uri1), String.class))
+                .andExpect(jsonPath("$[0].hits", is(3L), Long.class))
+                .andExpect(jsonPath("$[1].uri", is(uri2), String.class))
+                .andExpect(jsonPath("$[1].hits", is(3L), Long.class));
+
+        path = "/stats?start=" + start1 + "&end=" + end + "&uris=" + uri1 + "&uris=" + uri2 + "&unique=true";
+
+        this.mockMvc.perform(get(path))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].uri", is(uri1), String.class))
+                .andExpect(jsonPath("$[0].hits", is(2L), Long.class))
+                .andExpect(jsonPath("$[1].uri", is(uri2), String.class))
+                .andExpect(jsonPath("$[1].hits", is(2L), Long.class));
+
         clearEnvironment();
     }
 
