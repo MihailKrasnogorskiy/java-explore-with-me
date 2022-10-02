@@ -1,5 +1,6 @@
 package ru.yandex.practicum.statistic.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
@@ -9,6 +10,7 @@ import java.time.LocalDateTime;
 @Entity(name = "hits")
 @Data
 @Builder
+@AllArgsConstructor
 public class EndpointHit {
 
     @Id
@@ -17,7 +19,7 @@ public class EndpointHit {
     private String app;
     private String uri;
     private String ip;
-    @JoinColumn(name = "views_date")
+    @Column(name = "views_date")
     private LocalDateTime timestamp;
 
     public EndpointHit() {

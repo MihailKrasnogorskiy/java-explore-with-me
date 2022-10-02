@@ -38,7 +38,7 @@ public class StatServiceImpl implements StatService {
                             .uri(uri)
                             .hits(repository.getViewUnique(startTime, endTime, uri))
                             .build())
-                    .collect(Collectors.toList());
+                    .forEach(list::add);
         } else {
             uris.stream()
                     .map(uri -> ViewStats.builder()
@@ -46,7 +46,7 @@ public class StatServiceImpl implements StatService {
                             .uri(uri)
                             .hits(repository.getView(startTime, endTime, uri))
                             .build())
-                    .collect(Collectors.toList());
+                    .forEach(list::add);
         }
         return list;
     }

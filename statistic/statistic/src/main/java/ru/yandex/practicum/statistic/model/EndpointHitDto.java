@@ -1,11 +1,15 @@
 package ru.yandex.practicum.statistic.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Data
+@Builder
+@AllArgsConstructor
 public class EndpointHitDto {
     @NotBlank
     @NotNull
@@ -19,4 +23,7 @@ public class EndpointHitDto {
     @NotBlank
     @NotNull
     private String timestamp;
+
+    public EndpointHitDto() {
+    }
 }
