@@ -28,6 +28,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+/**
+ * тестовый класс контроллера статистики
+ */
 @SpringBootTest
 @AutoConfigureMockMvc
 @TestInstance(Lifecycle.PER_CLASS)
@@ -69,7 +72,9 @@ class StatControllerTest {
             .timestamp("2022-10-02 12:00:54")
             .build();
 
-
+    /**
+     * создание записи о просмотре
+     */
     @Test
     @Transactional
     void test01_createHit() throws Exception {
@@ -84,6 +89,9 @@ class StatControllerTest {
         assertEquals(dto.getIp(), list.get(0).getIp());
     }
 
+    /**
+     * получение статистики
+     */
     @Test
     @Transactional
     void test02_findStats() throws Exception {
@@ -144,18 +152,13 @@ class StatControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
-        List<String> uris = new ArrayList<>();
-        uris.add(dto.getUri());
-        uris.add(dto2.getUri());
         String start = "2022-09-29 12:00:00";
         String end = "2022-10-03 12:00:00";
         String start1 = "2022-09-30 13:00:00";
-        String end1 = "2022-10-01 12:00:00";
         try {
             start = URLEncoder.encode(start, StandardCharsets.UTF_8.toString());
             end = URLEncoder.encode(end, StandardCharsets.UTF_8.toString());
             start1 = URLEncoder.encode(start1, StandardCharsets.UTF_8.toString());
-            end1 = URLEncoder.encode(end1, StandardCharsets.UTF_8.toString());
         } catch (UnsupportedEncodingException ex) {
             throw new RuntimeException(ex.getCause());
         }
@@ -200,6 +203,9 @@ class StatControllerTest {
         clearEnvironment();
     }
 
+    /**
+     * очистка окружения и сброс счётчика в таблице
+     */
     @BeforeEach
     void clearEnvironment() {
         String query = "ALTER TABLE hits ALTER COLUMN id RESTART WITH 1";

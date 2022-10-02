@@ -1,6 +1,5 @@
 package ru.yandex.practicum.statistic;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.statistic.model.EndpointHitDto;
@@ -13,8 +12,10 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+/**
+ * контроллер статистики
+ */
 @RestController
-@Slf4j
 public class StatController {
     private StatService service;
 
@@ -23,11 +24,25 @@ public class StatController {
         this.service = service;
     }
 
+    /**
+     * сохранение просмотра
+     *
+     * @param dto - dto объект просмотра эндпонта
+     */
     @PostMapping("/hit")
     public void createHit(@RequestBody EndpointHitDto dto) {
         service.create(dto);
     }
 
+    /**
+     * запрос статистики
+     *
+     * @param start  - дата и время начала диапазона за который нужно выгрузить статистик
+     * @param end    - дата и время конца диапазона за который нужно выгрузить статистику
+     * @param unique - нужно ли учитывать только уникальные посещения (только с уникальным ip)
+     * @param uris   - список uri для которых нужно выгрузить статистику
+     * @return - список объектов возвращаемой статистики
+     */
     @GetMapping("/stats")
     public List<ViewStats> findStats(@RequestParam String start, @RequestParam String end,
                                      @RequestParam(defaultValue = "false") Boolean unique,
@@ -43,8 +58,6 @@ public class StatController {
         } catch (UnsupportedEncodingException ex) {
             throw new RuntimeException(ex.getCause());
         }
-      log.info("start ={}", startTime);
-      log.info("end ={}", endTime);
         return service.findStats(startTime, endTime, uris, unique);
     }
 }

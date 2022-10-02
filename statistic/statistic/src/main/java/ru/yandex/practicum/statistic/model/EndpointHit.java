@@ -7,6 +7,9 @@ import lombok.Data;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+/**
+ * класс просмотра эндпоинта
+ */
 @Entity(name = "hits")
 @Data
 @Builder
