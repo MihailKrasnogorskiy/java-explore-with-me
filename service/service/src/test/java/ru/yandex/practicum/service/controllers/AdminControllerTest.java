@@ -9,6 +9,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import ru.yandex.practicum.service.model.User;
@@ -17,10 +18,11 @@ import ru.yandex.practicum.service.repositoryes.UserRepository;
 
 import java.util.List;
 
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
@@ -28,6 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 
 @SpringBootTest
+@ActiveProfiles("test")
 @AutoConfigureMockMvc
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class AdminControllerTest {
@@ -75,6 +78,23 @@ class AdminControllerTest {
         assertTrue(list.isEmpty());
     }
 
+    @Test
+    @Transactional
+    void test06_findUsers() throws Exception {
+        this.mockMvc.perform(post("/admin/users").content(mapper.writeValueAsString(userDto))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+        userDto.setEmail("vova1@mail.ru");
+        this.mockMvc.perform(post("/admin/users").content(mapper.writeValueAsString(userDto))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+        this.mockMvc.perform(get("/admin/users?ids=1&ids=2&from=0&size=2"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].name", is(userDto.getName()), String.class))
+                .andExpect(jsonPath("$[1].name", is(userDto.getName()), String.class))
+                .andExpect(jsonPath("$[1].email", is(userDto.getEmail()), String.class));
+    }
+
     /**
      * очистка окружения и сброс счётчика в таблице
      */
@@ -83,4 +103,6 @@ class AdminControllerTest {
         String query = "ALTER TABLE users ALTER COLUMN id RESTART WITH 1";
         jdbcTemplate.update(query);
     }
+
+
 }

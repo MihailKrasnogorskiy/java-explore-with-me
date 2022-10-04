@@ -3,6 +3,8 @@ package ru.yandex.practicum.service.services;
 import ru.yandex.practicum.service.model.dto.UserCreateDto;
 import ru.yandex.practicum.service.model.dto.UserDto;
 
+import java.util.List;
+
 /**
  * интерфейс сервиса администраторов
  */
@@ -22,5 +24,14 @@ public interface AdminService {
      */
     void deleteUser(long id);
 
-    void validateUserId(long id);
+    boolean validateUserId(long id);
+
+    /**
+     * запрос списка пользователей
+     * @param ids - список id пользователей
+     * @param from - количество элементов, которые нужно пропустить для формирования текущего набора
+     * @param size - количество элементов в наборе
+     * @return - список пользователей
+     */
+    List<UserDto> findUsers(List<Long> ids, Integer from, Integer size);
 }

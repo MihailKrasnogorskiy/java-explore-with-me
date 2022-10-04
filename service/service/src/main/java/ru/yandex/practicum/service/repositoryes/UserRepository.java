@@ -1,11 +1,12 @@
 package ru.yandex.practicum.service.repositoryes;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 import ru.yandex.practicum.service.model.User;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 /**
@@ -18,7 +19,7 @@ public interface UserRepository extends CrudRepository<User, Long> {
      *
      * @return список id пользователей
      */
-    @Transactional
+
     @Query("select u.id from User as u")
     List<Long> getAllUsersId();
 
@@ -27,7 +28,19 @@ public interface UserRepository extends CrudRepository<User, Long> {
      *
      * @return - список email пользователей
      */
-    @Transactional
+
     @Query("select u.email from User as u")
     List<String> getAllUsersEmail();
+
+
+    Page<User> findAll(Pageable pageable);
+
+    /**
+     * запрос списка пользователей по id
+     * @param ids - список id пользователей
+     * @param pageable - объект на для создания запросов на перелистывание страниц
+     * @return - список пользователей
+     */
+    @Query(value = "SELECT u FROM User AS u WHERE u.id in :ids")
+    List<User> findByIds(List<Long> ids, Pageable pageable);
 }
