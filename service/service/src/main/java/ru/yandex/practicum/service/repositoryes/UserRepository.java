@@ -38,7 +38,7 @@ public interface UserRepository extends CrudRepository<User, Long> {
     /**
      * запрос списка пользователей по id
      * @param ids - список id пользователей
-     * @param pageable - объект на для создания запросов на перелистывание страниц
+     * @param pageable - объект для создания запросов на перелистывание страниц
      * @return - список пользователей
      */
     @Query(value = "SELECT u FROM User AS u WHERE u.id in :ids")

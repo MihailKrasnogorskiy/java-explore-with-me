@@ -2,6 +2,8 @@ package ru.yandex.practicum.service.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import ru.yandex.practicum.service.model.dto.CategoryDto;
+import ru.yandex.practicum.service.model.dto.NewCategoryDto;
 import ru.yandex.practicum.service.model.dto.UserCreateDto;
 import ru.yandex.practicum.service.model.dto.UserDto;
 import ru.yandex.practicum.service.services.AdminService;
@@ -9,7 +11,6 @@ import ru.yandex.practicum.service.services.AdminService;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -51,5 +52,38 @@ public class AdminController {
                                    @PositiveOrZero @RequestParam(name = "from", defaultValue = "0") Integer from,
                                    @Positive @RequestParam(name = "size", defaultValue = "10") Integer size) {
         return service.findUsers(ids, from, size);
+    }
+
+    /**
+     * создание категории
+     *
+     * @param dto - dto объект для создания категории
+     * @return - dto объект категории
+     */
+    @PostMapping("/categories")
+    public CategoryDto createCategory(@Valid @RequestBody NewCategoryDto dto) {
+        return service.createCategory(dto);
+    }
+
+
+    /**
+     * обновление категории
+     *
+     * @param dto - dto объект для обновления категории
+     * @return - dto объект категории
+     */
+    @PatchMapping("/categories")
+    public CategoryDto updateCategory(@Valid @RequestBody CategoryDto dto) {
+        return service.updateCategory(dto);
+    }
+
+    /**
+     * удаление категории
+     *
+     * @param id - id категории
+     */
+    @DeleteMapping("/categories/{id}")
+    public void deleteCategory(@PathVariable long id) {
+        service.deleteCategory(id);
     }
 }

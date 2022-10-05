@@ -1,4 +1,4 @@
-package ru.yandex.practicum.service.controllers;
+package ru.yandex.practicum.service.model;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;

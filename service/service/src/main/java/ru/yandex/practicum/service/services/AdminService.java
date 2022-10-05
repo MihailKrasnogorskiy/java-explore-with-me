@@ -1,5 +1,7 @@
 package ru.yandex.practicum.service.services;
 
+import ru.yandex.practicum.service.model.dto.CategoryDto;
+import ru.yandex.practicum.service.model.dto.NewCategoryDto;
 import ru.yandex.practicum.service.model.dto.UserCreateDto;
 import ru.yandex.practicum.service.model.dto.UserDto;
 
@@ -28,10 +30,34 @@ public interface AdminService {
 
     /**
      * запрос списка пользователей
-     * @param ids - список id пользователей
+     *
+     * @param ids  - список id пользователей
      * @param from - количество элементов, которые нужно пропустить для формирования текущего набора
      * @param size - количество элементов в наборе
      * @return - список пользователей
      */
     List<UserDto> findUsers(List<Long> ids, Integer from, Integer size);
+
+    /**
+     * создание категории
+     *
+     * @param dto - dto объект для создания категории
+     * @return - dto объект категории
+     */
+    CategoryDto createCategory(NewCategoryDto dto);
+
+    /**
+     * обновление категории
+     *
+     * @param dto - dto объект для обновления категории
+     * @return - dto объект категории
+     */
+    CategoryDto updateCategory(CategoryDto dto);
+
+    /**
+     * удаление категории
+     *
+     * @param id - id категории
+     */
+    void deleteCategory(long id);
 }
