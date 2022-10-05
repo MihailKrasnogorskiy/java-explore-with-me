@@ -2,14 +2,15 @@ package ru.yandex.practicum.service.repositoryes;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 import ru.yandex.practicum.service.model.Category;
-import ru.yandex.practicum.service.model.dto.CategoryDto;
 
 import java.util.List;
 
 /**
  * репозиторий категорий
  */
+@Repository
 public interface CategoryRepository extends CrudRepository<Category, Long> {
     /**
      * запрос списка всех категорий

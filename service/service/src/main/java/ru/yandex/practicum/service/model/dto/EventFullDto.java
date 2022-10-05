@@ -1,7 +1,14 @@
 package ru.yandex.practicum.service.model.dto;
 
+import lombok.Builder;
+import lombok.Data;
 import ru.yandex.practicum.service.model.EventState;
 
+/**
+ * класс полного dto объекта события
+ */
+@Data
+@Builder
 public class EventFullDto {
     private String annotation;
     private CategoryDto category;
