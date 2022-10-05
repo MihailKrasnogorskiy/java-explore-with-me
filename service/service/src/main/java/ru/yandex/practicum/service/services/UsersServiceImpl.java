@@ -25,7 +25,7 @@ public class UsersServiceImpl implements UsersService {
     @Lazy
     private EventMapper eventMapper;
 
-    private final int TIME_LAG = 2;
+    private final int CREATE_TIME_LAG = 2;
 
     @Autowired
     public UsersServiceImpl(EventRepository eventRepository, UserRepository userRepository, EventMapper eventMapper) {
@@ -39,8 +39,8 @@ public class UsersServiceImpl implements UsersService {
     public EventFullDto createEvent(long userId, NewEventDto dto) {
         validateUserId(userId);
         Event event = eventMapper.toEventFromNewEventDto(dto);
-        if(!event.getCreatedOn().plusHours(TIME_LAG).isBefore(event.getEventDate())){
-            throw new EventDateValidationException();
+        if(!event.getCreatedOn().plusHours(CREATE_TIME_LAG).isBefore(event.getEventDate())){
+            throw new EventDateValidationException(CREATE_TIME_LAG);
         }
         event.setInitiator(userRepository.findById(userId).get());
         EventFullDto fullDto =

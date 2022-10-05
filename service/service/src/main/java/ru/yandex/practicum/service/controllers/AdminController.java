@@ -2,10 +2,7 @@ package ru.yandex.practicum.service.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import ru.yandex.practicum.service.model.dto.CategoryDto;
-import ru.yandex.practicum.service.model.dto.NewCategoryDto;
-import ru.yandex.practicum.service.model.dto.UserCreateDto;
-import ru.yandex.practicum.service.model.dto.UserDto;
+import ru.yandex.practicum.service.model.dto.*;
 import ru.yandex.practicum.service.services.AdminService;
 
 import javax.validation.Valid;
@@ -85,5 +82,16 @@ public class AdminController {
     @DeleteMapping("/categories/{id}")
     public void deleteCategory(@PathVariable long id) {
         service.deleteCategory(id);
+    }
+
+    /**
+     * публикация события
+     *
+     * @param eventId - id события
+     * @return - полный dto объект события
+     */
+    @PatchMapping("/events/{eventId}/publish")
+    public EventFullDto publishedEvent(@PathVariable long eventId) {
+        return service.publishEvent(eventId);
     }
 }

@@ -7,18 +7,21 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.yandex.practicum.service.exceptions.EmailUsedException;
+import ru.yandex.practicum.service.exceptions.EventDateValidationException;
 import ru.yandex.practicum.service.exceptions.NotFoundException;
+import ru.yandex.practicum.service.model.Event;
+import ru.yandex.practicum.service.model.EventState;
 import ru.yandex.practicum.service.model.OffsetLimitPageable;
 import ru.yandex.practicum.service.model.User;
-import ru.yandex.practicum.service.model.dto.CategoryDto;
-import ru.yandex.practicum.service.model.dto.NewCategoryDto;
-import ru.yandex.practicum.service.model.dto.UserCreateDto;
-import ru.yandex.practicum.service.model.dto.UserDto;
+import ru.yandex.practicum.service.model.dto.*;
 import ru.yandex.practicum.service.model.mappers.CategoryMapper;
+import ru.yandex.practicum.service.model.mappers.EventMapper;
 import ru.yandex.practicum.service.model.mappers.UserMapper;
 import ru.yandex.practicum.service.repositoryes.CategoryRepository;
+import ru.yandex.practicum.service.repositoryes.EventRepository;
 import ru.yandex.practicum.service.repositoryes.UserRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,11 +33,18 @@ import java.util.stream.Collectors;
 public class AdminServiceImpl implements AdminService {
     private UserRepository userRepository;
     private CategoryRepository categoryRepository;
+    private EventRepository eventRepository;
+    private EventMapper eventMapper;
+
+    private final int PUBLISH_TIME_LAG = 2;
 
     @Autowired
-    public AdminServiceImpl(UserRepository repository, CategoryRepository categoryRepository) {
+    public AdminServiceImpl(UserRepository repository, CategoryRepository categoryRepository,
+                            EventRepository eventRepository, EventMapper eventMapper) {
         this.userRepository = repository;
         this.categoryRepository = categoryRepository;
+        this.eventRepository = eventRepository;
+        this.eventMapper = eventMapper;
     }
 
     @Override
@@ -97,6 +107,20 @@ public class AdminServiceImpl implements AdminService {
         // TODO описать проверку отсутствия эвентов
         categoryRepository.deleteById(id);
         log.info("Категория с id {} была удалена", id);
+    }
+
+    @Override
+    @Transactional
+    public EventFullDto publishEvent(long eventId) {
+        Event event = eventRepository.findById(eventId).orElseThrow(() ->
+                new NotFoundException("Событие с id = " + eventId + " не найдено"));
+        if(!event.getCreatedOn().plusHours(PUBLISH_TIME_LAG).isBefore(event.getEventDate())){
+            throw new EventDateValidationException(PUBLISH_TIME_LAG);
+        }
+        event.setPublishedOn(LocalDateTime.now());
+        event.setState(EventState.PUBLISHED);
+        log.info("Событие с id = {} опубликовано", eventId);
+        return eventMapper.toEventFullDto(event);
     }
 
     /**

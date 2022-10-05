@@ -1,9 +1,6 @@
 package ru.yandex.practicum.service.services;
 
-import ru.yandex.practicum.service.model.dto.CategoryDto;
-import ru.yandex.practicum.service.model.dto.NewCategoryDto;
-import ru.yandex.practicum.service.model.dto.UserCreateDto;
-import ru.yandex.practicum.service.model.dto.UserDto;
+import ru.yandex.practicum.service.model.dto.*;
 
 import java.util.List;
 
@@ -60,4 +57,12 @@ public interface AdminService {
      * @param id - id категории
      */
     void deleteCategory(long id);
+
+    /**
+     * публикация события
+     *
+     * @param eventId - id события
+     * @return - полный dto объект события
+     */
+    EventFullDto publishEvent(long eventId);
 }

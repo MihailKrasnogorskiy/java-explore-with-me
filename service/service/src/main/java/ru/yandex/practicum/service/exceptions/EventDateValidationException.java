@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  */
 @ResponseStatus(HttpStatus.BAD_REQUEST)
 public class EventDateValidationException extends RuntimeException {
-    public EventDateValidationException() {
-        super("Событие не может быть создано или изменено менее чем за два часа до его начала");
+    public EventDateValidationException(int lag) {
+        super("Событие не может быть создано, изменено или опубликовано менее чем за " + lag + " час(а) до его начала");
     }
 }
