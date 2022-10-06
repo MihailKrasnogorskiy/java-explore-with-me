@@ -20,7 +20,7 @@ public interface PublicService {
     /**
      * получение dto объекта категории по id
      *
-     * @param id - id dto объекта категории
+     * @param id - id категории
      * @return - dto объект категории
      */
     CategoryDto findCategoryById(Long id);

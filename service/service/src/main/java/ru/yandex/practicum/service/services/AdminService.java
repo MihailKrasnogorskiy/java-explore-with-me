@@ -74,11 +74,4 @@ public interface AdminService {
      */
     EventFullDto rejectEvent(long eventId);
 
-    /**
-     * создание подборки
-     *
-     * @param dto - dto объект для создания подборки
-     * @return - dto объект подборки
-     */
-    CompilationDto createCompilation(NewCompilationDto dto);
 }

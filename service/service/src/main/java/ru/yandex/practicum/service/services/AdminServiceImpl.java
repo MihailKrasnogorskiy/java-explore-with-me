@@ -7,14 +7,15 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.yandex.practicum.service.exceptions.*;
-import ru.yandex.practicum.service.model.*;
+import ru.yandex.practicum.service.model.Event;
+import ru.yandex.practicum.service.model.EventState;
+import ru.yandex.practicum.service.model.OffsetLimitPageable;
+import ru.yandex.practicum.service.model.User;
 import ru.yandex.practicum.service.model.dto.*;
 import ru.yandex.practicum.service.model.mappers.CategoryMapper;
-import ru.yandex.practicum.service.model.mappers.CompilationMapper;
 import ru.yandex.practicum.service.model.mappers.EventMapper;
 import ru.yandex.practicum.service.model.mappers.UserMapper;
 import ru.yandex.practicum.service.repositoryes.CategoryRepository;
-import ru.yandex.practicum.service.repositoryes.CompilationRepository;
 import ru.yandex.practicum.service.repositoryes.EventRepository;
 import ru.yandex.practicum.service.repositoryes.UserRepository;
 
@@ -32,22 +33,15 @@ public class AdminServiceImpl implements AdminService {
     private CategoryRepository categoryRepository;
     private EventRepository eventRepository;
     private EventMapper eventMapper;
-    private CompilationMapper compilationMapper;
-
-    private CompilationRepository compilationRepository;
-
     private final int PUBLISH_TIME_LAG = 2;
 
     @Autowired
     public AdminServiceImpl(UserRepository repository, CategoryRepository categoryRepository,
-                            EventRepository eventRepository, EventMapper eventMapper,
-                            CompilationMapper compilationMapper, CompilationRepository compilationRepository) {
+                            EventRepository eventRepository, EventMapper eventMapper) {
         this.userRepository = repository;
         this.categoryRepository = categoryRepository;
         this.eventRepository = eventRepository;
         this.eventMapper = eventMapper;
-        this.compilationMapper = compilationMapper;
-        this.compilationRepository = compilationRepository;
     }
 
     @Override
@@ -140,15 +134,6 @@ public class AdminServiceImpl implements AdminService {
         event.setState(EventState.CANCELED);
         log.info("Событие с id = {} отклонено", eventId);
         return eventMapper.toEventFullDto(event);
-    }
-
-    @Override
-    @Transactional
-    public CompilationDto createCompilation(NewCompilationDto dto) {
-        dto.getEvents().forEach(this::validateEventId);
-        Compilation compilation = compilationRepository.save(compilationMapper.toCompilation(dto));
-        log.info("Подборка с id = {} создана", compilation.getId());
-        return compilationMapper.toCompilationDto(compilation);
     }
 
     /**

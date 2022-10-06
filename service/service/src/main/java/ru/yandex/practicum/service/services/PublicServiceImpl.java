@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import ru.yandex.practicum.service.exceptions.NotFoundException;
 import ru.yandex.practicum.service.model.OffsetLimitPageable;
 import ru.yandex.practicum.service.model.dto.CategoryDto;
@@ -20,7 +19,7 @@ import java.util.stream.Collectors;
 @Service
 public class PublicServiceImpl implements PublicService {
 
-    private CategoryRepository categoryRepository;
+    private final CategoryRepository categoryRepository;
 
     @Autowired
     public PublicServiceImpl(CategoryRepository categoryRepository) {
@@ -28,7 +27,6 @@ public class PublicServiceImpl implements PublicService {
     }
 
     @Override
-    @Transactional
     public List<CategoryDto> findAllCategories(Integer from, Integer size) {
         Pageable pageable = OffsetLimitPageable.of(from, size, Sort.unsorted());
         return categoryRepository.findAll(pageable).stream()
@@ -37,7 +35,6 @@ public class PublicServiceImpl implements PublicService {
     }
 
     @Override
-    @Transactional
     public CategoryDto findCategoryById(Long id) {
         if (categoryRepository.existsById(id)) {
             return CategoryMapper.toDto(categoryRepository.findById(id).get());

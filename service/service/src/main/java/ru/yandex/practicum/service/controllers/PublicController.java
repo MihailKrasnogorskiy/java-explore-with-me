@@ -39,7 +39,7 @@ public class PublicController {
     /**
      * получение информации о категории по id
      *
-     * @param id - id dto объекта категории
+     * @param id - id категории
      * @return - dto объект категории
      */
     @GetMapping("/categories/{id}")

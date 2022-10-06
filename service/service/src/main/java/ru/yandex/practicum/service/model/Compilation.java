@@ -19,7 +19,12 @@ public class Compilation {
     private long id;
     private boolean pinned;
     private String title;
-    @OneToMany(mappedBy = "id", fetch = FetchType.LAZY)
+    @ManyToMany(cascade = {CascadeType.ALL})
+    @JoinTable(
+            name = "compilation_events",
+            joinColumns = {@JoinColumn(name = "compilation_id")},
+            inverseJoinColumns = {@JoinColumn(name = "event_id")}
+    )
     private Set<Event> events = new HashSet<>();
 
     public Compilation() {

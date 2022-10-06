@@ -33,7 +33,7 @@ public class CompilationMapper {
     public Compilation toCompilation(NewCompilationDto dto) {
         Compilation compilation = Compilation.builder()
                 .title(dto.getTitle())
-                .pinned(dto.isPinned())
+                .pinned(dto.getPinned() != null && dto.getPinned())
                 .events(new HashSet<>())
                 .build();
         dto.getEvents().stream()

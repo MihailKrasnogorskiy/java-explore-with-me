@@ -56,3 +56,12 @@ CREATE TABLE IF NOT EXISTS compilations
     title  VARCHAR,
     CONSTRAINT pk_compilations PRIMARY KEY (id)
 );
+
+CREATE TABLE IF NOT EXISTS compilation_events
+(
+    compilation_id BIGINT NOT NULL,
+    event_id       BIGINT NOT NULL,
+    CONSTRAINT pk_comp_event PRIMARY KEY (compilation_id, event_id),
+    FOREIGN KEY (event_id) REFERENCES events (id) ON DELETE CASCADE,
+    FOREIGN KEY (compilation_id) REFERENCES compilations (id) ON DELETE CASCADE
+);

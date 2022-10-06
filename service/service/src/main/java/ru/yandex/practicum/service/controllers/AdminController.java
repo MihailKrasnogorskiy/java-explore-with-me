@@ -106,13 +106,4 @@ public class AdminController {
         return service.rejectEvent(eventId);
     }
 
-    /**
-     * создание подборки
-     * @param dto - dto объект для создания подборки
-     * @return - dto объект подборки
-     */
-    @PostMapping("/compilations")
-    public CompilationDto createCompilation(@RequestBody NewCompilationDto dto) {
-        return service.createCompilation(dto);
-    }
 }
