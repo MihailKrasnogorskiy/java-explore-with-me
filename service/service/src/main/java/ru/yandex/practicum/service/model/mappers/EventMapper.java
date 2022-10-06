@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import ru.yandex.practicum.service.model.Event;
 import ru.yandex.practicum.service.model.EventState;
 import ru.yandex.practicum.service.model.dto.EventFullDto;
+import ru.yandex.practicum.service.model.dto.EventShortDto;
 import ru.yandex.practicum.service.model.dto.NewEventDto;
 import ru.yandex.practicum.service.repositoryes.CategoryRepository;
 
@@ -70,6 +71,26 @@ public class EventMapper {
                 .id(event.getId())
                 .initiator(UserMapper.toShortDto(event.getInitiator()))
                 .state(event.getState())
+                .build();
+    }
+
+    /**
+     * создание короткого dto объекта события из объекта события
+     *
+     * @param event - объект события
+     * @return - короткий dto объект события
+     */
+
+    public EventShortDto toEventShortDto(Event event) {
+        return EventShortDto.builder()
+                .annotation(event.getAnnotation())
+                .category(CategoryMapper.toDto(event.getCategory()))
+                .eventDate(event.getEventDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+                .title(event.getTitle())
+                .paid(event.isPaid())
+                .views(event.getViews())
+                .id(event.getId())
+                .initiator(UserMapper.toShortDto(event.getInitiator()))
                 .build();
     }
 }

@@ -1,5 +1,13 @@
 package ru.yandex.practicum.service.model.dto;
 
+import lombok.Builder;
+import lombok.Data;
+
+/**
+ * класс короткого dto события
+ */
+@Data
+@Builder
 public class EventShortDto {
     private String annotation;
     private CategoryDto category;

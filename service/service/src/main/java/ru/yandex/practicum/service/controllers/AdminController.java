@@ -94,4 +94,25 @@ public class AdminController {
     public EventFullDto publishedEvent(@PathVariable long eventId) {
         return service.publishEvent(eventId);
     }
+
+    /**
+     * отклонение события
+     *
+     * @param eventId - id события
+     * @return - полный dto объект события
+     */
+    @PatchMapping("/events/{eventId}/reject")
+    public EventFullDto rejectedEvent(@PathVariable long eventId) {
+        return service.rejectEvent(eventId);
+    }
+
+    /**
+     * создание подборки
+     * @param dto - dto объект для создания подборки
+     * @return - dto объект подборки
+     */
+    @PostMapping("/compilations")
+    public CompilationDto createCompilation(@RequestBody NewCompilationDto dto) {
+        return service.createCompilation(dto);
+    }
 }

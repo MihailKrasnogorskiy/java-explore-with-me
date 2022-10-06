@@ -23,7 +23,7 @@ public interface AdminService {
      */
     void deleteUser(long id);
 
-    boolean validateUserId(long id);
+    void validateUserId(long id);
 
     /**
      * запрос списка пользователей
@@ -65,4 +65,20 @@ public interface AdminService {
      * @return - полный dto объект события
      */
     EventFullDto publishEvent(long eventId);
+
+    /**
+     * отклонение события
+     *
+     * @param eventId - id события
+     * @return - полный dto объект события
+     */
+    EventFullDto rejectEvent(long eventId);
+
+    /**
+     * создание подборки
+     *
+     * @param dto - dto объект для создания подборки
+     * @return - dto объект подборки
+     */
+    CompilationDto createCompilation(NewCompilationDto dto);
 }

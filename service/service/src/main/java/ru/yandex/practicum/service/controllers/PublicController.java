@@ -15,7 +15,7 @@ import java.util.List;
 @RestController
 public class PublicController {
 
-    private PublicService service;
+    private final PublicService service;
 
     @Autowired
     public PublicController(PublicService service) {
@@ -37,7 +37,7 @@ public class PublicController {
     }
 
     /**
-     * получение dto объекта категории по id
+     * получение информации о категории по id
      *
      * @param id - id dto объекта категории
      * @return - dto объект категории

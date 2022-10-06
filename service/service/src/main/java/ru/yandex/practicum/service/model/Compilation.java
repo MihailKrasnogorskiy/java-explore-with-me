@@ -19,8 +19,8 @@ public class Compilation {
     private long id;
     private boolean pinned;
     private String title;
-//    @OneToMany(mappedBy = "event", fetch = FetchType.LAZY)
-//    private Set<Event> events = new HashSet<>();
+    @OneToMany(mappedBy = "id", fetch = FetchType.LAZY)
+    private Set<Event> events = new HashSet<>();
 
     public Compilation() {
 

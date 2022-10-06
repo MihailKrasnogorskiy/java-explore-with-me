@@ -6,18 +6,15 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.yandex.practicum.service.exceptions.EmailUsedException;
-import ru.yandex.practicum.service.exceptions.EventDateValidationException;
-import ru.yandex.practicum.service.exceptions.NotFoundException;
-import ru.yandex.practicum.service.model.Event;
-import ru.yandex.practicum.service.model.EventState;
-import ru.yandex.practicum.service.model.OffsetLimitPageable;
-import ru.yandex.practicum.service.model.User;
+import ru.yandex.practicum.service.exceptions.*;
+import ru.yandex.practicum.service.model.*;
 import ru.yandex.practicum.service.model.dto.*;
 import ru.yandex.practicum.service.model.mappers.CategoryMapper;
+import ru.yandex.practicum.service.model.mappers.CompilationMapper;
 import ru.yandex.practicum.service.model.mappers.EventMapper;
 import ru.yandex.practicum.service.model.mappers.UserMapper;
 import ru.yandex.practicum.service.repositoryes.CategoryRepository;
+import ru.yandex.practicum.service.repositoryes.CompilationRepository;
 import ru.yandex.practicum.service.repositoryes.EventRepository;
 import ru.yandex.practicum.service.repositoryes.UserRepository;
 
@@ -35,16 +32,22 @@ public class AdminServiceImpl implements AdminService {
     private CategoryRepository categoryRepository;
     private EventRepository eventRepository;
     private EventMapper eventMapper;
+    private CompilationMapper compilationMapper;
+
+    private CompilationRepository compilationRepository;
 
     private final int PUBLISH_TIME_LAG = 2;
 
     @Autowired
     public AdminServiceImpl(UserRepository repository, CategoryRepository categoryRepository,
-                            EventRepository eventRepository, EventMapper eventMapper) {
+                            EventRepository eventRepository, EventMapper eventMapper,
+                            CompilationMapper compilationMapper, CompilationRepository compilationRepository) {
         this.userRepository = repository;
         this.categoryRepository = categoryRepository;
         this.eventRepository = eventRepository;
         this.eventMapper = eventMapper;
+        this.compilationMapper = compilationMapper;
+        this.compilationRepository = compilationRepository;
     }
 
     @Override
@@ -104,9 +107,12 @@ public class AdminServiceImpl implements AdminService {
     @Override
     @Transactional
     public void deleteCategory(long id) {
-        // TODO описать проверку отсутствия эвентов
-        categoryRepository.deleteById(id);
-        log.info("Категория с id {} была удалена", id);
+        if (eventRepository.findAllByCategoryId(id).isEmpty()) {
+            categoryRepository.deleteById(id);
+            log.info("Категория с id {} была удалена", id);
+        } else {
+            throw new CategoryUsedException(id);
+        }
     }
 
     @Override
@@ -114,7 +120,7 @@ public class AdminServiceImpl implements AdminService {
     public EventFullDto publishEvent(long eventId) {
         Event event = eventRepository.findById(eventId).orElseThrow(() ->
                 new NotFoundException("Событие с id = " + eventId + " не найдено"));
-        if(!event.getCreatedOn().plusHours(PUBLISH_TIME_LAG).isBefore(event.getEventDate())){
+        if (!event.getCreatedOn().plusHours(PUBLISH_TIME_LAG).isBefore(event.getEventDate())) {
             throw new EventDateValidationException(PUBLISH_TIME_LAG);
         }
         event.setPublishedOn(LocalDateTime.now());
@@ -123,13 +129,35 @@ public class AdminServiceImpl implements AdminService {
         return eventMapper.toEventFullDto(event);
     }
 
+    @Override
+    @Transactional
+    public EventFullDto rejectEvent(long eventId) {
+        Event event = eventRepository.findById(eventId).orElseThrow(() ->
+                new NotFoundException("Событие с id = " + eventId + " не найдено"));
+        if (event.getState().equals(EventState.PUBLISHED)) {
+            throw new EventStateValidationException();
+        }
+        event.setState(EventState.CANCELED);
+        log.info("Событие с id = {} отклонено", eventId);
+        return eventMapper.toEventFullDto(event);
+    }
+
+    @Override
+    @Transactional
+    public CompilationDto createCompilation(NewCompilationDto dto) {
+        dto.getEvents().forEach(this::validateEventId);
+        Compilation compilation = compilationRepository.save(compilationMapper.toCompilation(dto));
+        log.info("Подборка с id = {} создана", compilation.getId());
+        return compilationMapper.toCompilationDto(compilation);
+    }
+
     /**
      * метод проверки регистрации другого пользователя на уже зарегистрированный email
      *
      * @param email - email адрес из запроса
      */
-    @Transactional
-    void validateUserEmail(String email) {
+
+    private void validateUserEmail(String email) {
         if (userRepository.getAllUsersEmail().contains(email)) {
             throw new EmailUsedException(email);
         }
@@ -139,15 +167,22 @@ public class AdminServiceImpl implements AdminService {
      * метод проверки существования пользователя по id
      *
      * @param id - id пользователя из запроса
-     * @return true или выбрасывание исключения
      */
     @Override
-    @Transactional
-    public boolean validateUserId(long id) {
+    public void validateUserId(long id) {
         if (!userRepository.existsById(id)) {
             throw new NotFoundException("Пользователь с id " + id + " не найден");
-        } else {
-            return true;
         }
-    } // TODO разобраться надо ли возвращать true
+    }
+
+    /**
+     * проверка на существование события по id
+     *
+     * @param eventId - id события
+     */
+    private void validateEventId(long eventId) {
+        if (!eventRepository.existsById(eventId)) {
+            throw new NotFoundException("Событие с id = " + eventId + " не найдено");
+        }
+    }
 }
