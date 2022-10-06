@@ -1,12 +1,12 @@
-package ru.yandex.practicum.service.services;
+package ru.yandex.practicum.service.services.event;
 
 import ru.yandex.practicum.service.model.dto.EventFullDto;
 import ru.yandex.practicum.service.model.dto.NewEventDto;
 
 /**
- * интерфейс сервиса пользователей
+ * интерфейс сервиса событий для пользователей
  */
-public interface UsersService {
+public interface EventUsersService {
     /**
      * создание события
      *

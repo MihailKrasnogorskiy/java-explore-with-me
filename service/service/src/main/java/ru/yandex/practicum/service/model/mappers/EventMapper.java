@@ -18,7 +18,7 @@ import java.time.format.DateTimeFormatter;
 @Component
 public class EventMapper {
 
-    private CategoryRepository categoryRepository;
+    private final CategoryRepository categoryRepository;
 
     @Autowired
     public EventMapper(CategoryRepository categoryRepository) {

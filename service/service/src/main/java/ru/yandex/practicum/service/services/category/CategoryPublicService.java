@@ -1,13 +1,13 @@
-package ru.yandex.practicum.service.services;
+package ru.yandex.practicum.service.services.category;
 
 import ru.yandex.practicum.service.model.dto.CategoryDto;
 
 import java.util.List;
 
 /**
- * интерфейс сервис публичного контроллера
+ * интерфейс публичного сервиса категорий
  */
-public interface PublicService {
+public interface CategoryPublicService {
     /**
      * получение списка всех категорий
      *

@@ -37,7 +37,8 @@ public interface UserRepository extends CrudRepository<User, Long> {
 
     /**
      * запрос списка пользователей по id
-     * @param ids - список id пользователей
+     *
+     * @param ids      - список id пользователей
      * @param pageable - объект для создания запросов на перелистывание страниц
      * @return - список пользователей
      */

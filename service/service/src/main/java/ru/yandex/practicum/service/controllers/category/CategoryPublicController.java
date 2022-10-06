@@ -1,24 +1,25 @@
-package ru.yandex.practicum.service.controllers;
+package ru.yandex.practicum.service.controllers.category;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.service.model.dto.CategoryDto;
-import ru.yandex.practicum.service.services.PublicService;
+import ru.yandex.practicum.service.services.category.CategoryPublicService;
 
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
 
+/**
+ * публичный контроллер категорий
+ */
 @RestController
-public class PublicController {
+@RequestMapping("/categories")
+public class CategoryPublicController {
 
-    private final PublicService service;
+    private final CategoryPublicService service;
 
     @Autowired
-    public PublicController(PublicService service) {
+    public CategoryPublicController(CategoryPublicService service) {
         this.service = service;
     }
 
@@ -29,7 +30,7 @@ public class PublicController {
      * @param size - количество категорий в наборе
      * @return список всех категорий
      */
-    @GetMapping("/categories")
+    @GetMapping()
     public List<CategoryDto> findAllCategories(
             @PositiveOrZero @RequestParam(name = "from", defaultValue = "0") Integer from,
             @Positive @RequestParam(name = "size", defaultValue = "10") Integer size) {
@@ -42,7 +43,7 @@ public class PublicController {
      * @param id - id категории
      * @return - dto объект категории
      */
-    @GetMapping("/categories/{id}")
+    @GetMapping("/{id}")
     public CategoryDto findCategoryById(@PathVariable Long id) {
         return service.findCategoryById(id);
     }

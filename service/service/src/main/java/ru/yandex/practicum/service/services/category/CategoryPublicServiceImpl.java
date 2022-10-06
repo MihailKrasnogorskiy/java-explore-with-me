@@ -1,4 +1,4 @@
-package ru.yandex.practicum.service.services;
+package ru.yandex.practicum.service.services.category;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -14,15 +14,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * класс публичного сервиса
+ * класс публичного сервиса категорий
  */
 @Service
-public class PublicServiceImpl implements PublicService {
+public class CategoryPublicServiceImpl implements CategoryPublicService {
 
     private final CategoryRepository categoryRepository;
 
     @Autowired
-    public PublicServiceImpl(CategoryRepository categoryRepository) {
+    public CategoryPublicServiceImpl(CategoryRepository categoryRepository) {
         this.categoryRepository = categoryRepository;
     }
 

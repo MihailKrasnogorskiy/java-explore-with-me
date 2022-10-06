@@ -1,4 +1,4 @@
-package ru.yandex.practicum.service.services;
+package ru.yandex.practicum.service.services.event;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,20 +15,19 @@ import ru.yandex.practicum.service.repositoryes.EventRepository;
 import ru.yandex.practicum.service.repositoryes.UserRepository;
 
 /**
- * класс сервиса пользователей
+ * класс сервиса событий для пользователей
  */
 @Service
 @Slf4j
-public class UsersServiceImpl implements UsersService {
-    private EventRepository eventRepository;
-    private UserRepository userRepository;
-    @Lazy
-    private EventMapper eventMapper;
-
+public class EventUsersServiceImpl implements EventUsersService {
     private final int CREATE_TIME_LAG = 2;
+    private final EventRepository eventRepository;
+    private final UserRepository userRepository;
+    @Lazy
+    private final EventMapper eventMapper;
 
     @Autowired
-    public UsersServiceImpl(EventRepository eventRepository, UserRepository userRepository, EventMapper eventMapper) {
+    public EventUsersServiceImpl(EventRepository eventRepository, UserRepository userRepository, EventMapper eventMapper) {
         this.eventRepository = eventRepository;
         this.userRepository = userRepository;
         this.eventMapper = eventMapper;
@@ -39,7 +38,7 @@ public class UsersServiceImpl implements UsersService {
     public EventFullDto createEvent(long userId, NewEventDto dto) {
         validateUserId(userId);
         Event event = eventMapper.toEventFromNewEventDto(dto);
-        if(!event.getCreatedOn().plusHours(CREATE_TIME_LAG).isBefore(event.getEventDate())){
+        if (!event.getCreatedOn().plusHours(CREATE_TIME_LAG).isBefore(event.getEventDate())) {
             throw new EventDateValidationException(CREATE_TIME_LAG);
         }
         event.setInitiator(userRepository.findById(userId).get());

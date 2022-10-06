@@ -1,6 +1,5 @@
 package ru.yandex.practicum.service.services.compilation;
 
-import ru.yandex.practicum.service.model.dto.CategoryDto;
 import ru.yandex.practicum.service.model.dto.CompilationDto;
 
 import java.util.List;

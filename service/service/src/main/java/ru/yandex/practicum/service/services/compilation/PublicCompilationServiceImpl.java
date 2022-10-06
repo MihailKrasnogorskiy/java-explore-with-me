@@ -6,7 +6,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.service.exceptions.NotFoundException;
 import ru.yandex.practicum.service.model.OffsetLimitPageable;
-import ru.yandex.practicum.service.model.dto.CategoryDto;
 import ru.yandex.practicum.service.model.dto.CompilationDto;
 import ru.yandex.practicum.service.model.mappers.CompilationMapper;
 import ru.yandex.practicum.service.repositoryes.CompilationRepository;

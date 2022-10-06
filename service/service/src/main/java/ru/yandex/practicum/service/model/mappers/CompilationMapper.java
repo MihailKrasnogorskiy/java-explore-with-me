@@ -16,7 +16,7 @@ import java.util.Optional;
 public class CompilationMapper {
     private final EventRepository eventRepository;
     @Lazy
-    private EventMapper eventMapper;
+    private final EventMapper eventMapper;
 
     @Autowired
     public CompilationMapper(EventRepository eventRepository, EventMapper eventMapper) {
