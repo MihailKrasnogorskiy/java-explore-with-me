@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 @Builder
 @Data
 @AllArgsConstructor
+@Table(name = "requests")
 public class ParticipationRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,7 +21,7 @@ public class ParticipationRequest {
     @JoinColumn(name = "event_id")
     private Event event;
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "requester_id")
     private User requester;
     private RequestStatus status;
 

@@ -1,5 +1,6 @@
 package ru.yandex.practicum.service.services.event;
 
+import ru.yandex.practicum.service.model.dto.AdminUpdateEventRequest;
 import ru.yandex.practicum.service.model.dto.EventFullDto;
 
 /**
@@ -12,7 +13,7 @@ public interface EventAdminService {
      * @param eventId - id события
      * @return - полный dto объект события
      */
-    EventFullDto publishEvent(long eventId);
+    EventFullDto publish(long eventId);
 
     /**
      * отклонение события
@@ -20,5 +21,14 @@ public interface EventAdminService {
      * @param eventId - id события
      * @return - полный dto объект события
      */
-    EventFullDto rejectEvent(long eventId);
+    EventFullDto reject(long eventId);
+
+    /**
+     * обновление события администратором
+     *
+     * @param eventId - id события
+     * @param dto     - dto объект с данными для обновления
+     * @return - полный dto объект события
+     */
+    EventFullDto update(long eventId, AdminUpdateEventRequest dto);
 }

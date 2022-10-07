@@ -9,11 +9,14 @@ import ru.yandex.practicum.service.exceptions.EventStateValidationException;
 import ru.yandex.practicum.service.exceptions.NotFoundException;
 import ru.yandex.practicum.service.model.Event;
 import ru.yandex.practicum.service.model.EventState;
+import ru.yandex.practicum.service.model.dto.AdminUpdateEventRequest;
 import ru.yandex.practicum.service.model.dto.EventFullDto;
 import ru.yandex.practicum.service.model.mappers.EventMapper;
+import ru.yandex.practicum.service.repositoryes.CategoryRepository;
 import ru.yandex.practicum.service.repositoryes.EventRepository;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * сервис событий для администраторов
@@ -23,19 +26,21 @@ import java.time.LocalDateTime;
 public class EventAdminServiceImpl implements EventAdminService {
     private final int PUBLISH_TIME_LAG = 1;
     private final EventRepository eventRepository;
+    private final CategoryRepository categoryRepository;
     private final EventMapper eventMapper;
 
     @Autowired
-    public EventAdminServiceImpl(EventRepository eventRepository, EventMapper eventMapper) {
+    public EventAdminServiceImpl(EventRepository eventRepository, CategoryRepository categoryRepository,
+                                 EventMapper eventMapper) {
         this.eventRepository = eventRepository;
+        this.categoryRepository = categoryRepository;
         this.eventMapper = eventMapper;
     }
 
     @Override
     @Transactional
-    public EventFullDto publishEvent(long eventId) {
-        Event event = eventRepository.findById(eventId).orElseThrow(() ->
-                new NotFoundException("Событие с id = " + eventId + " не найдено"));
+    public EventFullDto publish(long eventId) {
+        Event event = getEventById(eventId);
         if (!event.getCreatedOn().plusHours(PUBLISH_TIME_LAG).isBefore(event.getEventDate())) {
             throw new EventDateValidationException(PUBLISH_TIME_LAG);
         }
@@ -47,9 +52,8 @@ public class EventAdminServiceImpl implements EventAdminService {
 
     @Override
     @Transactional
-    public EventFullDto rejectEvent(long eventId) {
-        Event event = eventRepository.findById(eventId).orElseThrow(() ->
-                new NotFoundException("Событие с id = " + eventId + " не найдено"));
+    public EventFullDto reject(long eventId) {
+        Event event = getEventById(eventId);
         if (event.getState().equals(EventState.PUBLISHED)) {
             throw new EventStateValidationException();
         }
@@ -58,14 +62,49 @@ public class EventAdminServiceImpl implements EventAdminService {
         return eventMapper.toEventFullDto(event);
     }
 
+    @Override
+    @Transactional
+    public EventFullDto update(long eventId, AdminUpdateEventRequest dto) {
+        Event event = getEventById(eventId);
+        if (dto.getAnnotation() != null) {
+            event.setAnnotation(dto.getAnnotation());
+        }
+        if (dto.getCategory() != null) {
+            event.setCategory(categoryRepository.findById(dto.getCategory()).orElseThrow(() ->
+                    new NotFoundException("Категория с id = " + dto.getCategory() + " не найдена")));
+        }
+        if (dto.getDescription() != null) {
+            event.setDescription(dto.getDescription());
+        }
+        if (dto.getEventDate() != null) {
+            event.setEventDate(LocalDateTime.parse(dto.getEventDate(), DateTimeFormatter
+                    .ofPattern("yyyy-MM-dd HH:mm:ss")));
+        }
+        if (dto.getPaid() != null) {
+            event.setPaid(dto.getPaid());
+        }
+        if (dto.getParticipantLimit() != null) {
+            event.setParticipantLimit(dto.getParticipantLimit());
+        }
+        if (dto.getRequestModeration() != null) {
+            event.setRequestModeration(dto.getRequestModeration());
+        }
+        if (dto.getTitle() != null) {
+            event.setTitle(dto.getTitle());
+        }
+        EventFullDto fullDto = eventMapper.toEventFullDto(eventRepository.save(event));
+        log.info("Событие с id = {} изменено согласно данным {}", eventId, dto);
+        return fullDto;
+    }
+
     /**
-     * проверка на существование события по id
+     * получение события по id
      *
      * @param eventId - id события
+     * @return - объект события
      */
-    private void validateEventId(long eventId) {
-        if (!eventRepository.existsById(eventId)) {
-            throw new NotFoundException("Событие с id = " + eventId + " не найдено");
-        }
+    private Event getEventById(long eventId) {
+        return eventRepository.findById(eventId).orElseThrow(() ->
+                new NotFoundException("Событие с id = " + eventId + " не найдено"));
     }
 }

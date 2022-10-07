@@ -26,11 +26,10 @@ CREATE TABLE IF NOT EXISTS events
     paid               BOOLEAN                                 NOT NULL,
     initiator_id       BIGINT                                  NOT NULL,
     category_id        BIGINT                                  NOT NULL,
-    participant_limit  BIGINT,
+    participant_limit  INT,
     request_moderation BOOLEAN                                 NOT NULL,
     published_on       TIMESTAMP WITHOUT TIME ZONE,
     state              VARCHAR,
-    confirmedRequests  INTEGER,
 
     CONSTRAINT pk_events PRIMARY KEY (id),
     FOREIGN KEY (initiator_id) REFERENCES users (id) ON DELETE CASCADE,

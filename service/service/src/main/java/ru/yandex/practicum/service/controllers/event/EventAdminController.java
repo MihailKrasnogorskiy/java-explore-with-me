@@ -1,12 +1,12 @@
 package ru.yandex.practicum.service.controllers.event;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import ru.yandex.practicum.service.model.dto.AdminUpdateEventRequest;
 import ru.yandex.practicum.service.model.dto.EventFullDto;
 import ru.yandex.practicum.service.services.event.EventAdminService;
+
+import javax.validation.constraints.Positive;
 
 /**
  * контроллер событий для администраторов
@@ -29,8 +29,8 @@ public class EventAdminController {
      * @return - полный dto объект события
      */
     @PatchMapping("{eventId}/publish")
-    public EventFullDto publishedEvent(@PathVariable long eventId) {
-        return service.publishEvent(eventId);
+    public EventFullDto publish(@Positive @PathVariable long eventId) {
+        return service.publish(eventId);
     }
 
     /**
@@ -40,7 +40,19 @@ public class EventAdminController {
      * @return - полный dto объект события
      */
     @PatchMapping("{eventId}/reject")
-    public EventFullDto rejectedEvent(@PathVariable long eventId) {
-        return service.rejectEvent(eventId);
+    public EventFullDto reject(@Positive @PathVariable long eventId) {
+        return service.reject(eventId);
+    }
+
+    /**
+     * обновление события администратором
+     *
+     * @param eventId - id события
+     * @param dto     - dto объект с данными для обновления
+     * @return - полный dto объект события
+     */
+    @PutMapping("/{eventId}")
+    public EventFullDto update(@Positive @PathVariable long eventId, @RequestBody AdminUpdateEventRequest dto) {
+        return service.update(eventId, dto);
     }
 }

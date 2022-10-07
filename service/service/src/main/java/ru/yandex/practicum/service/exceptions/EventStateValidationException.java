@@ -4,11 +4,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
- * исключение выбрасываемое при попытке регистрации события менее чем за 2 часа до его начала
+ * исключение выбрасываемое при проверке статуса события
  */
 @ResponseStatus(HttpStatus.FORBIDDEN)
-public class EventStateValidationException extends RuntimeException {
+public class EventStateValidationException extends ForbiddenException {
+    /**
+     * выбрасывается при изменении статуса события
+     */
     public EventStateValidationException() {
-        super("Опубликованное событие не может быть отклонено");
+        super("Опубликованное событие не может быть отклонено либо изменено");
+    }
+
+    public EventStateValidationException(String s) {
+        super(s);
     }
 }
