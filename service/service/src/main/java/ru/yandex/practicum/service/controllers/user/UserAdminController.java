@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.service.model.dto.UserCreateDto;
 import ru.yandex.practicum.service.model.dto.UserDto;
-import ru.yandex.practicum.service.services.user.AdminUserService;
+import ru.yandex.practicum.service.services.user.UserAdminService;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
@@ -16,12 +16,12 @@ import java.util.List;
  */
 @RestController
 @RequestMapping(path = "/admin/users")
-public class AdminUserController {
+public class UserAdminController {
 
-    private final AdminUserService service;
+    private final UserAdminService service;
 
     @Autowired
-    public AdminUserController(AdminUserService service) {
+    public UserAdminController(UserAdminService service) {
         this.service = service;
     }
 
@@ -45,6 +45,14 @@ public class AdminUserController {
     public void deleteUser(@PathVariable long id) {
         service.deleteUser(id);
     }
+
+    /**
+     * запрос списка пользователей
+     * @param ids - id пользователей
+     * @param from - количество элементов, которые нужно пропустить для формирования текущего набора
+     * @param size - количество элементов в наборе
+     * @return - список пользователей
+     */
 
     @GetMapping()
     public List<UserDto> findUsers(@RequestParam List<Long> ids,

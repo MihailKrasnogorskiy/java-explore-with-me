@@ -13,10 +13,13 @@ import ru.yandex.practicum.service.model.dto.AdminUpdateEventRequest;
 import ru.yandex.practicum.service.model.dto.EventFullDto;
 import ru.yandex.practicum.service.model.mappers.EventMapper;
 import ru.yandex.practicum.service.repositoryes.CategoryRepository;
+import ru.yandex.practicum.service.repositoryes.EventCustomCriteriaRepository;
 import ru.yandex.practicum.service.repositoryes.EventRepository;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * сервис событий для администраторов
@@ -29,12 +32,15 @@ public class EventAdminServiceImpl implements EventAdminService {
     private final CategoryRepository categoryRepository;
     private final EventMapper eventMapper;
 
+    private final EventCustomCriteriaRepository criteriaRepository;
+
     @Autowired
     public EventAdminServiceImpl(EventRepository eventRepository, CategoryRepository categoryRepository,
-                                 EventMapper eventMapper) {
+                                 EventMapper eventMapper, EventCustomCriteriaRepository criteriaRepository) {
         this.eventRepository = eventRepository;
         this.categoryRepository = categoryRepository;
         this.eventMapper = eventMapper;
+        this.criteriaRepository = criteriaRepository;
     }
 
     @Override
@@ -95,6 +101,17 @@ public class EventAdminServiceImpl implements EventAdminService {
         EventFullDto fullDto = eventMapper.toEventFullDto(eventRepository.save(event));
         log.info("Событие с id = {} изменено согласно данным {}", eventId, dto);
         return fullDto;
+    }
+
+    @Override
+    public List<EventFullDto> findAll(List<Long> users, List<EventState> states, List<Long> categories,
+                                      String rangeStart, String rangeEnd, Integer from, Integer size) {
+        LocalDateTime start = LocalDateTime.parse(rangeStart, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        LocalDateTime end = LocalDateTime.parse(rangeEnd, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        List<Event> events = criteriaRepository.findAll(null, categories, null, start, end, from, size, users, states);
+        return events.stream()
+                .map(eventMapper::toEventFullDto)
+                .collect(Collectors.toList());
     }
 
     /**

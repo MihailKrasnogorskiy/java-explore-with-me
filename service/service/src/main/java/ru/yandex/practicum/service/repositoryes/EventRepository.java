@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 import ru.yandex.practicum.service.model.Event;
+import ru.yandex.practicum.service.model.EventState;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,6 +13,8 @@ import java.util.Optional;
 @Repository
 public interface EventRepository extends CrudRepository<Event, Long> {
     Optional<Event> findByIdAndInitiatorId(long eventId, long userId);
+
+    Optional<Event> findByIdAndState(long eventId, EventState state);
 
     List<Event> findAllByCategoryId(long categoryId);
 

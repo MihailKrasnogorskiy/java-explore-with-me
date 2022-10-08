@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * интерфейс сервиса пользователей для администраторов
  */
-public interface AdminUserService {
+public interface UserAdminService {
     /**
      * создание пользователя
      *

@@ -3,7 +3,7 @@ package ru.yandex.practicum.service.controllers.compilation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.service.model.dto.CompilationDto;
-import ru.yandex.practicum.service.services.compilation.PublicCompilationService;
+import ru.yandex.practicum.service.services.compilation.CompilationPublicService;
 
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
@@ -14,11 +14,11 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/compilations")
-public class PublicCompilationController {
-    private final PublicCompilationService service;
+public class CompilationPublicController {
+    private final CompilationPublicService service;
 
     @Autowired
-    public PublicCompilationController(PublicCompilationService service) {
+    public CompilationPublicController(CompilationPublicService service) {
         this.service = service;
     }
 

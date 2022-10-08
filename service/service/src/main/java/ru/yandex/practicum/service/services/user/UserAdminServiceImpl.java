@@ -23,12 +23,12 @@ import java.util.stream.Collectors;
  */
 @Service
 @Slf4j
-public class AdminUserServiceImpl implements AdminUserService {
+public class UserAdminServiceImpl implements UserAdminService {
 
     private final UserRepository userRepository;
 
     @Autowired
-    public AdminUserServiceImpl(UserRepository userRepository) {
+    public UserAdminServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 

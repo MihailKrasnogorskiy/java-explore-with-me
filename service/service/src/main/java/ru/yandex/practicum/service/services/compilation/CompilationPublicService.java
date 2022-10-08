@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * интерфейс публичного сервиса подборок
  */
-public interface PublicCompilationService {
+public interface CompilationPublicService {
     /**
      * получение списка всех подборок
      *

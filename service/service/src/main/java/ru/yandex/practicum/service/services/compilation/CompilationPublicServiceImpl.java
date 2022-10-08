@@ -18,11 +18,11 @@ import java.util.stream.Collectors;
  */
 @Service
 @Slf4j
-public class PublicCompilationServiceImpl implements PublicCompilationService {
+public class CompilationPublicServiceImpl implements CompilationPublicService {
     private final CompilationMapper compilationMapper;
     private final CompilationRepository compilationRepository;
 
-    public PublicCompilationServiceImpl(CompilationMapper compilationMapper,
+    public CompilationPublicServiceImpl(CompilationMapper compilationMapper,
                                         CompilationRepository compilationRepository) {
         this.compilationMapper = compilationMapper;
         this.compilationRepository = compilationRepository;
