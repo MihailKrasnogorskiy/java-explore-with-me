@@ -40,6 +40,6 @@ services:
     ports:
       - "5541:5432"
     environment:
-      - POSTGRES_DB=statistics
+      - POSTGRES_DB=statistic
       - POSTGRES_USER=stat
       - POSTGRES_PASSWORD=password
