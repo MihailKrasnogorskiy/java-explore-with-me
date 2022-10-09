@@ -41,7 +41,6 @@ public class StatClient extends BaseClient {
             uris.stream()
                     .skip(1)
                     .forEach(u -> sb.append(",/events/").append(u));
-
         }
 
         Map<String, Object> parameters = Map.of(

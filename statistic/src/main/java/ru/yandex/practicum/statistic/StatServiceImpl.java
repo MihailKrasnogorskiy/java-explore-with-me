@@ -54,7 +54,7 @@ public class StatServiceImpl implements StatService {
                             .hits(repository.getView(startTime, endTime, uri))
                             .build())
                     .forEach(list::add);
-            log.info("Статистика просмотров  uris {} без учёта уникальности ip выгружена к", uris);
+            log.info("Статистика просмотров  uris {} без учёта уникальности ip выгружена", uris);
         }
         return list;
     }

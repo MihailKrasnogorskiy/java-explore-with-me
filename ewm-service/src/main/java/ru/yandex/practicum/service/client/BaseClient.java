@@ -58,6 +58,10 @@ public class BaseClient {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setAccept(List.of(MediaType.APPLICATION_JSON));
+        // Force the request expires
+        headers.setExpires(0);
+        // Cache-Control: private, no-store, max-age=0
+        headers.setCacheControl("private, no-store, max-age=0");
         return headers;
     }
 }
