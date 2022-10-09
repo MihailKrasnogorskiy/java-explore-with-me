@@ -29,9 +29,6 @@ public class StatisticService {
     private final StatClient client;
     private final ObjectMapper mapper;
 
-    private final LocalDateTime startStat = LocalDateTime.now().minusDays(365);
-    private final LocalDateTime endStat = LocalDateTime.now();
-
     @Autowired
     public StatisticService(StatClient client, ObjectMapper mapper) {
         this.client = client;
@@ -43,9 +40,10 @@ public class StatisticService {
      *
      * @param events - список событий
      * @return - список событий с заполненными просмотрами
-     * @throws JsonProcessingException
      */
     public List<Event> getStatistic(List<Event> events) {
+        LocalDateTime startStat = LocalDateTime.now().minusDays(365);
+        LocalDateTime endStat = LocalDateTime.now().plusDays(1);
         String codeStart;
         String codeEnd;
         try {

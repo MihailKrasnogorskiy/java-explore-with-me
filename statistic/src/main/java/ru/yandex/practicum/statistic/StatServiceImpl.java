@@ -8,6 +8,7 @@ import ru.yandex.practicum.statistic.model.EndpointHitDto;
 import ru.yandex.practicum.statistic.model.EndpointHitMapper;
 import ru.yandex.practicum.statistic.model.ViewStats;
 
+import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +19,7 @@ import java.util.List;
 @Service
 @Slf4j
 public class StatServiceImpl implements StatService {
-    private StatRepository repository;
+    private final StatRepository repository;
 
     @Autowired
     public StatServiceImpl(StatRepository repository) {
@@ -35,7 +36,7 @@ public class StatServiceImpl implements StatService {
     @Override
     public List<ViewStats> findStats(LocalDateTime startTime, LocalDateTime endTime, List<String> uris,
                                      Boolean unique) {
-        log.info("Количество просмотров {}", repository.getView(startTime, endTime, uris.get(0)));
+
         List<ViewStats> list = new ArrayList<>();
         if (unique) {
             uris.stream()

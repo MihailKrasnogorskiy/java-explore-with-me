@@ -2,6 +2,7 @@ package ru.yandex.practicum.service.model.mappers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import ru.yandex.practicum.service.model.Event;
 import ru.yandex.practicum.service.model.EventState;
 import ru.yandex.practicum.service.model.RequestStatus;
@@ -92,7 +93,7 @@ public class EventMapper {
      * @param eventWithoutViews - объект события
      * @return - короткий dto объект события
      */
-
+    @Transactional
     public EventShortDto toEventShortDto(Event eventWithoutViews) {
         List<Event> eventsWithoutViews = new ArrayList<>();
         eventsWithoutViews.add(eventWithoutViews);
