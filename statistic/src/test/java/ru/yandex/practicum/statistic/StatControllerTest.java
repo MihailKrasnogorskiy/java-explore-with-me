@@ -45,28 +45,28 @@ class StatControllerTest {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    private EndpointHitDto dto = EndpointHitDto.builder()
+    private final EndpointHitDto dto = EndpointHitDto.builder()
             .app("service")
             .ip("172.23.58.14")
             .uri("yandex.ru")
             .timestamp("2022-10-02 12:00:54")
             .build();
 
-    private EndpointHitDto dto1 = EndpointHitDto.builder()
+    private final EndpointHitDto dto1 = EndpointHitDto.builder()
             .app("service")
             .ip("172.23.58.15")
             .uri("yandex.ru")
             .timestamp("2022-10-02 12:00:54")
             .build();
 
-    private EndpointHitDto dto2 = EndpointHitDto.builder()
+    private final EndpointHitDto dto2 = EndpointHitDto.builder()
             .app("service")
             .ip("172.23.58.14")
             .uri("ya.ru")
             .timestamp("2022-10-02 12:00:54")
             .build();
 
-    private EndpointHitDto dto3 = EndpointHitDto.builder()
+    private final EndpointHitDto dto3 = EndpointHitDto.builder()
             .app("service")
             .ip("172.23.58.15")
             .uri("ya.ru")

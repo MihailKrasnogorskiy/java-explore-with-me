@@ -17,7 +17,7 @@ import java.util.List;
  */
 @RestController
 public class StatController {
-    private StatService service;
+    private final StatService service;
 
     @Autowired
     public StatController(StatService service) {

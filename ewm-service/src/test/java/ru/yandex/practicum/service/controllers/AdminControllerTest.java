@@ -43,7 +43,7 @@ class AdminControllerTest {
     private MockMvc mockMvc;
     @Autowired
     private JdbcTemplate jdbcTemplate;
-    private UserCreateDto userDto = new UserCreateDto("vova", "vova@mail.ru");
+    private final UserCreateDto userDto = new UserCreateDto("vova", "vova@mail.ru");
 
     /**
      * создание пользователя

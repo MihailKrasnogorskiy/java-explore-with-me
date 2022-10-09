@@ -8,7 +8,6 @@ import ru.yandex.practicum.statistic.model.EndpointHitDto;
 import ru.yandex.practicum.statistic.model.EndpointHitMapper;
 import ru.yandex.practicum.statistic.model.ViewStats;
 
-import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
