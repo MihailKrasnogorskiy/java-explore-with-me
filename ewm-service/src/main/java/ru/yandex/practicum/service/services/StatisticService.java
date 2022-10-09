@@ -40,6 +40,7 @@ public class StatisticService {
 
     /**
      * получение статистики просмотров
+     *
      * @param events - список событий
      * @return - список событий с заполненными просмотрами
      * @throws JsonProcessingException
@@ -66,7 +67,7 @@ public class StatisticService {
             List<Map<String, Object>> body = (List<Map<String, Object>>) response.getBody();
             if (body != null && body.size() > 0) {
                 for (Map<String, Object> s : body) {
-                    ViewStats viewStats =ViewStats.builder()
+                    ViewStats viewStats = ViewStats.builder()
                             .app(s.get("app").toString())
                             .uri(s.get("uri").toString())
                             .hits(((Number) s.get("hits")).longValue())

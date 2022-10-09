@@ -85,7 +85,7 @@ public class EventPublicServiceImpl implements EventPublicService {
         List<Event> eventsWithoutViews = new ArrayList<>();
         eventsWithoutViews.add(event);
         List<Event> events = statisticService.getStatistic(eventsWithoutViews);
-        log.info("Количество просмотров {}",events.get(0).getViews());
+        log.info("Количество просмотров {}", events.get(0).getViews());
         return eventMapper.toEventFullDto(events.get(0));
     }
 
