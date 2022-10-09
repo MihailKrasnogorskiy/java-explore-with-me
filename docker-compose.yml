@@ -14,8 +14,8 @@ services:
       - SERVER_URL=http://stats-server:9090
 
   stats-server:
-    build: ./statistics
-    container_name: statistics
+    build: ./statistic
+    container_name: statistic
     ports:
       - "9090:9090"
     depends_on:
@@ -31,8 +31,8 @@ services:
       - "6541:5432"
     environment:
       - POSTGRES_DB=service
-      - POSTGRES_USER=lukshina
-      - POSTGRES_PASSWORD=12345
+      - POSTGRES_USER=explore
+      - POSTGRES_PASSWORD=password
 
   stats-db:
     image: postgres:14-alpine
@@ -42,4 +42,4 @@ services:
     environment:
       - POSTGRES_DB=statistics
       - POSTGRES_USER=stat
-      - POSTGRES_PASSWORD=6789
+      - POSTGRES_PASSWORD=password
