@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 @Service
 @Slf4j
 public class EventUsersServiceImpl implements EventUsersService {
-    private final int CREATE_TIME_LAG = 2;
+    private final int createTimeLag = 2;
     private final EventRepository eventRepository;
     private final UserRepository userRepository;
     @Lazy
@@ -53,8 +53,8 @@ public class EventUsersServiceImpl implements EventUsersService {
     public EventFullDto createEvent(long userId, NewEventDto dto) {
         validateUserId(userId);
         Event event = eventMapper.toEventFromNewEventDto(dto);
-        if (!event.getCreatedOn().plusHours(CREATE_TIME_LAG).isBefore(event.getEventDate())) {
-            throw new EventDateValidationException(CREATE_TIME_LAG);
+        if (!event.getCreatedOn().plusHours(createTimeLag).isBefore(event.getEventDate())) {
+            throw new EventDateValidationException(createTimeLag);
         }
         event.setInitiator(userRepository.findById(userId).get());
         EventFullDto fullDto =
@@ -116,13 +116,13 @@ public class EventUsersServiceImpl implements EventUsersService {
         if (dto.getEventDate() != null) {
             LocalDateTime startEvent = LocalDateTime.parse(dto.getEventDate(), DateTimeFormatter
                     .ofPattern("yyyy-MM-dd HH:mm:ss"));
-            if (LocalDateTime.now().plusHours(CREATE_TIME_LAG).isAfter(startEvent)) {
-                throw new EventDateValidationException(CREATE_TIME_LAG);
+            if (LocalDateTime.now().plusHours(createTimeLag).isAfter(startEvent)) {
+                throw new EventDateValidationException(createTimeLag);
             }
             event.setEventDate(startEvent);
         } else {
-            if (LocalDateTime.now().plusHours(CREATE_TIME_LAG).isAfter(event.getEventDate())) {
-                throw new EventDateValidationException(CREATE_TIME_LAG);
+            if (LocalDateTime.now().plusHours(createTimeLag).isAfter(event.getEventDate())) {
+                throw new EventDateValidationException(createTimeLag);
             }
         }
         if (dto.getPaid() != null) {

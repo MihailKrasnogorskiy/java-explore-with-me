@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 @Service
 @Slf4j
 public class EventAdminServiceImpl implements EventAdminService {
-    private final int PUBLISH_TIME_LAG = 1;
+    private final int publishTimeLag = 1;
     private final EventRepository eventRepository;
     private final CategoryRepository categoryRepository;
     private final EventMapper eventMapper;
@@ -51,8 +51,8 @@ public class EventAdminServiceImpl implements EventAdminService {
     @Transactional
     public EventFullDto publish(long eventId) {
         Event event = getEventById(eventId);
-        if (!event.getCreatedOn().plusHours(PUBLISH_TIME_LAG).isBefore(event.getEventDate())) {
-            throw new EventDateValidationException(PUBLISH_TIME_LAG);
+        if (!event.getCreatedOn().plusHours(publishTimeLag).isBefore(event.getEventDate())) {
+            throw new EventDateValidationException(publishTimeLag);
         }
         event.setPublishedOn(LocalDateTime.now());
         event.setState(EventState.PUBLISHED);

@@ -50,11 +50,11 @@ public interface RequestRepository extends CrudRepository<ParticipationRequest, 
     /**
      * проверка владельца запроса
      *
-     * @param Id     - id запроса
+     * @param id     - id запроса
      * @param userId - id пользователя
      * @return - boolean
      */
-    boolean existsByIdAndRequesterId(long Id, long userId);
+    boolean existsByIdAndRequesterId(long id, long userId);
 
     /**
      * количество заявок на участие в событии
