@@ -1,14 +1,14 @@
 package ru.yandex.practicum.service.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
 @Builder
 @Entity
 @AllArgsConstructor
@@ -21,8 +21,4 @@ public class User {
     private String email;
     @NotBlank
     private String name;
-
-    public User() {
-
-    }
 }

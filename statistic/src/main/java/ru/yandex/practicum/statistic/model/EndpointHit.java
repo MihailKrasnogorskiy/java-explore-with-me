@@ -1,8 +1,6 @@
 package ru.yandex.practicum.statistic.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -11,8 +9,10 @@ import java.time.LocalDateTime;
  * класс просмотра эндпоинта
  */
 @Entity(name = "hits")
-@Data
 @Builder
+@Getter
+@Setter
+@NoArgsConstructor
 @AllArgsConstructor
 public class EndpointHit {
 
@@ -25,7 +25,4 @@ public class EndpointHit {
     @Column(name = "views_date")
     private LocalDateTime timestamp;
 
-    public EndpointHit() {
-
-    }
 }

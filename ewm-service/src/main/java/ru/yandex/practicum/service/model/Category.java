@@ -1,15 +1,15 @@
 package ru.yandex.practicum.service.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
 @Builder
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "categories")
 public class Category {
     @Id
@@ -17,7 +17,4 @@ public class Category {
     private long id;
     private String name;
 
-    public Category() {
-
-    }
 }

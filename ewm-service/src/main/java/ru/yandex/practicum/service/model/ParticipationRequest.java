@@ -1,16 +1,16 @@
 package ru.yandex.practicum.service.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
 @Builder
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "requests")
 public class ParticipationRequest {
     @Id
@@ -25,7 +25,4 @@ public class ParticipationRequest {
     private User requester;
     private RequestStatus status;
 
-    public ParticipationRequest() {
-
-    }
 }

@@ -1,17 +1,17 @@
 package ru.yandex.practicum.service.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Data
 @Builder
+@Getter
+@Setter
 @AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "compilations")
 public class Compilation {
     @Id
@@ -27,7 +27,4 @@ public class Compilation {
     )
     private Set<Event> events = new HashSet<>();
 
-    public Compilation() {
-
-    }
 }
