@@ -50,6 +50,16 @@ public class EventUsersController {
     }
 
     /**
+     * получение списка событий отправленных на доработку администратором
+     * @param userId - id пользователя
+     * @return - список событий отправленных на доработку администратором
+     */
+    @GetMapping("/revision")
+    public List<EventRevisionDto> getAllRevision(@Positive @PathVariable long userId) {
+        return service.findAllRevision(userId);
+    }
+
+    /**
      * получение событий, добавленных текущим пользователем
      *
      * @param userId - id пользователя

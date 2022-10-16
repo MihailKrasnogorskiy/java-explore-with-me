@@ -6,6 +6,9 @@ import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * класс подборок
+ */
 @Entity
 @Builder
 @Getter

@@ -1,7 +1,7 @@
 package ru.yandex.practicum.service.model.mappers;
 
 import ru.yandex.practicum.service.model.User;
-import ru.yandex.practicum.service.model.dto.UserCreateDto;
+import ru.yandex.practicum.service.model.dto.NewUserRequest;
 import ru.yandex.practicum.service.model.dto.UserDto;
 import ru.yandex.practicum.service.model.dto.UserShortDto;
 
@@ -13,9 +13,9 @@ public class UserMapper {
      * преобразование в объект пользователя
      *
      * @param dto - dto объект для создания пользователя
-     * @return - полный dto объект пользователя
+     * @return - объект пользователя
      */
-    public static User toUser(UserCreateDto dto) {
+    public static User toUser(NewUserRequest dto) {
         return User.builder()
                 .name(dto.getName())
                 .email(dto.getEmail())

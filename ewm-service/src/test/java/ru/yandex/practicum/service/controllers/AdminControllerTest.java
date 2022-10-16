@@ -13,7 +13,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import ru.yandex.practicum.service.model.User;
-import ru.yandex.practicum.service.model.dto.UserCreateDto;
+import ru.yandex.practicum.service.model.dto.NewUserRequest;
 import ru.yandex.practicum.service.repositoryes.UserRepository;
 
 import java.util.List;
@@ -43,7 +43,7 @@ class AdminControllerTest {
     private MockMvc mockMvc;
     @Autowired
     private JdbcTemplate jdbcTemplate;
-    private final UserCreateDto userDto = new UserCreateDto("vova", "vova@mail.ru");
+    private final NewUserRequest userDto = new NewUserRequest("vova", "vova@mail.ru");
 
     /**
      * создание пользователя

@@ -1,6 +1,6 @@
 package ru.yandex.practicum.service.services.user;
 
-import ru.yandex.practicum.service.model.dto.UserCreateDto;
+import ru.yandex.practicum.service.model.dto.NewUserRequest;
 import ru.yandex.practicum.service.model.dto.UserDto;
 
 import java.util.List;
@@ -15,7 +15,7 @@ public interface UserAdminService {
      * @param dto - dto объект для создания пользователя
      * @return - полный dto объект пользователя
      */
-    UserDto createUser(UserCreateDto dto);
+    UserDto createUser(NewUserRequest dto);
 
     /**
      * удаление пользователя

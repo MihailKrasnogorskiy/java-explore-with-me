@@ -5,6 +5,9 @@ import lombok.*;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+/**
+ * класс событий
+ */
 @Entity
 @Builder
 @Getter
@@ -40,5 +43,7 @@ public class Event {
     private LocalDateTime publishedOn;
     @Enumerated(EnumType.STRING)
     private EventState state;
+    @Column(name = "admin_comment")
+    private String adminComment;
 
 }
