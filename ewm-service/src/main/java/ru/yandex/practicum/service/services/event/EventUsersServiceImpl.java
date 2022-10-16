@@ -136,7 +136,7 @@ public class EventUsersServiceImpl implements EventUsersService {
         }
         if (!event.getState().equals(EventState.REVISION)) {
             event.setState(EventState.PENDING);
-        }
+        } else {event.setState(EventState.RESEND);}
         EventFullDto fullDto = eventMapper.toEventFullDto(eventRepository.save(event));
         log.info("Событие с id = {} изменено согласно данным {}", dto.getEventId(), dto);
         return fullDto;

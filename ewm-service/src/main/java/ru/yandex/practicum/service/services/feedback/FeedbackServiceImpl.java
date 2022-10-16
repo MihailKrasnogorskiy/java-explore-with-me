@@ -56,7 +56,7 @@ public class FeedbackServiceImpl implements FeedbackService {
     @Transactional
     public FeedbackPostAdminDto publishFeedbackPost(long id) {
         FeedbackPost post = repository.findById(id).orElseThrow(() ->
-                new NotFoundException("Сообщение обратной связи с id = " + id + " не найдено"));
+                new NotFoundException(String.format("Сообщение обратной связи с id = '%s' не найдено", id)));
         post.setPublish(true);
         log.info("Сообщение обратной связи с id {} одобрено к публикации", id);
         return FeedbackPostMapper.toAdminDto(post);

@@ -23,12 +23,12 @@ import java.util.List;
 @RequestMapping("/events")
 public class EventPublicController {
 
-    private final EventPublicService eventService;
+    private final EventPublicService service;
     private final StatClient client;
 
     @Autowired
     public EventPublicController(EventPublicService service, StatClient client) {
-        this.eventService = service;
+        this.service = service;
         this.client = client;
     }
 
@@ -65,7 +65,7 @@ public class EventPublicController {
         client.createHit(new EndpointHitDto("service", request.getRequestURI(), request.getRemoteAddr(),
                 LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));
 
-        return eventService.findAll(text, categories, paid, rangeStart, rangeEnd, onlyAvailable, sortMethod, from, size);
+        return service.findAll(text, categories, paid, rangeStart, rangeEnd, onlyAvailable, sortMethod, from, size);
     }
 
     /**
@@ -78,7 +78,7 @@ public class EventPublicController {
     public EventFullDto findById(@Positive @PathVariable long eventId, HttpServletRequest request) {
         client.createHit(new EndpointHitDto("service", request.getRequestURI(), request.getRemoteAddr(),
                 LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));
-        return eventService.findById(eventId);
+        return service.findById(eventId);
     }
 
 }

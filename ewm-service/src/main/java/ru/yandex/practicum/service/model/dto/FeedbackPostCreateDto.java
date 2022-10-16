@@ -15,9 +15,7 @@ import javax.validation.constraints.NotBlank;
 @Data
 @AllArgsConstructor
 public class FeedbackPostCreateDto {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+
     @NotBlank
     private String userName;
     @NotBlank
