@@ -119,6 +119,18 @@ public class EventAdminServiceImpl implements EventAdminService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    @Transactional
+    public void revision(long eventId, String comment) {
+        Event event = getEventById(eventId);
+        if (!event.getState().equals(EventState.PENDING)) {
+            throw new EventStateValidationException("Нельзя отправить на доработку событие не ожидающее модерации");
+        }
+        event.setState(EventState.REVISION);
+        event.setAdminComment(comment);
+        log.info("Событие с id = {} отправлено на доработку", eventId);
+    }
+
     /**
      * получение события по id
      *

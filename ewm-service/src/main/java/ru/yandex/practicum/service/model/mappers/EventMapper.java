@@ -7,6 +7,7 @@ import ru.yandex.practicum.service.model.Event;
 import ru.yandex.practicum.service.model.EventState;
 import ru.yandex.practicum.service.model.RequestStatus;
 import ru.yandex.practicum.service.model.dto.EventFullDto;
+import ru.yandex.practicum.service.model.dto.EventRevisionDto;
 import ru.yandex.practicum.service.model.dto.EventShortDto;
 import ru.yandex.practicum.service.model.dto.NewEventDto;
 import ru.yandex.practicum.service.repositoryes.CategoryRepository;
@@ -110,6 +111,29 @@ public class EventMapper {
                 .initiator(UserMapper.toShortDto(event.getInitiator()))
                 .confirmedRequests(requestRepository.countAllByEventIdAndStatus(event.getId(),
                         RequestStatus.CONFIRMED.toString()))
+                .build();
+    }
+
+    /**
+     * создание dto объекта события отправленного на доработку администратором из объекта события
+     *
+     * @param event - объект события
+     * @return - dto объект события отправленного на доработку администратором
+     */
+    public EventRevisionDto toEventRevisionDto(Event event) {
+        return EventRevisionDto.builder()
+                .annotation(event.getAnnotation())
+                .category(CategoryMapper.toDto(event.getCategory()))
+                .createdOn(event.getCreatedOn().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+                .eventDate(event.getEventDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+                .description(event.getDescription())
+                .title(event.getTitle())
+                .paid(event.isPaid())
+                .participantLimit(event.getParticipantLimit())
+                .requestModeration(event.isRequestModeration())
+                .id(event.getId())
+                .state(event.getState())
+                .adminComment(event.getAdminComment())
                 .build();
     }
 }

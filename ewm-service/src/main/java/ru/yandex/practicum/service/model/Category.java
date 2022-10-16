@@ -4,6 +4,9 @@ import lombok.*;
 
 import javax.persistence.*;
 
+/**
+ * класс категорий
+ */
 @Entity
 @Builder
 @Getter

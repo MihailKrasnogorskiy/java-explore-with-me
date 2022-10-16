@@ -134,7 +134,9 @@ public class EventUsersServiceImpl implements EventUsersService {
         if (dto.getTitle() != null) {
             event.setTitle(dto.getTitle());
         }
-        event.setState(EventState.PENDING);
+        if (!event.getState().equals(EventState.REVISION)) {
+            event.setState(EventState.PENDING);
+        }
         EventFullDto fullDto = eventMapper.toEventFullDto(eventRepository.save(event));
         log.info("Событие с id = {} изменено согласно данным {}", dto.getEventId(), dto);
         return fullDto;
@@ -190,6 +192,14 @@ public class EventUsersServiceImpl implements EventUsersService {
         ParticipationRequestDto dto = RequestMapper.toDto(requestRepository.save(request));
         log.info("Запрос с id = {} отклонён", reqId);
         return dto;
+    }
+
+    @Override
+    public List<EventRevisionDto> findAllRevision(long userId) {
+        validateUserId(userId);
+        return eventRepository.findAllByInitiatorIdAndState(userId, EventState.REVISION).stream()
+                .map(eventMapper::toEventRevisionDto)
+                .collect(Collectors.toList());
     }
 
     /**

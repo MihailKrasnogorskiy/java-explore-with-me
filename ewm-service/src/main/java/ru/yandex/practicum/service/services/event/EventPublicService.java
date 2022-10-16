@@ -2,6 +2,7 @@ package ru.yandex.practicum.service.services.event;
 
 import ru.yandex.practicum.service.model.SortMethod;
 import ru.yandex.practicum.service.model.dto.EventFullDto;
+import ru.yandex.practicum.service.model.dto.FeedbackPostCreateDto;
 
 import java.util.List;
 
@@ -33,4 +34,5 @@ public interface EventPublicService {
      * @return - полный dto объект события
      */
     EventFullDto findById(long eventId);
+
 }

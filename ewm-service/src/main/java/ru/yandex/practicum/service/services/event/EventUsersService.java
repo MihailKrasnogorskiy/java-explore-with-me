@@ -81,4 +81,12 @@ public interface EventUsersService {
      * @return - dto объект запроса
      */
     ParticipationRequestDto rejectRequest(long userId, long eventId, long reqId);
+
+    /**
+     * получение списка событий отправленных на доработку администратором
+     *
+     * @param userId - id пользователя
+     * @return - список событий отправленных на доработку администратором
+     */
+    List<EventRevisionDto> findAllRevision(long userId);
 }

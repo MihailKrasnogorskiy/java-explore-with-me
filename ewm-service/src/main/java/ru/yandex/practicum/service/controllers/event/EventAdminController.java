@@ -37,6 +37,17 @@ public class EventAdminController {
     }
 
     /**
+     * отправление события на доработку
+     *
+     * @param eventId - id события
+     * @param comment - комментарий администратора
+     */
+    @PatchMapping("{eventId}/revision")
+    public void revision(@Positive @PathVariable long eventId, @RequestBody String comment) {
+        service.revision(eventId, comment);
+    }
+
+    /**
      * отклонение события
      *
      * @param eventId - id события
@@ -46,7 +57,6 @@ public class EventAdminController {
     public EventFullDto reject(@Positive @PathVariable long eventId) {
         return service.reject(eventId);
     }
-
     /**
      * обновление события администратором
      *
@@ -79,7 +89,6 @@ public class EventAdminController {
                                       @RequestParam(required = false) String rangeEnd,
                                       @PositiveOrZero @RequestParam(name = "from", defaultValue = "0") Integer from,
                                       @Positive @RequestParam(name = "size", defaultValue = "10") Integer size) {
-
 
         return service.findAll(users, states, categories, rangeStart, rangeEnd, from, size);
     }

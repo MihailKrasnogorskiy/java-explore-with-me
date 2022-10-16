@@ -3,6 +3,9 @@ package ru.yandex.practicum.service.model.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+/**
+ * класс dto для создания нового события
+ */
 @Data
 @AllArgsConstructor
 public class NewEventDto {

@@ -10,7 +10,7 @@ import ru.yandex.practicum.service.exceptions.EmailUsedException;
 import ru.yandex.practicum.service.exceptions.NotFoundException;
 import ru.yandex.practicum.service.model.OffsetLimitPageable;
 import ru.yandex.practicum.service.model.User;
-import ru.yandex.practicum.service.model.dto.UserCreateDto;
+import ru.yandex.practicum.service.model.dto.NewUserRequest;
 import ru.yandex.practicum.service.model.dto.UserDto;
 import ru.yandex.practicum.service.model.mappers.UserMapper;
 import ru.yandex.practicum.service.repositoryes.UserRepository;
@@ -34,7 +34,7 @@ public class UserAdminServiceImpl implements UserAdminService {
 
     @Override
     @Transactional
-    public UserDto createUser(UserCreateDto dto) {
+    public UserDto createUser(NewUserRequest dto) {
         validateUserEmail(dto.getEmail());
         User user = userRepository.save(UserMapper.toUser(dto));
         log.info("Создан объект пользователя {} ", user);
