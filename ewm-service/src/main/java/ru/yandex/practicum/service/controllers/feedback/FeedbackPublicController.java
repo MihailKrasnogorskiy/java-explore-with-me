@@ -7,7 +7,6 @@ import ru.yandex.practicum.service.model.dto.FeedbackPostCreateDto;
 import ru.yandex.practicum.service.model.dto.FeedbackPostPublicDto;
 import ru.yandex.practicum.service.services.feedback.FeedbackService;
 
-import javax.validation.Valid;
 import java.util.List;
 
 /**

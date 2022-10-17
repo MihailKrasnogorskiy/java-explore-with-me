@@ -49,7 +49,7 @@ public class CategoryAdminServiceImpl implements CategoryAdminService {
             log.info("Категория с id = {} была обновлена, новое имя - {}", categoryDto.getId(), categoryDto.getName());
             return categoryDto;
         } else {
-            throw new NotFoundException("Категория с id = " + dto.getId() + " не найдена");
+            throw new NotFoundException(String.format("Категория с id = '%s' не найдена", dto.getId()));
         }
     }
 
@@ -64,7 +64,7 @@ public class CategoryAdminServiceImpl implements CategoryAdminService {
                 throw new CategoryUsedException(id);
             }
         } else {
-            throw new NotFoundException("Категория с id = " + id + " не найдена");
+            throw new NotFoundException(String.format("Категория с id = '%s' не найдена", id));
         }
     }
 }

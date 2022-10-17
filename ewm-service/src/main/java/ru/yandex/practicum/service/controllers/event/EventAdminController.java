@@ -1,6 +1,7 @@
 package ru.yandex.practicum.service.controllers.event;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.service.model.EventState;
 import ru.yandex.practicum.service.model.dto.AdminUpdateEventRequest;
@@ -16,6 +17,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping(path = "/admin/events")
+@Validated
 public class EventAdminController {
 
     private final EventAdminService service;
@@ -57,6 +59,7 @@ public class EventAdminController {
     public EventFullDto reject(@Positive @PathVariable long eventId) {
         return service.reject(eventId);
     }
+
     /**
      * обновление события администратором
      *

@@ -39,7 +39,7 @@ public class CategoryPublicServiceImpl implements CategoryPublicService {
         if (categoryRepository.existsById(id)) {
             return CategoryMapper.toDto(categoryRepository.findById(id).get());
         } else {
-            throw new NotFoundException("Категория с id = " + id + " не найдена");
+            throw new NotFoundException(String.format("Категория с id = '%s' не найдена", id));
         }
     }
 }

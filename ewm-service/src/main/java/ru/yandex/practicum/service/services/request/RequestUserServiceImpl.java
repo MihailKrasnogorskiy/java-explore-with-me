@@ -41,7 +41,7 @@ public class RequestUserServiceImpl implements RequestUserService {
     @Transactional
     public ParticipationRequestDto create(long userId, long eventId) {
         Event event = eventRepository.findById(eventId).orElseThrow(() ->
-                new NotFoundException("Событие с id = " + eventId + " не найдено"));
+                new NotFoundException(String.format("Событие с id = '%s' не найдено", eventId)));
         if (event.getInitiator().getId() == userId) {
             throw new EventOwnerValidationException(userId, eventId, " ");
         }
@@ -58,7 +58,7 @@ public class RequestUserServiceImpl implements RequestUserService {
         ParticipationRequest request = ParticipationRequest.builder()
                 .created(LocalDateTime.now())
                 .requester(userRepository.findById(userId).orElseThrow(() ->
-                        new NotFoundException("Пользователь с id " + userId + " не найден.")))
+                        new NotFoundException(String.format("Пользователь с id '%s' не найден.", userId))))
                 .event(event)
                 .status(RequestStatus.PENDING)
                 .build();
@@ -79,7 +79,7 @@ public class RequestUserServiceImpl implements RequestUserService {
     public ParticipationRequestDto cancel(long userId, long requestId) {
         validateUserId(userId);
         ParticipationRequest request = requestRepository.findById(requestId).orElseThrow(() ->
-                new NotFoundException("Заявка с id = " + requestId + " не найдена"));
+                new NotFoundException(String.format("Заявка с id = '%s' не найдена", requestId)));
         if (!requestRepository.existsByIdAndRequesterId(requestId, userId)) {
             throw new RequestOwnerValidationException(userId, requestId);
         }
@@ -104,7 +104,7 @@ public class RequestUserServiceImpl implements RequestUserService {
      */
     private void validateUserId(long userId) {
         if (!userRepository.existsById(userId)) {
-            throw new NotFoundException("Пользователь с id " + userId + " не найден.");
+            throw new NotFoundException(String.format("Пользователь с id '%s' не найден.", userId));
         }
     }
 

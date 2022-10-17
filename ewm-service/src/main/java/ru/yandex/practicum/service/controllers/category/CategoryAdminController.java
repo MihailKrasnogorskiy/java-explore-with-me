@@ -1,18 +1,18 @@
 package ru.yandex.practicum.service.controllers.category;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.service.model.dto.CategoryDto;
 import ru.yandex.practicum.service.model.dto.NewCategoryDto;
 import ru.yandex.practicum.service.services.category.CategoryAdminService;
-
-import javax.validation.Valid;
 
 /**
  * класс контроллера категорий для администраторов
  */
 @RestController
 @RequestMapping(path = "/admin/categories")
+@Validated
 public class CategoryAdminController {
     private final CategoryAdminService service;
 
@@ -28,7 +28,7 @@ public class CategoryAdminController {
      * @return - dto объект категории
      */
     @PostMapping()
-    public CategoryDto createCategory(@Valid @RequestBody NewCategoryDto dto) {
+    public CategoryDto createCategory(@RequestBody NewCategoryDto dto) {
         return service.createCategory(dto);
     }
 
@@ -40,7 +40,7 @@ public class CategoryAdminController {
      * @return - dto объект категории
      */
     @PatchMapping()
-    public CategoryDto updateCategory(@Valid @RequestBody CategoryDto dto) {
+    public CategoryDto updateCategory(@RequestBody CategoryDto dto) {
         return service.updateCategory(dto);
     }
 

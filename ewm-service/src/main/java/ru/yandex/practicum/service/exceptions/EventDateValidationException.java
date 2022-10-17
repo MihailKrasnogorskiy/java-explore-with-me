@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(HttpStatus.FORBIDDEN)
 public class EventDateValidationException extends ForbiddenException {
     public EventDateValidationException(int lag) {
-        super("Событие не может быть создано, изменено или опубликовано менее чем за " + lag + " час(а) до его начала");
+        super(String.format(
+                "Событие не может быть создано, изменено или опубликовано менее чем за '%s' час(а) до его начала", lag));
     }
 }

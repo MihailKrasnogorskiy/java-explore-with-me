@@ -1,11 +1,11 @@
 package ru.yandex.practicum.service.controllers.event;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.service.model.dto.*;
 import ru.yandex.practicum.service.services.event.EventUsersService;
 
-import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
@@ -15,6 +15,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/users/{userId}/events")
+@Validated
 public class EventUsersController {
 
     private final EventUsersService service;
@@ -32,7 +33,7 @@ public class EventUsersController {
      * @return - dto объект созданного события
      */
     @PostMapping()
-    public EventFullDto createEvent(@Positive @PathVariable long userId, @Valid @RequestBody NewEventDto dto) {
+    public EventFullDto createEvent(@Positive @PathVariable long userId, @RequestBody NewEventDto dto) {
         return service.createEvent(userId, dto);
     }
 
@@ -51,6 +52,7 @@ public class EventUsersController {
 
     /**
      * получение списка событий отправленных на доработку администратором
+     *
      * @param userId - id пользователя
      * @return - список событий отправленных на доработку администратором
      */

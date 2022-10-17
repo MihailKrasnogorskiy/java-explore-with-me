@@ -71,7 +71,7 @@ public class UserAdminServiceImpl implements UserAdminService {
 
     public void validateUserId(long id) {
         if (!userRepository.existsById(id)) {
-            throw new NotFoundException("Пользователь с id " + id + " не найден");
+            throw new NotFoundException(String.format("Пользователь с id '%s' не найден.", id));
         }
     }
 

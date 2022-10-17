@@ -55,7 +55,7 @@ public class CompilationPublicServiceImpl implements CompilationPublicService {
      */
     private void validateCompilationId(long compId) {
         if (!compilationRepository.existsById(compId)) {
-            throw new NotFoundException("Подборка с id = " + compId + " не найдена");
+            throw new NotFoundException(String.format("Подборка с id = '%s' не найдена", compId));
         }
     }
 }

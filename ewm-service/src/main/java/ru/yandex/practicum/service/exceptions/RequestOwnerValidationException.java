@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(HttpStatus.FORBIDDEN)
 public class RequestOwnerValidationException extends ForbiddenException {
     public RequestOwnerValidationException(long userId, long requestId) {
-        super("Пользователь с id = " + userId + " не создавал запрос с id = " + requestId);
+        super(String.format("Пользователь с id = '%s' не создавал запрос с id = '%s'", userId, requestId));
     }
 }

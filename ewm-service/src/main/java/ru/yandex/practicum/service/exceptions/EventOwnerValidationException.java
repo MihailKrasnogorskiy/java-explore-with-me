@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(HttpStatus.FORBIDDEN)
 public class EventOwnerValidationException extends ForbiddenException {
     public EventOwnerValidationException(long userId, long eventId, String s) {
-        super("Пользователь с id = " + userId + s + "инициатором события с id =" + eventId);
+        super(String.format("Пользователь с id = '%s' '%s'инициатором события с id = '%s'", userId, s, eventId));
     }
 }

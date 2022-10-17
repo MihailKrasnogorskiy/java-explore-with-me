@@ -81,7 +81,7 @@ public class EventPublicServiceImpl implements EventPublicService {
     @Override
     public EventFullDto findById(long eventId) {
         Event event = eventRepository.findByIdAndState(eventId, EventState.PUBLISHED).orElseThrow(() ->
-                new NotFoundException("Событие с id = " + " не найдено."));
+                new NotFoundException(String.format("Событие с id = '%s' не найдено", eventId)));
         List<Event> eventsWithoutViews = new ArrayList<>();
         eventsWithoutViews.add(event);
         List<Event> events = statisticService.getStatistic(eventsWithoutViews);

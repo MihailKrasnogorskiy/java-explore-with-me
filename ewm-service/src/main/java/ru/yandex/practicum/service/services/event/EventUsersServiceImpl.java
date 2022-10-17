@@ -108,7 +108,7 @@ public class EventUsersServiceImpl implements EventUsersService {
         }
         if (dto.getCategory() != null) {
             event.setCategory(categoryRepository.findById(dto.getCategory()).orElseThrow(() ->
-                    new NotFoundException("Категория с id = " + dto.getCategory() + " не найдена")));
+                    new NotFoundException(String.format("Категория с id = '%s' не найдена", dto.getCategory()))));
         }
         if (dto.getDescription() != null) {
             event.setDescription(dto.getDescription());
@@ -136,7 +136,9 @@ public class EventUsersServiceImpl implements EventUsersService {
         }
         if (!event.getState().equals(EventState.REVISION)) {
             event.setState(EventState.PENDING);
-        } else {event.setState(EventState.RESEND);}
+        } else {
+            event.setState(EventState.RESEND);
+        }
         EventFullDto fullDto = eventMapper.toEventFullDto(eventRepository.save(event));
         log.info("Событие с id = {} изменено согласно данным {}", dto.getEventId(), dto);
         return fullDto;
@@ -153,7 +155,7 @@ public class EventUsersServiceImpl implements EventUsersService {
                     .map(RequestMapper::toDto)
                     .collect(Collectors.toList());
         } else {
-            throw new NotFoundException("Событие с id " + eventId + " не найдено.");
+            throw new NotFoundException(String.format("Событие с id = '%s' не найдено", eventId));
         }
     }
 
@@ -162,7 +164,7 @@ public class EventUsersServiceImpl implements EventUsersService {
     public ParticipationRequestDto confirmRequest(long userId, long eventId, long reqId) {
         validateUserId(userId);
         ParticipationRequest request = requestRepository.findById(reqId).orElseThrow(() ->
-                new NotFoundException("Запрос с id = " + reqId + " не найден."));
+                new NotFoundException(String.format("Запрос с id = '%s' не найден.", reqId)));
         if (!eventRepository.existsByIdAndInitiatorId(eventId, userId)) {
             throw new EventOwnerValidationException(userId, eventId, " не является ");
         }
@@ -184,7 +186,7 @@ public class EventUsersServiceImpl implements EventUsersService {
     public ParticipationRequestDto rejectRequest(long userId, long eventId, long reqId) {
         validateUserId(userId);
         ParticipationRequest request = requestRepository.findById(reqId).orElseThrow(() ->
-                new NotFoundException("Запрос с id = " + reqId + " не найден."));
+                new NotFoundException(String.format("Запрос с id = '%s' не найден.", reqId)));
         if (!eventRepository.existsByIdAndInitiatorId(eventId, userId)) {
             throw new EventOwnerValidationException(userId, eventId, " не является ");
         }
@@ -209,7 +211,7 @@ public class EventUsersServiceImpl implements EventUsersService {
      */
     private void validateUserId(long userId) {
         if (!userRepository.existsById(userId)) {
-            throw new NotFoundException("Пользователь с id " + userId + " не найден.");
+            throw new NotFoundException(String.format("Пользователь с id '%s' не найден.", userId));
         }
     }
 

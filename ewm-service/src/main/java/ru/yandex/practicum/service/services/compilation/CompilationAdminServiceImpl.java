@@ -26,7 +26,9 @@ public class CompilationAdminServiceImpl implements CompilationAdminService {
     private final CompilationEventStorage compilationEventStorage;
 
     @Autowired
-    public CompilationAdminServiceImpl(CompilationMapper compilationMapper, EventRepository eventRepository, CompilationRepository compilationRepository, CompilationEventStorage compilationEventStorage) {
+    public CompilationAdminServiceImpl(CompilationMapper compilationMapper, EventRepository eventRepository,
+                                       CompilationRepository compilationRepository,
+                                       CompilationEventStorage compilationEventStorage) {
         this.compilationMapper = compilationMapper;
         this.eventRepository = eventRepository;
         this.compilationRepository = compilationRepository;
@@ -79,7 +81,8 @@ public class CompilationAdminServiceImpl implements CompilationAdminService {
             compilationEventStorage.deleteEvent(compId, eventId);
             log.info("Из подборки с id = {} удалено событие с id = {}", compId, eventId);
         } else {
-            throw new NotFoundException("В подборке id = " + compId + " событие id = " + eventId + " не найдено");
+            throw new NotFoundException(String.format("В подборке id = '%s' событие id = '%s' не найдено", compId,
+                    eventId));
         }
     }
 
@@ -94,7 +97,7 @@ public class CompilationAdminServiceImpl implements CompilationAdminService {
             log.info("В подборку с id = {} добавлено событие с id = {}", compId, eventId);
         } else {
             throw new NotFoundException("В подборке id = " + compId + " событие id = " + eventId + " уже добавлено");
-        }
+        } //TODO подумать над типом выбрасываемого исключения и статусом
     }
 
     /**
@@ -104,7 +107,7 @@ public class CompilationAdminServiceImpl implements CompilationAdminService {
      */
     private void validateEventId(long eventId) {
         if (!eventRepository.existsById(eventId)) {
-            throw new NotFoundException("Событие с id = " + eventId + " не найдено");
+            throw new NotFoundException(String.format("Событие с id = '%s' не найдено", eventId));
         }
     }
 
@@ -115,7 +118,7 @@ public class CompilationAdminServiceImpl implements CompilationAdminService {
      */
     private void validateCompilationId(long compId) {
         if (!compilationRepository.existsById(compId)) {
-            throw new NotFoundException("Подборка с id = " + compId + " не найдена");
+            throw new NotFoundException(String.format("Подборка с id = '%s' не найдена", compId));
         }
     }
 }

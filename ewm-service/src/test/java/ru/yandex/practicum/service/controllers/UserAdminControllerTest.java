@@ -26,14 +26,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
- * тестовый класс контроллера администраторов
+ * тестовый класс контроллера пользователей для администраторов
  */
 
 @SpringBootTest
 @ActiveProfiles("test")
 @AutoConfigureMockMvc
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class AdminControllerTest {
+class UserAdminControllerTest {
 
     @Autowired
     ObjectMapper mapper;

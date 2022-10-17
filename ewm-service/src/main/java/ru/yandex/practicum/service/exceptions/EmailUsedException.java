@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(HttpStatus.CONFLICT)
 public class EmailUsedException extends ConflictException {
     public EmailUsedException(String email) {
-        super("Пользователь с email " + email + " уже зарегистрирован");
+        super(String.format("Пользователь с email '%s' уже зарегистрирован", email));
     }
 }

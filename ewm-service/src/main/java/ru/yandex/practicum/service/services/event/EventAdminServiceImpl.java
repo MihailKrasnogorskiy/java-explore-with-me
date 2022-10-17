@@ -81,7 +81,7 @@ public class EventAdminServiceImpl implements EventAdminService {
         }
         if (dto.getCategory() != null) {
             event.setCategory(categoryRepository.findById(dto.getCategory()).orElseThrow(() ->
-                    new NotFoundException("Категория с id = " + dto.getCategory() + " не найдена")));
+                    new NotFoundException(String.format("Категория с id = '%s' не найдена", dto.getCategory()))));
         }
         if (dto.getDescription() != null) {
             event.setDescription(dto.getDescription());
@@ -139,6 +139,6 @@ public class EventAdminServiceImpl implements EventAdminService {
      */
     private Event getEventById(long eventId) {
         return eventRepository.findById(eventId).orElseThrow(() ->
-                new NotFoundException("Событие с id = " + eventId + " не найдено"));
+                new NotFoundException(String.format("Событие с id = '%s' не найдено", eventId)));
     }
 }

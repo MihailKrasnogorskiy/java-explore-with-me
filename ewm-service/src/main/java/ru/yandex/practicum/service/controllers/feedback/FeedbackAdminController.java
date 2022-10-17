@@ -1,10 +1,12 @@
 package ru.yandex.practicum.service.controllers.feedback;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.service.model.dto.FeedbackPostAdminDto;
 import ru.yandex.practicum.service.services.feedback.FeedbackService;
 
+import javax.validation.constraints.Positive;
 import java.util.List;
 
 /**
@@ -12,6 +14,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/admin/feedback")
+@Validated
 public class FeedbackAdminController {
     private final FeedbackService service;
 
@@ -27,17 +30,18 @@ public class FeedbackAdminController {
      * @return - список сообщений обратной связи
      */
     @GetMapping()
-    public List<FeedbackPostAdminDto> findAllFeedback(@RequestParam(name = "days", defaultValue = "1") Integer days) {
+    public List<FeedbackPostAdminDto> findAllFeedback(@Positive @RequestParam(name = "days", defaultValue = "1") Integer days) {
         return service.findAllFeedback(days);
     }
 
     /**
      * одобрение публикации сообщения обратной связи
+     *
      * @param id - id сообщения обратной связи
      * @return dto объект сообщения обратной связи
      */
     @PatchMapping("/{id}")
-    public FeedbackPostAdminDto publishFeedbackPost(@PathVariable long id){
+    public FeedbackPostAdminDto publishFeedbackPost(@Positive @PathVariable long id) {
         return service.publishFeedbackPost(id);
     }
 
@@ -47,7 +51,7 @@ public class FeedbackAdminController {
      * @param id - id сообщения обратной связи
      */
     @DeleteMapping("/{id}")
-    public void deleteFeedbackPost(@PathVariable long id){
+    public void deleteFeedbackPost(@Positive @PathVariable long id) {
         service.deleteFeedbackPost(id);
     }
 }

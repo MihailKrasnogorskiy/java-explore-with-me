@@ -1,6 +1,7 @@
 package ru.yandex.practicum.service.controllers.category;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.service.model.dto.CategoryDto;
 import ru.yandex.practicum.service.services.category.CategoryPublicService;
@@ -14,6 +15,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/categories")
+@Validated
 public class CategoryPublicController {
 
     private final CategoryPublicService service;

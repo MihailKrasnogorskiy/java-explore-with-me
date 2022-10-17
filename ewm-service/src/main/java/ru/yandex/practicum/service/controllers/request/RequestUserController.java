@@ -1,6 +1,7 @@
 package ru.yandex.practicum.service.controllers.request;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.service.model.dto.ParticipationRequestDto;
 import ru.yandex.practicum.service.services.request.RequestUserService;
@@ -13,6 +14,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/users/{userId}/requests")
+@Validated
 public class RequestUserController {
 
     private final RequestUserService service;

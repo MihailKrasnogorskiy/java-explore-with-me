@@ -1,6 +1,7 @@
 package ru.yandex.practicum.service.controllers.compilation;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.service.model.dto.CompilationDto;
 import ru.yandex.practicum.service.services.compilation.CompilationPublicService;
@@ -14,6 +15,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/compilations")
+@Validated
 public class CompilationPublicController {
     private final CompilationPublicService service;
 

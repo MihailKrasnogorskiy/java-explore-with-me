@@ -1,6 +1,7 @@
 package ru.yandex.practicum.service.controllers.event;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.service.client.StatClient;
 import ru.yandex.practicum.service.exceptions.EventUnknownSortException;
@@ -21,6 +22,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/events")
+@Validated
 public class EventPublicController {
 
     private final EventPublicService service;

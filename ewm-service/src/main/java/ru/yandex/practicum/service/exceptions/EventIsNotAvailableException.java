@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(HttpStatus.FORBIDDEN)
 public class EventIsNotAvailableException extends ForbiddenException {
     public EventIsNotAvailableException(long eventId) {
-        super("На событие с id = " + eventId + " достигнут лимит участников");
+        super(String.format("На событие с id = '%s' достигнут лимит участников", eventId));
     }
 }

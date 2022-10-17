@@ -1,12 +1,12 @@
 package ru.yandex.practicum.service.controllers.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.service.model.dto.NewUserRequest;
 import ru.yandex.practicum.service.model.dto.UserDto;
 import ru.yandex.practicum.service.services.user.UserAdminService;
 
-import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
@@ -16,6 +16,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping(path = "/admin/users")
+@Validated
 public class UserAdminController {
 
     private final UserAdminService service;
@@ -32,7 +33,7 @@ public class UserAdminController {
      * @return - полный dto объект пользователя
      */
     @PostMapping()
-    public UserDto createUser(@Valid @RequestBody NewUserRequest dto) {
+    public UserDto createUser(@RequestBody NewUserRequest dto) {
         return service.createUser(dto);
     }
 

@@ -15,7 +15,7 @@ public interface FeedbackService {
      *
      * @param dto - объект для создания сообщения обратной связи
      */
-    public void createFeedbackPost(FeedbackPostCreateDto dto);
+    void createFeedbackPost(FeedbackPostCreateDto dto);
 
     /**
      * запрос списка сообщений обратной связи для публикации на сайте

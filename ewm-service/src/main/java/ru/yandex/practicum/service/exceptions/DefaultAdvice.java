@@ -1,5 +1,6 @@
 package ru.yandex.practicum.service.exceptions;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -14,10 +15,12 @@ import java.util.Arrays;
  * контроллер обработки исключений
  */
 @RestControllerAdvice
+@Slf4j
 public class DefaultAdvice {
 
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<ApiError> handleException(NotFoundException e) {
+        log.error(e.getMessage());
         ApiError apiError = new ApiError();
         apiError.setMessage(e.getMessage());
         apiError.setReason("Запрашиваемый объект не найден");
@@ -31,6 +34,7 @@ public class DefaultAdvice {
 
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<ApiError> handleException(ConstraintViolationException e) {
+        log.error(e.getMessage());
         ApiError apiError = new ApiError();
         apiError.setMessage(e.getMessage());
         apiError.setReason("Запрос составлен с ошибкой");
@@ -44,6 +48,7 @@ public class DefaultAdvice {
 
     @ExceptionHandler(ConflictException.class)
     public ResponseEntity<ApiError> handleException(ConflictException e) {
+        log.error(e.getMessage());
         ApiError apiError = new ApiError();
         apiError.setMessage(e.getMessage());
         apiError.setReason("Запрос приводит к нарушению целостности данных");
@@ -57,6 +62,7 @@ public class DefaultAdvice {
 
     @ExceptionHandler(ForbiddenException.class)
     public ResponseEntity<ApiError> handleException(ForbiddenException e) {
+        log.error(e.getMessage());
         ApiError apiError = new ApiError();
         apiError.setMessage(e.getMessage());
         apiError.setReason("Не выполнены условия для совершения операции");
@@ -70,6 +76,7 @@ public class DefaultAdvice {
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<Object> handleRuntimeException(RuntimeException e) {
+        log.error(e.getMessage());
         ApiError apiError = new ApiError();
         apiError.setMessage(e.getMessage());
         apiError.setReason("Внутренняя ошибка сервера");

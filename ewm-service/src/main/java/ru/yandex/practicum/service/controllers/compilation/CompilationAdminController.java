@@ -1,6 +1,7 @@
 package ru.yandex.practicum.service.controllers.compilation;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.service.model.dto.CompilationDto;
 import ru.yandex.practicum.service.model.dto.NewCompilationDto;
@@ -13,6 +14,7 @@ import javax.validation.constraints.Positive;
  */
 @RestController
 @RequestMapping(path = "/admin/compilations")
+@Validated
 public class CompilationAdminController {
 
     private final CompilationAdminService service;
