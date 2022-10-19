@@ -1,9 +1,9 @@
-package ru.yandex.practicum.service.repositoryes;
+package ru.yandex.practicum.service.repositories;
 
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 import ru.yandex.practicum.service.model.ParticipationRequest;
+import ru.yandex.practicum.service.model.RequestStatus;
 
 import java.util.List;
 import java.util.Optional;
@@ -63,8 +63,7 @@ public interface RequestRepository extends CrudRepository<ParticipationRequest, 
      * @param status  - статус заявки
      * @return - количество заявок
      */
-    @Query(value = "SELECT COUNT(r.id) FROM requests AS r WHERE r.id = ?1 AND r.status LIKE ?2", nativeQuery = true)
-    int countAllByEventIdAndStatus(long eventId, String status);
+    int countByEventIdAndStatus(long eventId, RequestStatus status);
 
     /**
      * получение списка запросов на участие в событии
@@ -73,6 +72,6 @@ public interface RequestRepository extends CrudRepository<ParticipationRequest, 
      * @param status  - игнорируемый статус заявки
      * @return - список заявок
      */
-    @Query(value = "SELECT * FROM requests AS r WHERE r.id = ?1 AND r.status NOT LIKE ?2", nativeQuery = true)
-    List<ParticipationRequest> findAllByEventIdAndNotStatus(long eventId, String status);
+  //  @Query(value = "SELECT * FROM requests AS r WHERE r.id = ?1 AND r.status = 2", nativeQuery = true)
+    List<ParticipationRequest> findByEventIdAndStatusNot(long eventId, RequestStatus status);
 }

@@ -1,4 +1,4 @@
-package ru.yandex.practicum.service.repositoryes;
+package ru.yandex.practicum.service.repositories;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;

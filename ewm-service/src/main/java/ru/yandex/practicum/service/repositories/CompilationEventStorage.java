@@ -1,4 +1,4 @@
-package ru.yandex.practicum.service.repositoryes;
+package ru.yandex.practicum.service.repositories;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;

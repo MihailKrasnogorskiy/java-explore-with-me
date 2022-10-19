@@ -9,9 +9,9 @@ import ru.yandex.practicum.service.model.Compilation;
 import ru.yandex.practicum.service.model.dto.CompilationDto;
 import ru.yandex.practicum.service.model.dto.NewCompilationDto;
 import ru.yandex.practicum.service.model.mappers.CompilationMapper;
-import ru.yandex.practicum.service.repositoryes.CompilationEventStorage;
-import ru.yandex.practicum.service.repositoryes.CompilationRepository;
-import ru.yandex.practicum.service.repositoryes.EventRepository;
+import ru.yandex.practicum.service.repositories.CompilationEventStorage;
+import ru.yandex.practicum.service.repositories.CompilationRepository;
+import ru.yandex.practicum.service.repositories.EventRepository;
 
 /**
  * сервис контроллера подборок для администраторов
@@ -22,7 +22,6 @@ public class CompilationAdminServiceImpl implements CompilationAdminService {
     private final CompilationMapper compilationMapper;
     private final EventRepository eventRepository;
     private final CompilationRepository compilationRepository;
-
     private final CompilationEventStorage compilationEventStorage;
 
     @Autowired
@@ -97,7 +96,7 @@ public class CompilationAdminServiceImpl implements CompilationAdminService {
             log.info("В подборку с id = {} добавлено событие с id = {}", compId, eventId);
         } else {
             throw new NotFoundException("В подборке id = " + compId + " событие id = " + eventId + " уже добавлено");
-        } //TODO подумать над типом выбрасываемого исключения и статусом
+        }
     }
 
     /**

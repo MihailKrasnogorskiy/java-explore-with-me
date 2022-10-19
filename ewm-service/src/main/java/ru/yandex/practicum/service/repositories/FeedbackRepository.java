@@ -1,7 +1,7 @@
-package ru.yandex.practicum.service.repositoryes;
+package ru.yandex.practicum.service.repositories;
 
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import ru.yandex.practicum.service.model.FeedbackPost;
 
 import java.time.LocalDateTime;
@@ -10,9 +10,9 @@ import java.util.List;
 /**
  * репозиторий сообщений обратной связи
  */
-@Component
+@Repository
 public interface FeedbackRepository extends CrudRepository<FeedbackPost, Long> {
-    List<FeedbackPost> findAllByPublish(boolean isPublish);
+    List<FeedbackPost> findAllByIsPublish(Boolean isPublish);
 
     List<FeedbackPost> findAllByCreatedAfter(LocalDateTime from);
 }

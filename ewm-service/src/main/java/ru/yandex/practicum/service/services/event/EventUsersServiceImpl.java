@@ -12,10 +12,10 @@ import ru.yandex.practicum.service.model.*;
 import ru.yandex.practicum.service.model.dto.*;
 import ru.yandex.practicum.service.model.mappers.EventMapper;
 import ru.yandex.practicum.service.model.mappers.RequestMapper;
-import ru.yandex.practicum.service.repositoryes.CategoryRepository;
-import ru.yandex.practicum.service.repositoryes.EventRepository;
-import ru.yandex.practicum.service.repositoryes.RequestRepository;
-import ru.yandex.practicum.service.repositoryes.UserRepository;
+import ru.yandex.practicum.service.repositories.CategoryRepository;
+import ru.yandex.practicum.service.repositories.EventRepository;
+import ru.yandex.practicum.service.repositories.RequestRepository;
+import ru.yandex.practicum.service.repositories.UserRepository;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -174,9 +174,9 @@ public class EventUsersServiceImpl implements EventUsersService {
         request.setStatus(RequestStatus.CONFIRMED);
         ParticipationRequestDto dto = RequestMapper.toDto(requestRepository.save(request));
         log.info("Запрос с id = {} подтверждён", reqId);
-        if (eventRepository.findParticipantLimitById(eventId) == requestRepository.countAllByEventIdAndStatus(eventId,
-                RequestStatus.CONFIRMED.toString()) && eventRepository.findParticipantLimitById(eventId) != 0) {
-            requestRepository.findAllByEventIdAndNotStatus(eventId, RequestStatus.CONFIRMED.toString())
+        if (eventRepository.findParticipantLimitById(eventId) == requestRepository.countByEventIdAndStatus(eventId,
+                RequestStatus.CONFIRMED) && eventRepository.findParticipantLimitById(eventId) != 0) {
+            requestRepository.findByEventIdAndStatusNot(eventId, RequestStatus.CONFIRMED)
                     .forEach(r -> r.setStatus(RequestStatus.CANCELED));
         }
         return dto;
@@ -235,7 +235,7 @@ public class EventUsersServiceImpl implements EventUsersService {
      */
     private boolean isEventAvailable(long eventId) {
         return (eventRepository.findParticipantLimitById(eventId) - requestRepository
-                .countAllByEventIdAndStatus(eventId, RequestStatus.CONFIRMED.toString()) > 0) ||
+                .countByEventIdAndStatus(eventId, RequestStatus.CONFIRMED) > 0) ||
                 eventRepository.findParticipantLimitById(eventId) == 0;
     }
 }

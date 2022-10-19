@@ -7,6 +7,7 @@ import ru.yandex.practicum.service.model.dto.NewUserRequest;
 import ru.yandex.practicum.service.model.dto.UserDto;
 import ru.yandex.practicum.service.services.user.UserAdminService;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
@@ -33,7 +34,7 @@ public class UserAdminController {
      * @return - полный dto объект пользователя
      */
     @PostMapping()
-    public UserDto createUser(@RequestBody NewUserRequest dto) {
+    public UserDto createUser(@Valid @RequestBody NewUserRequest dto) {
         return service.createUser(dto);
     }
 
@@ -43,7 +44,7 @@ public class UserAdminController {
      * @param id - id пользователя
      */
     @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable long id) {
+    public void deleteUser(@Positive @PathVariable long id) {
         service.deleteUser(id);
     }
 
@@ -57,7 +58,7 @@ public class UserAdminController {
      */
 
     @GetMapping()
-    public List<UserDto> findUsers(@RequestParam List<Long> ids,
+    public List<UserDto> findUsers(@RequestParam(required = false) List<Long> ids,
                                    @PositiveOrZero @RequestParam(name = "from", defaultValue = "0") Integer from,
                                    @Positive @RequestParam(name = "size", defaultValue = "10") Integer size) {
         return service.findUsers(ids, from, size);

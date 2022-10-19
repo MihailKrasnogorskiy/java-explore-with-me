@@ -12,9 +12,9 @@ import ru.yandex.practicum.service.model.EventState;
 import ru.yandex.practicum.service.model.dto.AdminUpdateEventRequest;
 import ru.yandex.practicum.service.model.dto.EventFullDto;
 import ru.yandex.practicum.service.model.mappers.EventMapper;
-import ru.yandex.practicum.service.repositoryes.CategoryRepository;
-import ru.yandex.practicum.service.repositoryes.EventCustomCriteriaRepository;
-import ru.yandex.practicum.service.repositoryes.EventRepository;
+import ru.yandex.practicum.service.repositories.CategoryRepository;
+import ru.yandex.practicum.service.repositories.EventCustomCriteriaRepository;
+import ru.yandex.practicum.service.repositories.EventRepository;
 import ru.yandex.practicum.service.services.StatisticService;
 
 import java.time.LocalDateTime;

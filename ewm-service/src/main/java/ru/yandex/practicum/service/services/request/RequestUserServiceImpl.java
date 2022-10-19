@@ -11,9 +11,9 @@ import ru.yandex.practicum.service.model.ParticipationRequest;
 import ru.yandex.practicum.service.model.RequestStatus;
 import ru.yandex.practicum.service.model.dto.ParticipationRequestDto;
 import ru.yandex.practicum.service.model.mappers.RequestMapper;
-import ru.yandex.practicum.service.repositoryes.EventRepository;
-import ru.yandex.practicum.service.repositoryes.RequestRepository;
-import ru.yandex.practicum.service.repositoryes.UserRepository;
+import ru.yandex.practicum.service.repositories.EventRepository;
+import ru.yandex.practicum.service.repositories.RequestRepository;
+import ru.yandex.practicum.service.repositories.UserRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -116,7 +116,7 @@ public class RequestUserServiceImpl implements RequestUserService {
      */
     private boolean isEventAvailable(long eventId) {
         return (eventRepository.findParticipantLimitById(eventId) - requestRepository
-                .countAllByEventIdAndStatus(eventId, RequestStatus.CONFIRMED.toString()) > 0) ||
+                .countByEventIdAndStatus(eventId, RequestStatus.CONFIRMED) > 0) ||
                 eventRepository.findParticipantLimitById(eventId) == 0;
     }
 }

@@ -8,7 +8,7 @@ import ru.yandex.practicum.service.exceptions.NotFoundException;
 import ru.yandex.practicum.service.model.OffsetLimitPageable;
 import ru.yandex.practicum.service.model.dto.CategoryDto;
 import ru.yandex.practicum.service.model.mappers.CategoryMapper;
-import ru.yandex.practicum.service.repositoryes.CategoryRepository;
+import ru.yandex.practicum.service.repositories.CategoryRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;

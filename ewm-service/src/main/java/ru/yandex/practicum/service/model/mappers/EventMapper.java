@@ -10,8 +10,8 @@ import ru.yandex.practicum.service.model.dto.EventFullDto;
 import ru.yandex.practicum.service.model.dto.EventRevisionDto;
 import ru.yandex.practicum.service.model.dto.EventShortDto;
 import ru.yandex.practicum.service.model.dto.NewEventDto;
-import ru.yandex.practicum.service.repositoryes.CategoryRepository;
-import ru.yandex.practicum.service.repositoryes.RequestRepository;
+import ru.yandex.practicum.service.repositories.CategoryRepository;
+import ru.yandex.practicum.service.repositories.RequestRepository;
 import ru.yandex.practicum.service.services.StatisticService;
 
 import java.time.LocalDateTime;
@@ -83,8 +83,8 @@ public class EventMapper {
                 .id(event.getId())
                 .initiator(UserMapper.toShortDto(event.getInitiator()))
                 .state(event.getState())
-                .confirmedRequests(requestRepository.countAllByEventIdAndStatus(event.getId(),
-                        RequestStatus.CONFIRMED.toString()))
+                .confirmedRequests(requestRepository.countByEventIdAndStatus(event.getId(),
+                        RequestStatus.CONFIRMED))
                 .build();
     }
 
@@ -109,8 +109,8 @@ public class EventMapper {
                 .views(event.getViews())
                 .id(event.getId())
                 .initiator(UserMapper.toShortDto(event.getInitiator()))
-                .confirmedRequests(requestRepository.countAllByEventIdAndStatus(event.getId(),
-                        RequestStatus.CONFIRMED.toString()))
+                .confirmedRequests(requestRepository.countByEventIdAndStatus(event.getId(),
+                        RequestStatus.CONFIRMED))
                 .build();
     }
 

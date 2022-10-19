@@ -13,7 +13,7 @@ import ru.yandex.practicum.service.model.User;
 import ru.yandex.practicum.service.model.dto.NewUserRequest;
 import ru.yandex.practicum.service.model.dto.UserDto;
 import ru.yandex.practicum.service.model.mappers.UserMapper;
-import ru.yandex.practicum.service.repositoryes.UserRepository;
+import ru.yandex.practicum.service.repositories.UserRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -52,11 +52,12 @@ public class UserAdminServiceImpl implements UserAdminService {
     @Override
     public List<UserDto> findUsers(List<Long> ids, Integer from, Integer size) {
         Pageable pageable = OffsetLimitPageable.of(from, size, Sort.unsorted());
-        if (ids.isEmpty()) {
+        if (ids==null) {
             return userRepository.findAll(pageable).stream()
                     .map(UserMapper::toDto)
                     .collect(Collectors.toList());
         } else {
+            ids.forEach(this::validateUserId);
             return userRepository.findByIds(ids, pageable).stream()
                     .map(UserMapper::toDto)
                     .collect(Collectors.toList());

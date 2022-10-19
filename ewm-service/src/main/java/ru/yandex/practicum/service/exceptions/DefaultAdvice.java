@@ -3,6 +3,7 @@ package ru.yandex.practicum.service.exceptions;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -46,6 +47,21 @@ public class DefaultAdvice {
         return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
     }
 
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ApiError> handleException(MethodArgumentNotValidException e) {
+        log.error(e.getMessage());
+        ApiError apiError = new ApiError();
+        apiError.setMessage(e.getMessage());
+        apiError.setReason("Запрос составлен с ошибкой");
+        apiError.setStatus("BAD_REQUEST");
+        Arrays.stream(e.getStackTrace())
+                .map(StackTraceElement::toString)
+                .forEach(apiError.getErrors()::add);
+        apiError.setTimestamp(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+        return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(ConflictException.class)
     public ResponseEntity<ApiError> handleException(ConflictException e) {
         log.error(e.getMessage());
@@ -76,6 +92,7 @@ public class DefaultAdvice {
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<Object> handleRuntimeException(RuntimeException e) {
+        e.printStackTrace();
         log.error(e.getMessage());
         ApiError apiError = new ApiError();
         apiError.setMessage(e.getMessage());

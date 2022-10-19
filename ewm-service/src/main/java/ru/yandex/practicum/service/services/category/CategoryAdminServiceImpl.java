@@ -9,9 +9,9 @@ import ru.yandex.practicum.service.exceptions.NotFoundException;
 import ru.yandex.practicum.service.model.dto.CategoryDto;
 import ru.yandex.practicum.service.model.dto.NewCategoryDto;
 import ru.yandex.practicum.service.model.mappers.CategoryMapper;
-import ru.yandex.practicum.service.repositoryes.CategoryRepository;
-import ru.yandex.practicum.service.repositoryes.EventRepository;
-import ru.yandex.practicum.service.repositoryes.UserRepository;
+import ru.yandex.practicum.service.repositories.CategoryRepository;
+import ru.yandex.practicum.service.repositories.EventRepository;
+import ru.yandex.practicum.service.repositories.UserRepository;
 
 /**
  * класс сервиса категорий для администраторов
@@ -56,6 +56,7 @@ public class CategoryAdminServiceImpl implements CategoryAdminService {
     @Override
     @Transactional
     public void deleteCategory(long id) {
+        log.info("{}", id);
         if (categoryRepository.existsById(id)) {
             if (eventRepository.findAllByCategoryId(id).isEmpty()) {
                 categoryRepository.deleteById(id);
@@ -64,7 +65,7 @@ public class CategoryAdminServiceImpl implements CategoryAdminService {
                 throw new CategoryUsedException(id);
             }
         } else {
-            throw new NotFoundException(String.format("Категория с id = '%s' не найдена", id));
+           throw new NotFoundException(String.format("Категория с id = '%s' не найдена", id));
         }
     }
 }

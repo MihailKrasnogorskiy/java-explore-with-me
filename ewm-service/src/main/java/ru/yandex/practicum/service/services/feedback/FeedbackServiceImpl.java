@@ -10,7 +10,7 @@ import ru.yandex.practicum.service.model.dto.FeedbackPostAdminDto;
 import ru.yandex.practicum.service.model.dto.FeedbackPostCreateDto;
 import ru.yandex.practicum.service.model.dto.FeedbackPostPublicDto;
 import ru.yandex.practicum.service.model.mappers.FeedbackPostMapper;
-import ru.yandex.practicum.service.repositoryes.FeedbackRepository;
+import ru.yandex.practicum.service.repositories.FeedbackRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -39,7 +39,7 @@ public class FeedbackServiceImpl implements FeedbackService {
 
     @Override
     public List<FeedbackPostPublicDto> findAllFeedbackForPublish() {
-        return repository.findAllByPublish(true).stream()
+        return repository.findAllByIsPublish(true).stream()
                 .map(FeedbackPostMapper::toPublicDto)
                 .collect(Collectors.toList());
     }

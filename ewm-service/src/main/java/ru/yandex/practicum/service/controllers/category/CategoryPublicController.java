@@ -46,7 +46,7 @@ public class CategoryPublicController {
      * @return - dto объект категории
      */
     @GetMapping("/{id}")
-    public CategoryDto findCategoryById(@PathVariable Long id) {
+    public CategoryDto findCategoryById(@Positive @PathVariable Long id) {
         return service.findCategoryById(id);
     }
 }

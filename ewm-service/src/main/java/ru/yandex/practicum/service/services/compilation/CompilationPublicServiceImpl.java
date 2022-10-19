@@ -8,7 +8,7 @@ import ru.yandex.practicum.service.exceptions.NotFoundException;
 import ru.yandex.practicum.service.model.OffsetLimitPageable;
 import ru.yandex.practicum.service.model.dto.CompilationDto;
 import ru.yandex.practicum.service.model.mappers.CompilationMapper;
-import ru.yandex.practicum.service.repositoryes.CompilationRepository;
+import ru.yandex.practicum.service.repositories.CompilationRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;

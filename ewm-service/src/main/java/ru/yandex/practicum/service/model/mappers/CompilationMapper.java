@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import ru.yandex.practicum.service.model.Compilation;
 import ru.yandex.practicum.service.model.dto.CompilationDto;
 import ru.yandex.practicum.service.model.dto.NewCompilationDto;
-import ru.yandex.practicum.service.repositoryes.EventRepository;
+import ru.yandex.practicum.service.repositories.EventRepository;
 
 import java.util.ArrayList;
 import java.util.HashSet;

@@ -7,6 +7,7 @@ import ru.yandex.practicum.service.model.dto.FeedbackPostCreateDto;
 import ru.yandex.practicum.service.model.dto.FeedbackPostPublicDto;
 import ru.yandex.practicum.service.services.feedback.FeedbackService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -29,8 +30,8 @@ public class FeedbackPublicController {
      *
      * @param dto - объект для создания сообщения обратной связи
      */
-    @PostMapping("/feedback")
-    public void createFeedbackPost(@RequestBody FeedbackPostCreateDto dto) {
+    @PostMapping()
+    public void createFeedbackPost(@Valid @RequestBody FeedbackPostCreateDto dto) {
         service.createFeedbackPost(dto);
     }
 
@@ -39,7 +40,7 @@ public class FeedbackPublicController {
      *
      * @return список сообщений обратной связи для публикации на сайте
      */
-    @GetMapping("/feedback")
+    @GetMapping()
     public List<FeedbackPostPublicDto> findAllFeedback() {
         return service.findAllFeedbackForPublish();
     }

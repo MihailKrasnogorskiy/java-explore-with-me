@@ -17,6 +17,6 @@ public class NewUserRequest {
     @NotBlank
     private String name;
     @Email
-    @NotNull
+    @NotBlank
     private String email;
 }

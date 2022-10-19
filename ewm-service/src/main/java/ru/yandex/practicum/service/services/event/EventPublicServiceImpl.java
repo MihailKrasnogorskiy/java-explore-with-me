@@ -10,9 +10,9 @@ import ru.yandex.practicum.service.model.RequestStatus;
 import ru.yandex.practicum.service.model.SortMethod;
 import ru.yandex.practicum.service.model.dto.EventFullDto;
 import ru.yandex.practicum.service.model.mappers.EventMapper;
-import ru.yandex.practicum.service.repositoryes.EventCustomCriteriaRepository;
-import ru.yandex.practicum.service.repositoryes.EventRepository;
-import ru.yandex.practicum.service.repositoryes.RequestRepository;
+import ru.yandex.practicum.service.repositories.EventCustomCriteriaRepository;
+import ru.yandex.practicum.service.repositories.EventRepository;
+import ru.yandex.practicum.service.repositories.RequestRepository;
 import ru.yandex.practicum.service.services.StatisticService;
 
 import java.time.LocalDateTime;
@@ -96,7 +96,7 @@ public class EventPublicServiceImpl implements EventPublicService {
      */
     private boolean isEventAvailable(long eventId) {
         return (eventRepository.findParticipantLimitById(eventId) - requestRepository
-                .countAllByEventIdAndStatus(eventId, RequestStatus.CONFIRMED.toString()) > 0) ||
+                .countByEventIdAndStatus(eventId, RequestStatus.CONFIRMED) > 0) ||
                 eventRepository.findParticipantLimitById(eventId) == 0;
     }
 }

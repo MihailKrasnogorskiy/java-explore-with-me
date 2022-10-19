@@ -7,6 +7,9 @@ import ru.yandex.practicum.service.model.dto.CategoryDto;
 import ru.yandex.practicum.service.model.dto.NewCategoryDto;
 import ru.yandex.practicum.service.services.category.CategoryAdminService;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Positive;
+
 /**
  * класс контроллера категорий для администраторов
  */
@@ -28,7 +31,7 @@ public class CategoryAdminController {
      * @return - dto объект категории
      */
     @PostMapping()
-    public CategoryDto createCategory(@RequestBody NewCategoryDto dto) {
+    public CategoryDto createCategory(@Valid @RequestBody NewCategoryDto dto) {
         return service.createCategory(dto);
     }
 
@@ -40,7 +43,7 @@ public class CategoryAdminController {
      * @return - dto объект категории
      */
     @PatchMapping()
-    public CategoryDto updateCategory(@RequestBody CategoryDto dto) {
+    public CategoryDto updateCategory(@Valid @RequestBody CategoryDto dto) {
         return service.updateCategory(dto);
     }
 
@@ -50,7 +53,7 @@ public class CategoryAdminController {
      * @param id - id категории
      */
     @DeleteMapping("/{id}")
-    public void deleteCategory(@PathVariable long id) {
+    public void deleteCategory(@Positive @PathVariable long id) {
         service.deleteCategory(id);
     }
 

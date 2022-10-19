@@ -35,6 +35,7 @@ public class FeedbackPostMapper {
     public static FeedbackPostPublicDto toPublicDto(FeedbackPost post) {
         return FeedbackPostPublicDto.builder()
                 .userName(post.getUserName())
+                .post(post.getPost())
                 .created(post.getCreated().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
                 .build();
     }
@@ -49,6 +50,7 @@ public class FeedbackPostMapper {
         return FeedbackPostAdminDto.builder()
                 .id(post.getId())
                 .userName(post.getUserName())
+                .post(post.getPost())
                 .created(post.getCreated().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
                 .isPublish(post.isPublish())
                 .build();
