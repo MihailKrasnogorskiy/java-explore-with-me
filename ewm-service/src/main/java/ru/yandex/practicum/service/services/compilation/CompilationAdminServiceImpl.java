@@ -5,13 +5,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.yandex.practicum.service.exceptions.NotFoundException;
+import ru.yandex.practicum.service.exceptions.RepeatedAddEventException;
 import ru.yandex.practicum.service.model.Compilation;
+import ru.yandex.practicum.service.model.Event;
 import ru.yandex.practicum.service.model.dto.CompilationDto;
 import ru.yandex.practicum.service.model.dto.NewCompilationDto;
 import ru.yandex.practicum.service.model.mappers.CompilationMapper;
-import ru.yandex.practicum.service.repositories.CompilationEventStorage;
 import ru.yandex.practicum.service.repositories.CompilationRepository;
 import ru.yandex.practicum.service.repositories.EventRepository;
+
+import java.util.Set;
 
 /**
  * сервис контроллера подборок для администраторов
@@ -22,16 +25,13 @@ public class CompilationAdminServiceImpl implements CompilationAdminService {
     private final CompilationMapper compilationMapper;
     private final EventRepository eventRepository;
     private final CompilationRepository compilationRepository;
-    private final CompilationEventStorage compilationEventStorage;
 
     @Autowired
     public CompilationAdminServiceImpl(CompilationMapper compilationMapper, EventRepository eventRepository,
-                                       CompilationRepository compilationRepository,
-                                       CompilationEventStorage compilationEventStorage) {
+                                       CompilationRepository compilationRepository) {
         this.compilationMapper = compilationMapper;
         this.eventRepository = eventRepository;
         this.compilationRepository = compilationRepository;
-        this.compilationEventStorage = compilationEventStorage;
     }
 
     @Override
@@ -76,8 +76,12 @@ public class CompilationAdminServiceImpl implements CompilationAdminService {
     public void deleteEvent(long compId, long eventId) {
         validateEventId(eventId);
         validateCompilationId(compId);
-        if (compilationRepository.findById(compId).get().getEvents().contains(eventRepository.findById(eventId).get())) {
-            compilationEventStorage.deleteEvent(compId, eventId);
+        Compilation compilation = compilationRepository.findById(compId).get();
+        Set<Event> events = compilation.getEvents();
+        if (events.contains(eventRepository.findById(eventId).get())) {
+            events.remove(eventRepository.findById(eventId).get());
+            compilation.setEvents(events);
+            compilationRepository.save(compilation);
             log.info("Из подборки с id = {} удалено событие с id = {}", compId, eventId);
         } else {
             throw new NotFoundException(String.format("В подборке id = '%s' событие id = '%s' не найдено", compId,
@@ -90,12 +94,15 @@ public class CompilationAdminServiceImpl implements CompilationAdminService {
     public void addEvent(long compId, long eventId) {
         validateEventId(eventId);
         validateCompilationId(compId);
-        if (!compilationRepository.findById(compId).get().getEvents()
-                .contains(eventRepository.findById(eventId).get())) {
-            compilationEventStorage.addEvent(compId, eventId);
+        Compilation compilation = compilationRepository.findById(compId).get();
+        Set<Event> events = compilation.getEvents();
+        if (!events.contains(eventRepository.findById(eventId).get())) {
+            events.add(eventRepository.findById(eventId).get());
+            compilation.setEvents(events);
+            compilationRepository.save(compilation);
             log.info("В подборку с id = {} добавлено событие с id = {}", compId, eventId);
         } else {
-            throw new NotFoundException("В подборке id = " + compId + " событие id = " + eventId + " уже добавлено");
+            throw new RepeatedAddEventException();
         }
     }
 

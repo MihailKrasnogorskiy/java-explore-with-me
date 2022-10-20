@@ -7,6 +7,7 @@ import ru.yandex.practicum.service.model.dto.CompilationDto;
 import ru.yandex.practicum.service.model.dto.NewCompilationDto;
 import ru.yandex.practicum.service.services.compilation.CompilationAdminService;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 
 /**
@@ -31,7 +32,7 @@ public class CompilationAdminController {
      * @return - dto объект подборки
      */
     @PostMapping()
-    public CompilationDto create(@RequestBody NewCompilationDto dto) {
+    public CompilationDto create(@Valid @RequestBody NewCompilationDto dto) {
         return service.create(dto);
     }
 
@@ -41,7 +42,7 @@ public class CompilationAdminController {
      * @param compId - id подборки
      */
     @DeleteMapping("{compId}")
-    public void delete(@PathVariable @Positive long compId) {
+    public void delete(@Positive @PathVariable long compId) {
         service.delete(compId);
     }
 
@@ -51,7 +52,7 @@ public class CompilationAdminController {
      * @param compId - id подборки
      */
     @DeleteMapping("{compId}/pin")
-    public void deletePin(@PathVariable @Positive long compId) {
+    public void deletePin(@Positive @PathVariable long compId) {
         service.deletePin(compId);
     }
 
@@ -61,7 +62,7 @@ public class CompilationAdminController {
      * @param compId - id подборки
      */
     @PatchMapping("{compId}/pin")
-    public void pinned(@PathVariable @Positive long compId) {
+    public void pinned(@Positive @PathVariable long compId) {
         service.pinned(compId);
     }
 
@@ -72,7 +73,7 @@ public class CompilationAdminController {
      * @param eventId - id события
      */
     @DeleteMapping("{compId}/events/{eventId}")
-    public void deleteEvent(@PathVariable @Positive long compId, @PathVariable @Positive long eventId) {
+    public void deleteEvent(@Positive @PathVariable long compId, @Positive @PathVariable long eventId) {
         service.deleteEvent(compId, eventId);
     }
 
@@ -83,7 +84,7 @@ public class CompilationAdminController {
      * @param eventId - id события
      */
     @PatchMapping("{compId}/events/{eventId}")
-    public void addEvent(@PathVariable @Positive long compId, @PathVariable @Positive long eventId) {
+    public void addEvent(@Positive @PathVariable long compId, @Positive @PathVariable long eventId) {
         service.addEvent(compId, eventId);
     }
 }

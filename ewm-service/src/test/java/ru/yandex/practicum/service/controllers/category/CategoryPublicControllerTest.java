@@ -1,6 +1,7 @@
 package ru.yandex.practicum.service.controllers.category;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -93,6 +94,7 @@ class CategoryPublicControllerTest {
      * очистка окружения и сброс счётчика в таблице
      */
     @BeforeEach
+    @AfterAll
     void clearEnvironment() {
         String query = "ALTER TABLE categories ALTER COLUMN id RESTART WITH 1";
         jdbcTemplate.update(query);

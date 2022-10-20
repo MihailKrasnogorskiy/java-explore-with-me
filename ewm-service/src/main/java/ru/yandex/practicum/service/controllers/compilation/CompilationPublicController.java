@@ -46,7 +46,7 @@ public class CompilationPublicController {
      * @return - dto объект подборки
      */
     @GetMapping("/{compId}")
-    public CompilationDto findById(@PathVariable Long compId) {
+    public CompilationDto findById(@Positive @PathVariable Long compId) {
         return service.findById(compId);
     }
 }

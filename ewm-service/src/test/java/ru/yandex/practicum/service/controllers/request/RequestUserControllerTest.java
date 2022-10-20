@@ -1,6 +1,7 @@
 package ru.yandex.practicum.service.controllers.request;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -41,7 +42,6 @@ class RequestUserControllerTest {
     private MockMvc mockMvc;
     @Autowired
     private JdbcTemplate jdbcTemplate;
-
     @Autowired
     private CategoryRepository categoryRepository;
     @Autowired
@@ -92,7 +92,7 @@ class RequestUserControllerTest {
 
     @Test
     @Transactional
-    void create() throws Exception {
+    void test14_create() throws Exception {
         createEnvironment();
         this.mockMvc.perform(post("/users/2/requests?eventId=1"))
                 .andExpect(status().isOk())
@@ -152,7 +152,7 @@ class RequestUserControllerTest {
 
     @Test
     @Transactional
-    void cancel() throws Exception {
+    void test15_cancel() throws Exception {
         createEnvironment();
         this.mockMvc.perform(post("/users/2/requests?eventId=1"))
                 .andExpect(status().isOk())
@@ -185,7 +185,7 @@ class RequestUserControllerTest {
 
     @Test
     @Transactional
-    void findAllByRequesterId() throws Exception {
+    void test16_findAllByRequesterId() throws Exception {
         createEnvironment();
         this.mockMvc.perform(post("/users/2/requests?eventId=1"))
                 .andExpect(status().isOk())
@@ -225,6 +225,7 @@ class RequestUserControllerTest {
      * очистка окружения и сброс счётчика в таблицах
      */
     @BeforeEach
+    @AfterAll
     void clearEnvironment() {
         String query = "ALTER TABLE categories ALTER COLUMN id RESTART WITH 1";
         jdbcTemplate.update(query);
