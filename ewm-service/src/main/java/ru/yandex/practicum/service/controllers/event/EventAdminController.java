@@ -39,17 +39,6 @@ public class EventAdminController {
     }
 
     /**
-     * отправление события на доработку
-     *
-     * @param eventId - id события
-     * @param comment - комментарий администратора
-     */
-    @PatchMapping("{eventId}/revision")
-    public void revision(@Positive @PathVariable long eventId, @RequestBody String comment) {
-        service.revision(eventId, comment);
-    }
-
-    /**
      * отклонение события
      *
      * @param eventId - id события

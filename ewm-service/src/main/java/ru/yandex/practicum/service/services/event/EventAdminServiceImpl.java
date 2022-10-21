@@ -102,6 +102,14 @@ public class EventAdminServiceImpl implements EventAdminService {
         if (dto.getTitle() != null) {
             event.setTitle(dto.getTitle());
         }
+        if (dto.getAdminComment() != null) {
+            if (!event.getState().equals(EventState.PENDING)) {
+                throw new EventStateValidationException("Нельзя отправить на доработку событие не ожидающее модерации");
+            }
+            event.setState(EventState.REVISION);
+            event.setAdminComment(dto.getAdminComment());
+            log.info("Событие с id = {} отправлено на доработку", eventId);
+        }
         EventFullDto fullDto = eventMapper.toEventFullDto(eventRepository.save(event));
         log.info("Событие с id = {} изменено согласно данным {}", eventId, dto);
         return fullDto;
@@ -110,25 +118,19 @@ public class EventAdminServiceImpl implements EventAdminService {
     @Override
     public List<EventFullDto> findAll(List<Long> users, List<EventState> states, List<Long> categories,
                                       String rangeStart, String rangeEnd, Integer from, Integer size) {
-        LocalDateTime start = LocalDateTime.parse(rangeStart, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-        LocalDateTime end = LocalDateTime.parse(rangeEnd, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        LocalDateTime start = null;
+        LocalDateTime end = null;
+        if (rangeStart != null) {
+            start = LocalDateTime.parse(rangeStart, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        }
+        if (rangeEnd != null) {
+            end = LocalDateTime.parse(rangeEnd, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        }
         List<Event> events = criteriaRepository.findAll(null, categories, null, start, end, from, size, users, states);
         List<Event> eventsWithViews = statisticService.getStatistic(events);
         return eventsWithViews.stream()
                 .map(eventMapper::toEventFullDto)
                 .collect(Collectors.toList());
-    }
-
-    @Override
-    @Transactional
-    public void revision(long eventId, String comment) {
-        Event event = getEventById(eventId);
-        if (!event.getState().equals(EventState.PENDING)) {
-            throw new EventStateValidationException("Нельзя отправить на доработку событие не ожидающее модерации");
-        }
-        event.setState(EventState.REVISION);
-        event.setAdminComment(comment);
-        log.info("Событие с id = {} отправлено на доработку", eventId);
     }
 
     /**

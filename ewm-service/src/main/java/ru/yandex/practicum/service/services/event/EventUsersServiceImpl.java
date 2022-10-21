@@ -7,7 +7,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.yandex.practicum.service.exceptions.*;
+import ru.yandex.practicum.service.exceptions.EventDateValidationException;
+import ru.yandex.practicum.service.exceptions.EventOwnerValidationException;
+import ru.yandex.practicum.service.exceptions.EventStateValidationException;
+import ru.yandex.practicum.service.exceptions.NotFoundException;
 import ru.yandex.practicum.service.model.*;
 import ru.yandex.practicum.service.model.dto.*;
 import ru.yandex.practicum.service.model.mappers.EventMapper;
@@ -85,7 +88,7 @@ public class EventUsersServiceImpl implements EventUsersService {
     public EventFullDto cancelEvent(long userId, long eventId) {
         validateUserId(userId);
         Event event = getEventByIdWhereUserIsOwner(userId, eventId);
-        if (event.getState().equals(EventState.PENDING)) {
+        if (event.getState().equals(EventState.PENDING) || event.getState().equals(EventState.REVISION)) {
             event.setState(EventState.CANCELED);
             eventRepository.save(event);
             log.info("Событие с id = {} было отменено", eventId);
@@ -99,7 +102,6 @@ public class EventUsersServiceImpl implements EventUsersService {
     public EventFullDto update(long userId, UpdateEventRequest dto) {
         validateUserId(userId);
         Event event = getEventByIdWhereUserIsOwner(userId, dto.getEventId());
-        System.out.println(event.getState() + "время  " + event.getEventDate());
         if (event.getState().equals(EventState.PUBLISHED)) {
             throw new EventStateValidationException();
         }
@@ -147,10 +149,10 @@ public class EventUsersServiceImpl implements EventUsersService {
     @Override
     public List<ParticipationRequestDto> findAllRequestsByEventId(long userId, long eventId) {
         validateUserId(userId);
-        if (!eventRepository.existsByIdAndInitiatorId(eventId, userId)) {
-            throw new EventOwnerValidationException(userId, eventId, " не является ");
-        }
         if (eventRepository.existsById(eventId)) {
+            if (!eventRepository.existsByIdAndInitiatorId(eventId, userId)) {
+                throw new EventOwnerValidationException(userId, eventId, " не является ");
+            }
             return requestRepository.findAllByEventId(eventId).stream()
                     .map(RequestMapper::toDto)
                     .collect(Collectors.toList());
@@ -167,9 +169,6 @@ public class EventUsersServiceImpl implements EventUsersService {
                 new NotFoundException(String.format("Запрос с id = '%s' не найден.", reqId)));
         if (!eventRepository.existsByIdAndInitiatorId(eventId, userId)) {
             throw new EventOwnerValidationException(userId, eventId, " не является ");
-        }
-        if (!isEventAvailable(eventId)) {
-            throw new EventIsNotAvailableException(eventId);
         }
         request.setStatus(RequestStatus.CONFIRMED);
         ParticipationRequestDto dto = RequestMapper.toDto(requestRepository.save(request));
@@ -223,19 +222,10 @@ public class EventUsersServiceImpl implements EventUsersService {
      * @return - объект события
      */
     private Event getEventByIdWhereUserIsOwner(long userId, long eventId) {
+        if (!eventRepository.existsById(eventId)) {
+            throw new NotFoundException(String.format("Событие с id '%s' не найден.", eventId));
+        }
         return eventRepository.findByIdAndInitiatorId(eventId, userId).orElseThrow(() ->
                 new EventOwnerValidationException(userId, eventId, " не является "));
-    }
-
-    /**
-     * проверка возможности участия в событии
-     *
-     * @param eventId - id события
-     * @return boolean
-     */
-    private boolean isEventAvailable(long eventId) {
-        return (eventRepository.findParticipantLimitById(eventId) - requestRepository
-                .countByEventIdAndStatus(eventId, RequestStatus.CONFIRMED) > 0) ||
-                eventRepository.findParticipantLimitById(eventId) == 0;
     }
 }

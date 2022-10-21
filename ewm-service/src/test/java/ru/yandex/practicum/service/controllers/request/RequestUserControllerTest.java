@@ -209,7 +209,6 @@ class RequestUserControllerTest {
         this.mockMvc.perform(get("/users/10/requests"))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.reason", is("Запрашиваемый объект не найден"), String.class));
-
     }
 
     private void createEnvironment() {

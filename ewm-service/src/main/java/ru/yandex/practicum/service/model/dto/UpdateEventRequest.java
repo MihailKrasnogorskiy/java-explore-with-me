@@ -1,5 +1,7 @@
 package ru.yandex.practicum.service.model.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,6 +12,8 @@ import javax.validation.constraints.Positive;
  */
 @Data
 @NoArgsConstructor
+@Builder
+@AllArgsConstructor
 public class UpdateEventRequest {
     @Positive
     private long eventId;

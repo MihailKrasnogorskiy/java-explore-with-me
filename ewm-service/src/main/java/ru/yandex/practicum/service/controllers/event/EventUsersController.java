@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.service.model.dto.*;
 import ru.yandex.practicum.service.services.event.EventUsersService;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
@@ -33,7 +34,7 @@ public class EventUsersController {
      * @return - dto объект созданного события
      */
     @PostMapping()
-    public EventFullDto createEvent(@Positive @PathVariable long userId, @RequestBody NewEventDto dto) {
+    public EventFullDto createEvent(@Positive @PathVariable long userId, @Valid @RequestBody NewEventDto dto) {
         return service.createEvent(userId, dto);
     }
 
@@ -98,7 +99,7 @@ public class EventUsersController {
      * @return - полный dto объект события
      */
     @PatchMapping()
-    public EventFullDto update(@Positive @PathVariable long userId, @RequestBody UpdateEventRequest dto) {
+    public EventFullDto update(@Positive @PathVariable long userId,@Valid @RequestBody UpdateEventRequest dto) {
         return service.update(userId, dto);
     }
 
@@ -109,7 +110,7 @@ public class EventUsersController {
      * @return - список запросов
      */
     @GetMapping("{eventId}/requests")
-    public List<ParticipationRequestDto> findAllByRequesterId(@Positive @PathVariable long userId,
+    public List<ParticipationRequestDto> findAllRequestsByEventId(@Positive @PathVariable long userId,
                                                               @Positive @PathVariable long eventId) {
         return service.findAllRequestsByEventId(userId, eventId);
     }

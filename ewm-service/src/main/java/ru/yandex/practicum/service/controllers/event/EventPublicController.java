@@ -56,7 +56,7 @@ public class EventPublicController {
                                       @RequestParam(required = false) String rangeStart,
                                       @RequestParam(required = false) String rangeEnd,
                                       @RequestParam(defaultValue = "false") Boolean onlyAvailable,
-                                      @RequestParam(required = false) SortMethod sortMethod,
+                                      @RequestParam(required = false, name = "sort") SortMethod sortMethod,
                                       @PositiveOrZero @RequestParam(name = "from", defaultValue = "0") Integer from,
                                       @Positive @RequestParam(name = "size", defaultValue = "10") Integer size,
                                       HttpServletRequest request) {

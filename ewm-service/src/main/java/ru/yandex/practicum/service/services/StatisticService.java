@@ -1,5 +1,7 @@
 package ru.yandex.practicum.service.services;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +18,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -57,28 +58,39 @@ public class StatisticService {
                 .map(Event::getId)
                 .map(String::valueOf)
                 .collect(Collectors.toList());
-        ResponseEntity<Object> response = client.getStats(codeStart, codeEnd, eventIds, false);
-        List<ViewStats> stats = new ArrayList<>();
-        if (response.getStatusCode().is2xxSuccessful()) {
+        ResponseEntity<String> response = client.getStats(codeStart, codeEnd, eventIds, false);
 
-            List<Map<String, Object>> body = (List<Map<String, Object>>) response.getBody();
-            if (body != null && body.size() > 0) {
-                for (Map<String, Object> s : body) {
-                    ViewStats viewStats = ViewStats.builder()
-                            .app(s.get("app").toString())
-                            .uri(s.get("uri").toString())
-                            .hits(((Number) s.get("hits")).longValue())
-                            .build();
-                    stats.add(viewStats);
-                }
+        if (response.getStatusCode().is2xxSuccessful()) {
+            System.out.println();
+            System.out.println();
+            System.out.println();
+            System.out.println();
+            System.out.println(response.getBody());
+            System.out.println();
+            System.out.println();
+            System.out.println();
+            System.out.println();
+            String body = response.getBody();
+
+            List<ViewStats> stats = new ArrayList<>();
+
+
+            try {
+                stats.addAll(mapper.readValue(body, new TypeReference<List<ViewStats>>() {
+                }));
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
             }
-        }
-        if (!stats.isEmpty()) {
-            for (int i = 0; i < stats.size(); i++) {
-                events.get(i).setViews(stats.get(i).getHits());
+
+
+            if (!stats.isEmpty()) {
+                for (int i = 0; i < stats.size(); i++) {
+                    events.get(i).setViews(stats.get(i).getHits());
+                }
             }
         }
         return events;
     }
-
 }
+
+

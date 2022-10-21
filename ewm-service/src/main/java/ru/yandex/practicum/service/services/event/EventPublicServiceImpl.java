@@ -50,8 +50,14 @@ public class EventPublicServiceImpl implements EventPublicService {
     public List<EventFullDto> findAll(String text, List<Long> categories, Boolean paid, String rangeStart,
                                       String rangeEnd, Boolean onlyAvailable, SortMethod sortMethod, Integer from,
                                       Integer size) {
-        LocalDateTime start = LocalDateTime.parse(rangeStart, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-        LocalDateTime end = LocalDateTime.parse(rangeEnd, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        LocalDateTime start = null;
+        LocalDateTime end = null;
+        if (rangeStart != null) {
+            start = LocalDateTime.parse(rangeStart, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        }
+        if (rangeEnd != null) {
+            end = LocalDateTime.parse(rangeEnd, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        }
         List<EventState> states = new ArrayList<>();
         states.add(EventState.PUBLISHED);
         List<Event> eventsWithOutViews = criteriaRepository.findAll(text, categories, paid, start, end, from, size,

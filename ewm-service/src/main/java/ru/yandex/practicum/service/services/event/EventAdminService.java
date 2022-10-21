@@ -50,11 +50,4 @@ public interface EventAdminService {
     List<EventFullDto> findAll(List<Long> users, List<EventState> states, List<Long> categories, String rangeStart,
                                String rangeEnd, Integer from, Integer size);
 
-    /**
-     * отправление события на доработку
-     *
-     * @param eventId - id события
-     * @param comment - комментарий администратора
-     */
-    void revision(long eventId, String comment);
 }

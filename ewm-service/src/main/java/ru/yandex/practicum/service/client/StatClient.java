@@ -1,12 +1,15 @@
 package ru.yandex.practicum.service.client;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.DefaultUriBuilderFactory;
+import ru.yandex.practicum.service.exceptions.HttpClientException;
 import ru.yandex.practicum.service.model.dto.EndpointHitDto;
 
 import java.util.List;
@@ -17,24 +20,42 @@ import java.util.Map;
  */
 
 @Service
-public class StatClient extends BaseClient {
+public class StatClient {
+    private final RestTemplate restTemplate;
+    private final ObjectMapper objectMapper;
+    private String baseUrl;
+
     @Autowired
-    public StatClient(@Value("${statistics.url}") String serverUrl, RestTemplateBuilder builder) {
-        super(
-                builder
-                        .uriTemplateHandler(new DefaultUriBuilderFactory(serverUrl))
-                        .requestFactory(HttpComponentsClientHttpRequestFactory::new)
-                        .build()
-        );
+    public StatClient(@Value("${statistics.url}") String baseUrl, RestTemplateBuilder builder,
+                      ObjectMapper objectMapper) {
+        this.baseUrl = baseUrl;
+        this.restTemplate = builder
+                .uriTemplateHandler(new DefaultUriBuilderFactory(baseUrl))
+                .requestFactory(HttpComponentsClientHttpRequestFactory::new)
+                .defaultHeader("Accept", "application/json")
+                .defaultHeader("Content-Type", "application/json")
+                .build();
+        this.objectMapper = objectMapper;
     }
 
 
-    public ResponseEntity<Object> createHit(EndpointHitDto hit) {
-        return post("/hit", hit);
+    public void createHit(EndpointHitDto hit) {
+        String postPath = "/hit";
+        ResponseEntity<String> response = restTemplate.postForEntity(postPath, hit, String.class);
+
+        if (!response.getStatusCode().is2xxSuccessful()) {
+            throw new HttpClientException(String.format("Stats server response code is %d, error: %s",
+                    response.getStatusCode().value(), response.getBody()));
+        }
     }
 
-    public ResponseEntity<Object> getStats(String start, String end, List<String> uris, Boolean unique) {
+    public ResponseEntity<String> getStats(String start, String end, List<String> uris, Boolean unique) {
         StringBuilder sb = new StringBuilder();
+        sb.append("/stats?start=")
+                .append(start)
+                .append("&end=")
+                .append(end)
+                .append("&uris=");
         if (!uris.isEmpty()) {
             sb.append("/events/");
             sb.append(uris.get(0));
@@ -42,14 +63,10 @@ public class StatClient extends BaseClient {
                     .skip(1)
                     .forEach(u -> sb.append(",/events/").append(u));
         }
-
-        Map<String, Object> parameters = Map.of(
-                "start", start,
-                "end", end,
-                "uris", String.valueOf(sb),
-                "unique", unique.toString()
-        );
-        return get("/stats?start={start}&end={end}&uris={uris}&unique={unique}", parameters);
+        sb.append("&unique=")
+                .append(unique);
+        String getPath = sb.toString();
+        return restTemplate.getForEntity(getPath, String.class);
     }
 
 }
