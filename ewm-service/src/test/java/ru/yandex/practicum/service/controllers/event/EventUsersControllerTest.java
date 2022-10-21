@@ -93,6 +93,17 @@ class EventUsersControllerTest {
     @Test
     @Transactional
     void test25_createEvent() throws Exception {
+        List<ViewStats> views = new ArrayList<>();
+        ViewStats viewStat1 = ViewStats.builder()
+                .uri("test1")
+                .app("service")
+                .hits(1L)
+                .build();
+        views.add(viewStat1);
+
+        Mockito
+                .when(statClient.getStats(Mockito.anyString(), Mockito.anyString(), Mockito.anyList(), Mockito.anyBoolean()))
+                .thenReturn(new ResponseEntity<>(mapper.writeValueAsString(views), HttpStatus.OK));
         this.mockMvc.perform(post("/users/1/events").content(mapper.writeValueAsString(createDto))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -124,6 +135,17 @@ class EventUsersControllerTest {
     @Test
     @Transactional
     void test26_getEventByIdWhereUserIsOwner() throws Exception {
+        List<ViewStats> views = new ArrayList<>();
+        ViewStats viewStat1 = ViewStats.builder()
+                .uri("test1")
+                .app("service")
+                .hits(1L)
+                .build();
+        views.add(viewStat1);
+
+        Mockito
+                .when(statClient.getStats(Mockito.anyString(), Mockito.anyString(), Mockito.anyList(), Mockito.anyBoolean()))
+                .thenReturn(new ResponseEntity<>(mapper.writeValueAsString(views), HttpStatus.OK));
         this.mockMvc.perform(post("/users/1/events").content(mapper.writeValueAsString(createDto))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -158,6 +180,17 @@ class EventUsersControllerTest {
     @Test
     @Transactional
     void test27_getAllRevision() throws Exception {
+        List<ViewStats> views = new ArrayList<>();
+        ViewStats viewStat1 = ViewStats.builder()
+                .uri("test1")
+                .app("service")
+                .hits(1L)
+                .build();
+        views.add(viewStat1);
+
+        Mockito
+                .when(statClient.getStats(Mockito.anyString(), Mockito.anyString(), Mockito.anyList(), Mockito.anyBoolean()))
+                .thenReturn(new ResponseEntity<>(mapper.writeValueAsString(views), HttpStatus.OK));
         this.mockMvc.perform(post("/users/1/events").content(mapper.writeValueAsString(createDto))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -286,6 +319,17 @@ class EventUsersControllerTest {
     @Test
     @Transactional
     void test29_cancelEvent() throws Exception {
+        List<ViewStats> views = new ArrayList<>();
+        ViewStats viewStat1 = ViewStats.builder()
+                .uri("test1")
+                .app("service")
+                .hits(1L)
+                .build();
+        views.add(viewStat1);
+
+        Mockito
+                .when(statClient.getStats(Mockito.anyString(), Mockito.anyString(), Mockito.anyList(), Mockito.anyBoolean()))
+                .thenReturn(new ResponseEntity<>(mapper.writeValueAsString(views), HttpStatus.OK));
         this.mockMvc.perform(post("/users/1/events").content(mapper.writeValueAsString(createDto))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -325,6 +369,17 @@ class EventUsersControllerTest {
     @ArgumentsSource(UpdateArgumentsProvider.class)
     @Transactional
     void test30_update(UpdateEventRequest updateDto) throws Exception {
+        List<ViewStats> views = new ArrayList<>();
+        ViewStats viewStat1 = ViewStats.builder()
+                .uri("test1")
+                .app("service")
+                .hits(1L)
+                .build();
+        views.add(viewStat1);
+
+        Mockito
+                .when(statClient.getStats(Mockito.anyString(), Mockito.anyString(), Mockito.anyList(), Mockito.anyBoolean()))
+                .thenReturn(new ResponseEntity<>(mapper.writeValueAsString(views), HttpStatus.OK));
         this.mockMvc.perform(post("/users/1/events").content(mapper.writeValueAsString(createDto))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -424,6 +479,17 @@ class EventUsersControllerTest {
     @Test
     @Transactional
     void test31_findAllRequestsByEventId() throws Exception {
+        List<ViewStats> views = new ArrayList<>();
+        ViewStats viewStat1 = ViewStats.builder()
+                .uri("test1")
+                .app("service")
+                .hits(1L)
+                .build();
+        views.add(viewStat1);
+
+        Mockito
+                .when(statClient.getStats(Mockito.anyString(), Mockito.anyString(), Mockito.anyList(), Mockito.anyBoolean()))
+                .thenReturn(new ResponseEntity<>(mapper.writeValueAsString(views), HttpStatus.OK));
         createDto.setParticipantLimit(0);
         this.mockMvc.perform(post("/users/1/events").content(mapper.writeValueAsString(createDto))
                         .contentType(MediaType.APPLICATION_JSON))
@@ -472,6 +538,17 @@ class EventUsersControllerTest {
     @Test
     @Transactional
     void test32_confirmRequest() throws Exception {
+        List<ViewStats> views = new ArrayList<>();
+        ViewStats viewStat1 = ViewStats.builder()
+                .uri("test1")
+                .app("service")
+                .hits(1L)
+                .build();
+        views.add(viewStat1);
+
+        Mockito
+                .when(statClient.getStats(Mockito.anyString(), Mockito.anyString(), Mockito.anyList(), Mockito.anyBoolean()))
+                .thenReturn(new ResponseEntity<>(mapper.writeValueAsString(views), HttpStatus.OK));
         createDto.setParticipantLimit(1);
         createDto.setRequestModeration(true);
         this.mockMvc.perform(post("/users/1/events").content(mapper.writeValueAsString(createDto))
@@ -526,6 +603,17 @@ class EventUsersControllerTest {
     @Test
     @Transactional
     void test33_rejectRequest() throws Exception {
+        List<ViewStats> views = new ArrayList<>();
+        ViewStats viewStat1 = ViewStats.builder()
+                .uri("test1")
+                .app("service")
+                .hits(1L)
+                .build();
+        views.add(viewStat1);
+
+        Mockito
+                .when(statClient.getStats(Mockito.anyString(), Mockito.anyString(), Mockito.anyList(), Mockito.anyBoolean()))
+                .thenReturn(new ResponseEntity<>(mapper.writeValueAsString(views), HttpStatus.OK));
         createDto.setParticipantLimit(1);
         createDto.setRequestModeration(true);
         this.mockMvc.perform(post("/users/1/events").content(mapper.writeValueAsString(createDto))

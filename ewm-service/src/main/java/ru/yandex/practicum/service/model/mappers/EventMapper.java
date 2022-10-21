@@ -1,6 +1,5 @@
 package ru.yandex.practicum.service.model.mappers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -64,10 +63,14 @@ public class EventMapper {
     /**
      * создание полного dto объекта события из объекта события
      *
-     * @param event - объект события
+     * @param eventWithoutViews - объект события
      * @return - полный dto объект события
      */
-    public EventFullDto toEventFullDto(Event event) {
+    public EventFullDto toEventFullDto(Event eventWithoutViews) {
+        List<Event> eventsWithoutViews = new ArrayList<>();
+        eventsWithoutViews.add(eventWithoutViews);
+        List<Event> events = statisticService.getStatistic(eventsWithoutViews);
+        Event event = events.get(0);
         return EventFullDto.builder()
                 .annotation(event.getAnnotation())
                 .category(CategoryMapper.toDto(event.getCategory()))

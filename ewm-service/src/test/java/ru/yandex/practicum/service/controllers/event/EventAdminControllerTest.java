@@ -128,6 +128,16 @@ class EventAdminControllerTest {
     @Test
     @Transactional
     void test34_publish() throws Exception {
+        List<ViewStats> views = new ArrayList<>();
+        ViewStats viewStat1 = ViewStats.builder()
+                .uri("test1")
+                .app("service")
+                .hits(1L)
+                .build();
+        views.add(viewStat1);
+        Mockito
+                .when(statClient.getStats(Mockito.anyString(), Mockito.anyString(), Mockito.anyList(), Mockito.anyBoolean()))
+                .thenReturn(new ResponseEntity<>(mapper.writeValueAsString(views), HttpStatus.OK));
         this.mockMvc.perform(patch("/admin/events/1/publish"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", is(1L), Long.class))
@@ -152,6 +162,16 @@ class EventAdminControllerTest {
     @Test
     @Transactional
     void test35_reject() throws Exception {
+        List<ViewStats> views = new ArrayList<>();
+        ViewStats viewStat1 = ViewStats.builder()
+                .uri("test1")
+                .app("service")
+                .hits(1L)
+                .build();
+        views.add(viewStat1);
+        Mockito
+                .when(statClient.getStats(Mockito.anyString(), Mockito.anyString(), Mockito.anyList(), Mockito.anyBoolean()))
+                .thenReturn(new ResponseEntity<>(mapper.writeValueAsString(views), HttpStatus.OK));
         this.mockMvc.perform(patch("/admin/events/1/reject"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", is(1L), Long.class))
@@ -176,6 +196,16 @@ class EventAdminControllerTest {
     @ArgumentsSource(UpdateArgumentsProvider.class)
     @Transactional
     void test36_update(AdminUpdateEventRequest updateDto) throws Exception {
+        List<ViewStats> views = new ArrayList<>();
+        ViewStats viewStat1 = ViewStats.builder()
+                .uri("test1")
+                .app("service")
+                .hits(1L)
+                .build();
+        views.add(viewStat1);
+        Mockito
+                .when(statClient.getStats(Mockito.anyString(), Mockito.anyString(), Mockito.anyList(), Mockito.anyBoolean()))
+                .thenReturn(new ResponseEntity<>(mapper.writeValueAsString(views), HttpStatus.OK));
         this.mockMvc.perform(put("/admin/events/404").content(mapper.writeValueAsString(updateDto))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound())
