@@ -24,6 +24,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import ru.yandex.practicum.service.client.StatClient;
 import ru.yandex.practicum.service.model.*;
+import ru.yandex.practicum.service.model.dto.Location;
 import ru.yandex.practicum.service.model.dto.NewEventDto;
 import ru.yandex.practicum.service.model.dto.UpdateEventRequest;
 import ru.yandex.practicum.service.repositories.CategoryRepository;
@@ -85,6 +86,7 @@ class EventUsersControllerTest {
     private NewEventDto createDto = NewEventDto.builder()
             .annotation("Тестовое событие")
             .category(1)
+            .location(new Location(0.0F,0.0F))
             .description("Описание тестового события")
             .eventDate(LocalDateTime.now().plusDays(2).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
             .title("тест")

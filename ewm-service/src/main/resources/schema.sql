@@ -24,6 +24,8 @@ CREATE TABLE IF NOT EXISTS events
     created            TIMESTAMP WITHOUT TIME ZONE             NOT NULL,
     event_date         TIMESTAMP WITHOUT TIME ZONE             NOT NULL,
     paid               BOOLEAN                                 NOT NULL,
+    lat                FLOAT,
+    lon                FLOAT,
     initiator_id       BIGINT                                  NOT NULL,
     category_id        BIGINT                                  NOT NULL,
     participant_limit  INT,

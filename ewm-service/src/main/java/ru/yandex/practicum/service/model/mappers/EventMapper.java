@@ -6,10 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.yandex.practicum.service.model.Event;
 import ru.yandex.practicum.service.model.EventState;
 import ru.yandex.practicum.service.model.RequestStatus;
-import ru.yandex.practicum.service.model.dto.EventFullDto;
-import ru.yandex.practicum.service.model.dto.EventRevisionDto;
-import ru.yandex.practicum.service.model.dto.EventShortDto;
-import ru.yandex.practicum.service.model.dto.NewEventDto;
+import ru.yandex.practicum.service.model.dto.*;
 import ru.yandex.practicum.service.repositories.CategoryRepository;
 import ru.yandex.practicum.service.repositories.RequestRepository;
 import ru.yandex.practicum.service.services.StatisticService;
@@ -51,6 +48,8 @@ public class EventMapper {
                 .eventDate(LocalDateTime.parse(dto.getEventDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
                 .description(dto.getDescription())
                 .title(dto.getTitle())
+                .lat(dto.getLocation().getLat())
+                .lon(dto.getLocation().getLon())
                 .paid(dto.isPaid())
                 .participantLimit(dto.getParticipantLimit())
                 .requestModeration(dto.isRequestModeration())
@@ -82,6 +81,7 @@ public class EventMapper {
                 .participantLimit(event.getParticipantLimit())
                 .requestModeration(event.isRequestModeration())
                 .views(event.getViews())
+                .location(new Location(event.getLat(), event.getLon()))
                 .publishedOn(event.getPublishedOn() != null ?
                         event.getPublishedOn().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) : null)
                 .id(event.getId())

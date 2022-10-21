@@ -45,5 +45,8 @@ public class Event {
     private EventState state;
     @Column(name = "admin_comment")
     private String adminComment;
-
+    @Column(name = "lat", nullable = false)
+    private Float lat;
+    @Column(name = "lon", nullable = false)
+    private Float lon;
 }

@@ -68,5 +68,4 @@ public class StatClient {
         String getPath = sb.toString();
         return restTemplate.getForEntity(getPath, String.class);
     }
-
 }

@@ -25,4 +25,5 @@ public class EventFullDto {
     private String publishedOn;
     private EventState state;
     private long confirmedRequests;
+    private Location location;
 }

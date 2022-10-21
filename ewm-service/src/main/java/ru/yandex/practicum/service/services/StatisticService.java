@@ -61,28 +61,14 @@ public class StatisticService {
         ResponseEntity<String> response = client.getStats(codeStart, codeEnd, eventIds, false);
 
         if (response.getStatusCode().is2xxSuccessful()) {
-            System.out.println();
-            System.out.println();
-            System.out.println();
-            System.out.println();
-            System.out.println(response.getBody());
-            System.out.println();
-            System.out.println();
-            System.out.println();
-            System.out.println();
             String body = response.getBody();
-
             List<ViewStats> stats = new ArrayList<>();
-
-
             try {
                 stats.addAll(mapper.readValue(body, new TypeReference<List<ViewStats>>() {
                 }));
             } catch (JsonProcessingException e) {
                 throw new RuntimeException(e);
             }
-
-
             if (!stats.isEmpty()) {
                 for (int i = 0; i < stats.size(); i++) {
                     events.get(i).setViews(stats.get(i).getHits());
