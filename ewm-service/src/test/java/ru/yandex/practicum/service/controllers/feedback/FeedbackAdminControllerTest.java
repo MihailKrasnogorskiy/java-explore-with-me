@@ -105,7 +105,7 @@ class FeedbackAdminControllerTest {
     @Test
     @Transactional
     void test12_publishFeedbackPost() throws Exception {
-        this.mockMvc.perform(patch("/admin/feedback/3"))
+        this.mockMvc.perform(patch("/admin/feedback/3/publish"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", is(3L), Long.class))
                 .andExpect(jsonPath("$.userName", is(post3.getUserName()), String.class))
@@ -113,10 +113,10 @@ class FeedbackAdminControllerTest {
                 .andExpect(jsonPath("$.publish", is(true), Boolean.class))
                 .andExpect(jsonPath("$.created", is(post3.getCreated()
                         .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))), String.class));
-        this.mockMvc.perform(patch("/admin/feedback/4"))
+        this.mockMvc.perform(patch("/admin/feedback/4/publish"))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.reason", is("Запрашиваемый объект не найден"), String.class));
-        this.mockMvc.perform(patch("/admin/feedback/0"))
+        this.mockMvc.perform(patch("/admin/feedback/0/publish"))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.reason", is("Запрос составлен с ошибкой"), String.class));
     }
@@ -128,10 +128,10 @@ class FeedbackAdminControllerTest {
         this.mockMvc.perform(delete("/admin/feedback/3"))
                 .andExpect(status().isOk());
         assertFalse(repository.existsById(3L));
-        this.mockMvc.perform(patch("/admin/feedback/3"))
+        this.mockMvc.perform(delete("/admin/feedback/3"))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.reason", is("Запрашиваемый объект не найден"), String.class));
-        this.mockMvc.perform(patch("/admin/feedback/0"))
+        this.mockMvc.perform(delete("/admin/feedback/0"))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.reason", is("Запрос составлен с ошибкой"), String.class));
 

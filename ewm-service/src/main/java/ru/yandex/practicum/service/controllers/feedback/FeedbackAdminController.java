@@ -40,7 +40,7 @@ public class FeedbackAdminController {
      * @param id - id сообщения обратной связи
      * @return dto объект сообщения обратной связи
      */
-    @PatchMapping("/{id}")
+    @PatchMapping("/{id}/publish")
     public FeedbackPostAdminDto publishFeedbackPost(@Positive @PathVariable long id) {
         return service.publishFeedbackPost(id);
     }

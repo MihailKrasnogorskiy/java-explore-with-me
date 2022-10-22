@@ -382,6 +382,12 @@ class EventUsersControllerTest {
         Mockito
                 .when(statClient.getStats(Mockito.anyString(), Mockito.anyString(), Mockito.anyList(), Mockito.anyBoolean()))
                 .thenReturn(new ResponseEntity<>(mapper.writeValueAsString(views), HttpStatus.OK));
+        System.out.println();
+        System.out.println();
+        System.out.println(mapper.writeValueAsString(updateDto));
+        System.out.println();
+        System.out.println();
+
         this.mockMvc.perform(post("/users/1/events").content(mapper.writeValueAsString(createDto))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())

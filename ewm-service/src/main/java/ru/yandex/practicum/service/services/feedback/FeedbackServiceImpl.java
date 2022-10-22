@@ -65,6 +65,9 @@ public class FeedbackServiceImpl implements FeedbackService {
     @Override
     @Transactional
     public void deleteFeedbackPost(long id) {
+        if (!repository.existsById(id)) {
+            throw new NotFoundException(String.format("Сообщение обратной связи с id = '%s' не найдено", id));
+        }
         repository.deleteById(id);
         log.info("Сообщение обратной связи с id {} удалено", id);
     }
