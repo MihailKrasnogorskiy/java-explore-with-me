@@ -86,12 +86,15 @@ class EventUsersControllerTest {
     private NewEventDto createDto = NewEventDto.builder()
             .annotation("Тестовое событие")
             .category(1)
-            .location(new Location(0.0F,0.0F))
+            .location(new Location(0.0F, 0.0F))
             .description("Описание тестового события")
             .eventDate(LocalDateTime.now().plusDays(2).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
             .title("тест")
             .build();
 
+    /**
+     * создание события
+     */
     @Test
     @Transactional
     void test25_createEvent() throws Exception {
@@ -134,6 +137,9 @@ class EventUsersControllerTest {
                 "HH:mm:ss")));
     }
 
+    /**
+     * запрос события по id, где пользователь является инициатором
+     */
     @Test
     @Transactional
     void test26_getEventByIdWhereUserIsOwner() throws Exception {
@@ -179,6 +185,9 @@ class EventUsersControllerTest {
                 .andExpect(jsonPath("$.reason", is("Запрашиваемый объект не найден"), String.class));
     }
 
+    /**
+     * получение пользователем событий отправленных на доработку
+     */
     @Test
     @Transactional
     void test27_getAllRevision() throws Exception {
@@ -259,6 +268,9 @@ class EventUsersControllerTest {
         createDto.setTitle("тест");
     }
 
+    /**
+     * запрос всех событий созданных пользователем
+     */
     @Test
     @Transactional
     void test28_findAllWhereUserIsOwner() throws Exception {
@@ -318,6 +330,9 @@ class EventUsersControllerTest {
         createDto.setTitle("тест");
     }
 
+    /**
+     * отмена события
+     */
     @Test
     @Transactional
     void test29_cancelEvent() throws Exception {
@@ -367,6 +382,11 @@ class EventUsersControllerTest {
                 .andExpect(jsonPath("$.reason", is("Не выполнены условия для совершения операции"), String.class));
     }
 
+    /**
+     * параметризованный тест обновления события
+     *
+     * @param updateDto - dto объект обновления
+     */
     @ParameterizedTest
     @ArgumentsSource(UpdateArgumentsProvider.class)
     @Transactional
@@ -484,6 +504,9 @@ class EventUsersControllerTest {
         }
     }
 
+    /**
+     * поиск всех запросов на участие в событии по id события
+     */
     @Test
     @Transactional
     void test31_findAllRequestsByEventId() throws Exception {
@@ -543,6 +566,9 @@ class EventUsersControllerTest {
                 .andExpect(jsonPath("$.reason", is("Запрашиваемый объект не найден"), String.class));
     }
 
+    /**
+     * подтверждение запроса на участие в событии
+     */
     @Test
     @Transactional
     void test32_confirmRequest() throws Exception {
@@ -608,6 +634,9 @@ class EventUsersControllerTest {
                 .andExpect(jsonPath("$.reason", is("Запрашиваемый объект не найден"), String.class));
     }
 
+    /**
+     * отклонение запроса на участие в событии
+     */
     @Test
     @Transactional
     void test33_rejectRequest() throws Exception {
@@ -684,6 +713,9 @@ class EventUsersControllerTest {
         jdbcTemplate.update(query);
     }
 
+    /**
+     * класс для создания объектов обновления к тесту обновления события
+     */
     static class UpdateArgumentsProvider implements ArgumentsProvider {
         @Override
         public Stream<? extends Arguments> provideArguments(ExtensionContext context) {

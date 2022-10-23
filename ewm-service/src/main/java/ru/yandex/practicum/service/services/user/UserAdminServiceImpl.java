@@ -52,7 +52,7 @@ public class UserAdminServiceImpl implements UserAdminService {
     @Override
     public List<UserDto> findUsers(List<Long> ids, Integer from, Integer size) {
         Pageable pageable = OffsetLimitPageable.of(from, size, Sort.unsorted());
-        if (ids==null) {
+        if (ids == null) {
             return userRepository.findAll(pageable).stream()
                     .map(UserMapper::toDto)
                     .collect(Collectors.toList());

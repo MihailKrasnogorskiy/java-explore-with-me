@@ -90,6 +90,9 @@ class RequestUserControllerTest {
             .state(EventState.PENDING)
             .build();
 
+    /**
+     * создание запроса на участие в событии
+     */
     @Test
     @Transactional
     void test14_create() throws Exception {
@@ -150,6 +153,9 @@ class RequestUserControllerTest {
                 .andExpect(jsonPath("$.reason", is("Не выполнены условия для совершения операции"), String.class));
     }
 
+    /**
+     * закрытие запроса на участие в событии
+     */
     @Test
     @Transactional
     void test15_cancel() throws Exception {
@@ -183,6 +189,9 @@ class RequestUserControllerTest {
                 .andExpect(jsonPath("$.reason", is("Не выполнены условия для совершения операции"), String.class));
     }
 
+    /**
+     * получение списка всех запросов пользователя на участие в событии
+     */
     @Test
     @Transactional
     void test16_findAllByRequesterId() throws Exception {
@@ -211,6 +220,9 @@ class RequestUserControllerTest {
                 .andExpect(jsonPath("$.reason", is("Запрашиваемый объект не найден"), String.class));
     }
 
+    /**
+     * создание окружения
+     */
     private void createEnvironment() {
         category = categoryRepository.save(category);
         user = userRepository.save(user);

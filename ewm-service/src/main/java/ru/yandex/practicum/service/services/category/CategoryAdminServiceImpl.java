@@ -65,7 +65,7 @@ public class CategoryAdminServiceImpl implements CategoryAdminService {
                 throw new CategoryUsedException(id);
             }
         } else {
-           throw new NotFoundException(String.format("Категория с id = '%s' не найдена", id));
+            throw new NotFoundException(String.format("Категория с id = '%s' не найдена", id));
         }
     }
 }

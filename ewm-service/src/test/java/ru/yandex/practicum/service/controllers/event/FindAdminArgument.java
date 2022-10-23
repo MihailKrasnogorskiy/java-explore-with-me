@@ -16,9 +16,9 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 public class FindAdminArgument {
-  private   List<Long> users;
-  private   List<EventState> states;
-  private   List<Long> categories;
-  private   String rangeStart;
-  private   String rangeEnd;
+    private List<Long> users;
+    private List<EventState> states;
+    private List<Long> categories;
+    private String rangeStart;
+    private String rangeEnd;
 }

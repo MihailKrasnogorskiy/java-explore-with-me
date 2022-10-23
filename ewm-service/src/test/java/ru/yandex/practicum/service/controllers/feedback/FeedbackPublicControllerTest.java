@@ -49,6 +49,9 @@ class FeedbackPublicControllerTest {
 
     private FeedbackPostCreateDto createDto = new FeedbackPostCreateDto("user", "test");
 
+    /**
+     * создание сообщения обратной связи
+     */
     @Test
     @Transactional
     void test9_createFeedbackPost() throws Exception {
@@ -81,6 +84,9 @@ class FeedbackPublicControllerTest {
                 .andExpect(jsonPath("$.reason", is("Запрос составлен с ошибкой"), String.class));
     }
 
+    /**
+     * получение списка сообщения обратной связи
+     */
     @Test
     @Transactional
     void test10_findAllFeedback() throws Exception {

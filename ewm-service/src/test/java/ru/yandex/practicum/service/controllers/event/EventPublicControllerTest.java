@@ -74,26 +74,23 @@ class EventPublicControllerTest {
     private Category category = Category.builder()
             .name("test")
             .build();
-    private Category category1 = Category.builder()
-            .name("test1")
-            .build();
-    private Category category2 = Category.builder()
-            .name("test2")
-            .build();
-    private Event event = Event.builder()
-            .title("test")
-            .description("test")
+    Event event3 = Event.builder()
+            .title("test2")
+            .description("description")
             .initiator(user)
-            .annotation("test")
+            .annotation("test2")
             .createdOn(LocalDateTime.now())
-            .eventDate(LocalDateTime.now().plusHours(12))
-            .paid(false)
+            .eventDate(LocalDateTime.now().plusDays(3))
+            .paid(true)
+            .participantLimit(0)
             .lon(0.0F)
             .lat(0.0F)
-            .participantLimit(0)
             .requestModeration(false)
             .category(category)
-            .state(EventState.PENDING)
+            .state(EventState.PUBLISHED)
+            .build();
+    private Category category1 = Category.builder()
+            .name("test1")
             .build();
     Event event1 = Event.builder()
             .title("test1")
@@ -110,6 +107,9 @@ class EventPublicControllerTest {
             .category(category1)
             .state(EventState.PUBLISHED)
             .build();
+    private Category category2 = Category.builder()
+            .name("test2")
+            .build();
     Event event2 = Event.builder()
             .title("test2")
             .description("test2")
@@ -125,22 +125,27 @@ class EventPublicControllerTest {
             .category(category2)
             .state(EventState.CANCELED)
             .build();
-    Event event3 = Event.builder()
-            .title("test2")
-            .description("description")
+    private Event event = Event.builder()
+            .title("test")
+            .description("test")
             .initiator(user)
-            .annotation("test2")
+            .annotation("test")
             .createdOn(LocalDateTime.now())
-            .eventDate(LocalDateTime.now().plusDays(3))
-            .paid(true)
-            .participantLimit(0)
+            .eventDate(LocalDateTime.now().plusHours(12))
+            .paid(false)
             .lon(0.0F)
             .lat(0.0F)
+            .participantLimit(0)
             .requestModeration(false)
             .category(category)
-            .state(EventState.PUBLISHED)
+            .state(EventState.PENDING)
             .build();
 
+    /**
+     * параметризованный запрос списка событий
+     *
+     * @param argument - объект класса для передачи параметров запроса в тест
+     */
     @ParameterizedTest
     @ArgumentsSource(FindArgumentsProvider.class)
     @Transactional
@@ -231,6 +236,9 @@ class EventPublicControllerTest {
         }
     }
 
+    /**
+     * поиск события по id
+     */
     @Test
     @Transactional
     void test39_findById() throws Exception {
@@ -292,6 +300,9 @@ class EventPublicControllerTest {
         jdbcTemplate.update(query);
     }
 
+    /**
+     * класс для создания объектов параметров запроса для теста запроса событий
+     */
     static class FindArgumentsProvider implements ArgumentsProvider {
         @Override
         public Stream<? extends Arguments> provideArguments(ExtensionContext context) {

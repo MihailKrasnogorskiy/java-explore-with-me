@@ -59,6 +59,9 @@ class CompilationPublicControllerTest {
             .pinned(true)
             .build();
 
+    /**
+     * запрос списка всех подборок
+     */
     @Test
     @Transactional
     void test23_findAll() throws Exception {
@@ -101,6 +104,9 @@ class CompilationPublicControllerTest {
                 .andExpect(jsonPath("$.reason", is("Запрос составлен с ошибкой"), String.class));
     }
 
+    /**
+     * поиск подборки по id
+     */
     @Test
     @Transactional
     void test24_findById() throws Exception {
@@ -116,6 +122,9 @@ class CompilationPublicControllerTest {
                 .andExpect(jsonPath("$.reason", is("Запрашиваемый объект не найден"), String.class));
     }
 
+    /**
+     * создание окружения
+     */
     @BeforeEach
     private void createEnvironment() {
         compilationRepository.save(compilation1);
@@ -123,6 +132,9 @@ class CompilationPublicControllerTest {
         compilationRepository.save(compilation3);
     }
 
+    /**
+     * очистка окружения
+     */
     @BeforeEach
     @AfterAll
     void clearEnvironment() {

@@ -36,6 +36,30 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @TestInstance(Lifecycle.PER_CLASS)
 class StatControllerTest {
+    private final EndpointHitDto dto = EndpointHitDto.builder()
+            .app("service")
+            .ip("172.23.58.14")
+            .uri("yandex.ru")
+            .timestamp("2022-10-02 12:00:54")
+            .build();
+    private final EndpointHitDto dto1 = EndpointHitDto.builder()
+            .app("service")
+            .ip("172.23.58.15")
+            .uri("yandex.ru")
+            .timestamp("2022-10-02 12:00:54")
+            .build();
+    private final EndpointHitDto dto2 = EndpointHitDto.builder()
+            .app("service")
+            .ip("172.23.58.14")
+            .uri("ya.ru")
+            .timestamp("2022-10-02 12:00:54")
+            .build();
+    private final EndpointHitDto dto3 = EndpointHitDto.builder()
+            .app("service")
+            .ip("172.23.58.15")
+            .uri("ya.ru")
+            .timestamp("2022-10-02 12:00:54")
+            .build();
     @Autowired
     ObjectMapper mapper;
     @Autowired
@@ -44,34 +68,6 @@ class StatControllerTest {
     private MockMvc mockMvc;
     @Autowired
     private JdbcTemplate jdbcTemplate;
-
-    private final EndpointHitDto dto = EndpointHitDto.builder()
-            .app("service")
-            .ip("172.23.58.14")
-            .uri("yandex.ru")
-            .timestamp("2022-10-02 12:00:54")
-            .build();
-
-    private final EndpointHitDto dto1 = EndpointHitDto.builder()
-            .app("service")
-            .ip("172.23.58.15")
-            .uri("yandex.ru")
-            .timestamp("2022-10-02 12:00:54")
-            .build();
-
-    private final EndpointHitDto dto2 = EndpointHitDto.builder()
-            .app("service")
-            .ip("172.23.58.14")
-            .uri("ya.ru")
-            .timestamp("2022-10-02 12:00:54")
-            .build();
-
-    private final EndpointHitDto dto3 = EndpointHitDto.builder()
-            .app("service")
-            .ip("172.23.58.15")
-            .uri("ya.ru")
-            .timestamp("2022-10-02 12:00:54")
-            .build();
 
     /**
      * создание записи о просмотре

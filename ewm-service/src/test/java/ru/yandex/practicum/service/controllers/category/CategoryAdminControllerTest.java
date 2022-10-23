@@ -52,6 +52,9 @@ class CategoryAdminControllerTest {
 
     private NewCategoryDto createDto = new NewCategoryDto("test");
 
+    /**
+     * создание категории
+     */
     @Test
     @Transactional
     void test4_createCategory() throws Exception {
@@ -72,6 +75,9 @@ class CategoryAdminControllerTest {
                 .andExpect(jsonPath("$.reason", is("Запрос составлен с ошибкой"), String.class));
     }
 
+    /**
+     * обновление категории
+     */
     @Test
     @Transactional
     void test5_updateCategory() throws Exception {
@@ -107,6 +113,9 @@ class CategoryAdminControllerTest {
                 .andExpect(jsonPath("$.reason", is("Запрашиваемый объект не найден"), String.class));
     }
 
+    /**
+     * удаление категории
+     */
     @Test
     @Transactional
     void test6_deleteCategory() throws Exception {

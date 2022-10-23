@@ -81,6 +81,9 @@ class CompilationAdminControllerTest {
             .state(EventState.PUBLISHED)
             .build();
 
+    /**
+     * создание подборки
+     */
     @Test
     @Transactional
     void test17_create() throws Exception {
@@ -115,6 +118,9 @@ class CompilationAdminControllerTest {
         newDto.setEvents(new ArrayList<>());
     }
 
+    /**
+     * удаление подборки
+     */
     @Test
     @Transactional
     void test18_delete() throws Exception {
@@ -134,6 +140,9 @@ class CompilationAdminControllerTest {
                 .andExpect(status().isOk());
     }
 
+    /**
+     * удаление закрепления подборки
+     */
     @Test
     @Transactional
     void test19_deletePin() throws Exception {
@@ -155,6 +164,9 @@ class CompilationAdminControllerTest {
         assertFalse(compilationRepository.findById(1L).get().isPinned());
     }
 
+    /**
+     * закрепление подборки
+     */
     @Test
     @Transactional
     void test20_pinned() throws Exception {
@@ -175,6 +187,9 @@ class CompilationAdminControllerTest {
         assertTrue(compilationRepository.findById(1L).get().isPinned());
     }
 
+    /**
+     * удаление события из подборки
+     */
     @Test
     @Transactional
     void test21_deleteEvent() throws Exception {
@@ -208,6 +223,9 @@ class CompilationAdminControllerTest {
                 .andExpect(jsonPath("$.reason", is("Запрашиваемый объект не найден"), String.class));
     }
 
+    /**
+     * добавление события в подборку
+     */
     @Test
     @Transactional
     void test22_addEvent() throws Exception {

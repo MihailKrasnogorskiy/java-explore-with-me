@@ -16,7 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.yandex.practicum.service.model.dto.NewCategoryDto;
 
 import static org.hamcrest.Matchers.is;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -37,6 +38,9 @@ class CategoryPublicControllerTest {
 
     private NewCategoryDto createDto = new NewCategoryDto("test");
 
+    /**
+     * запрос списка всех категории
+     */
     @Test
     @Transactional
     void test7_findAllCategories() throws Exception {
@@ -70,6 +74,9 @@ class CategoryPublicControllerTest {
 
     }
 
+    /**
+     * поиск категории по id
+     */
     @Test
     @Transactional
     void test8_findCategoryById() throws Exception {

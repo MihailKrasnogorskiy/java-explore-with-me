@@ -21,7 +21,6 @@ import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -37,6 +36,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class UserAdminControllerTest {
 
+    private final NewUserRequest userDto = new NewUserRequest("vova", "vova@mail.ru");
     @Autowired
     ObjectMapper mapper;
     @Autowired
@@ -45,7 +45,6 @@ class UserAdminControllerTest {
     private MockMvc mockMvc;
     @Autowired
     private JdbcTemplate jdbcTemplate;
-    private final NewUserRequest userDto = new NewUserRequest("vova", "vova@mail.ru");
 
     /**
      * создание пользователя

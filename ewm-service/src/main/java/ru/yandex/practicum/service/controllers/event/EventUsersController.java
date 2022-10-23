@@ -99,7 +99,7 @@ public class EventUsersController {
      * @return - полный dto объект события
      */
     @PatchMapping()
-    public EventFullDto update(@Positive @PathVariable long userId,@Valid @RequestBody UpdateEventRequest dto) {
+    public EventFullDto update(@Positive @PathVariable long userId, @Valid @RequestBody UpdateEventRequest dto) {
         return service.update(userId, dto);
     }
 
@@ -111,7 +111,7 @@ public class EventUsersController {
      */
     @GetMapping("{eventId}/requests")
     public List<ParticipationRequestDto> findAllRequestsByEventId(@Positive @PathVariable long userId,
-                                                              @Positive @PathVariable long eventId) {
+                                                                  @Positive @PathVariable long eventId) {
         return service.findAllRequestsByEventId(userId, eventId);
     }
 

@@ -13,7 +13,6 @@ import ru.yandex.practicum.service.exceptions.HttpClientException;
 import ru.yandex.practicum.service.model.dto.EndpointHitDto;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * класс http клиента для обращения к сервису статистики

@@ -82,24 +82,6 @@ class EventAdminControllerTest {
     private Category category1 = Category.builder()
             .name("test1")
             .build();
-    private Category category2 = Category.builder()
-            .name("test2")
-            .build();
-    private Event event = Event.builder()
-            .title("test")
-            .description("test")
-            .initiator(user)
-            .annotation("test")
-            .createdOn(LocalDateTime.now())
-            .eventDate(LocalDateTime.now().plusHours(12))
-            .paid(false)
-            .lon(0.0F)
-            .lat(0.0F)
-            .participantLimit(0)
-            .requestModeration(false)
-            .category(category)
-            .state(EventState.PENDING)
-            .build();
     Event event1 = Event.builder()
             .title("test1")
             .description("test1")
@@ -114,6 +96,9 @@ class EventAdminControllerTest {
             .requestModeration(false)
             .category(category1)
             .state(EventState.PUBLISHED)
+            .build();
+    private Category category2 = Category.builder()
+            .name("test2")
             .build();
     Event event2 = Event.builder()
             .title("test2")
@@ -130,7 +115,25 @@ class EventAdminControllerTest {
             .category(category2)
             .state(EventState.CANCELED)
             .build();
+    private Event event = Event.builder()
+            .title("test")
+            .description("test")
+            .initiator(user)
+            .annotation("test")
+            .createdOn(LocalDateTime.now())
+            .eventDate(LocalDateTime.now().plusHours(12))
+            .paid(false)
+            .lon(0.0F)
+            .lat(0.0F)
+            .participantLimit(0)
+            .requestModeration(false)
+            .category(category)
+            .state(EventState.PENDING)
+            .build();
 
+    /**
+     * публикация события
+     */
     @Test
     @Transactional
     void test34_publish() throws Exception {
@@ -165,6 +168,9 @@ class EventAdminControllerTest {
                 .andExpect(jsonPath("$.reason", is("Запрашиваемый объект не найден"), String.class));
     }
 
+    /**
+     * отклонение события
+     */
     @Test
     @Transactional
     void test35_reject() throws Exception {
@@ -198,6 +204,11 @@ class EventAdminControllerTest {
                 .andExpect(jsonPath("$.reason", is("Запрашиваемый объект не найден"), String.class));
     }
 
+    /**
+     * обновление события
+     *
+     * @param updateDto - dto объект для обновления события
+     */
     @ParameterizedTest
     @ArgumentsSource(UpdateArgumentsProvider.class)
     @Transactional
@@ -287,6 +298,11 @@ class EventAdminControllerTest {
         }
     }
 
+    /**
+     * параметризованный запрос списка событий
+     *
+     * @param argument - объект класса для передачи параметров поиска в тест
+     */
     @ParameterizedTest
     @ArgumentsSource(FindArgumentsProvider.class)
     @Transactional
@@ -374,7 +390,7 @@ class EventAdminControllerTest {
         event.setEventDate(LocalDateTime.now().plusHours(12));
         event = eventRepository.save(event);
         event1 = eventRepository.save(event1);
-        event2 =eventRepository.save(event2);
+        event2 = eventRepository.save(event2);
     }
 
     /**
@@ -393,6 +409,9 @@ class EventAdminControllerTest {
         jdbcTemplate.update(query);
     }
 
+    /**
+     * класс для создания параметров к тесту обновления события
+     */
     static class UpdateArgumentsProvider implements ArgumentsProvider {
         @Override
         public Stream<? extends Arguments> provideArguments(ExtensionContext context) {
@@ -412,6 +431,9 @@ class EventAdminControllerTest {
         }
     }
 
+    /**
+     * класс для создания параметров к тесту запроса списка событий
+     */
     static class FindArgumentsProvider implements ArgumentsProvider {
         @Override
         public Stream<? extends Arguments> provideArguments(ExtensionContext context) {

@@ -72,6 +72,6 @@ public interface RequestRepository extends CrudRepository<ParticipationRequest, 
      * @param status  - игнорируемый статус заявки
      * @return - список заявок
      */
-  //  @Query(value = "SELECT * FROM requests AS r WHERE r.id = ?1 AND r.status = 2", nativeQuery = true)
+    //  @Query(value = "SELECT * FROM requests AS r WHERE r.id = ?1 AND r.status = 2", nativeQuery = true)
     List<ParticipationRequest> findByEventIdAndStatusNot(long eventId, RequestStatus status);
 }

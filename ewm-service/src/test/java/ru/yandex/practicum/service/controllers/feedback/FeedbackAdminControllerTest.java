@@ -63,6 +63,9 @@ class FeedbackAdminControllerTest {
             .isPublish(false)
             .build();
 
+    /**
+     * запрос сообщений обратной связи
+     */
     @Test
     @Transactional
     void test11_findAllFeedback() throws Exception {
@@ -102,6 +105,9 @@ class FeedbackAdminControllerTest {
                 .andExpect(jsonPath("$.reason", is("Запрос составлен с ошибкой"), String.class));
     }
 
+    /**
+     * публикация сообщения обратной связи
+     */
     @Test
     @Transactional
     void test12_publishFeedbackPost() throws Exception {
@@ -121,6 +127,9 @@ class FeedbackAdminControllerTest {
                 .andExpect(jsonPath("$.reason", is("Запрос составлен с ошибкой"), String.class));
     }
 
+    /**
+     * удаление сообщения обратной связи
+     */
     @Test
     @Transactional
     void test13_deleteFeedbackPost() throws Exception {
@@ -137,6 +146,9 @@ class FeedbackAdminControllerTest {
 
     }
 
+    /**
+     * создание окружения
+     */
     @BeforeEach
     void createEnvironment() {
         repository.save(post1);

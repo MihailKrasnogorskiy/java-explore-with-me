@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(HttpStatus.CONFLICT)
 public class CategoryUsedException extends ConflictException {
     public CategoryUsedException(long id) {
-        super(String.format("Категория с id = '%s' ещё используется", id) );
+        super(String.format("Категория с id = '%s' ещё используется", id));
     }
 }
